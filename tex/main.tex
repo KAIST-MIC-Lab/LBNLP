@@ -46,6 +46,7 @@
 
 \newcommand{\CHHA}[1]{{\color{red} [CH: #1]}} % Christoph's comment
 \newcommand{\KYCH}[1]{{\color{blue} [KC: #1]}} % Kyunghwan's comment
+\newcommand{\MSRY}[1]{{\color{magenta} [MS: #1]}} % Myeongseok's comment
 
 \begin{document}
 \title{A Lyapunov-based Approach to Nonlinear Programming and Its Application to Nonlinear Model Predictive Torque Control}
@@ -293,7 +294,7 @@ For later, gradient
     \stackrel{\eqref{eq:Standard Lagrangian}}{=} 
     \underbrace{\nabla_{\mv{x}} f(\mv{x})}_{=:\mv{g}_{\! f}(\mv{x}) \in \R^n} 
     +
-    \underbrace{[\nabla_{\mv{x}} \mv{c}(\mv{x})^\top]}_{=:\mm{C}(\mv{x}) \in \R^{n \times n_{\rm c} }} \mv{\lambda} 
+    \underbrace{[\nabla_{\mv{x}} \mv{c_i}(\mv{x})^\top]}_{=:\mm{C}(\mv{x}) \in \R^{n \times n_{\rm c} }} \mv{\lambda} 
 \label{eq:g_L with respect to x}
 \end{align}
 %
@@ -888,7 +889,8 @@ The NMPTC problem introduced in Section \ref{subsec:target_prob} was implemented
 \KYCH{The simulation results include MTPC and FW operations. I believe these two operations are good enough for this conference paper. Of course, we need to include MC and MTPV operations for a journal paper.}
 \KYCH{I just realized I used MTPA on the figures, not MTPC. I will revise this soon.}
 
-ALM and the proposed method solved the problem in the formulation of (\ref{eq:NMPC2}), while SQP solved the problem in the formulation of (\ref{eq:NMPC1}) because SQP did not guarantee to handle the equality constraint (\ref{eq:NMPC2_5}). SQP was implemented by the `fmincon' function available in MATLAB, which is a well-known NLP solver, with the option of `sqp'. Three different values were used for $\mm{H}_{\!L}$: $10^{-4}$, $10^{-2}$, and $10^{0}$, to examine the trade-off between the tracking error terms and control effort term in the objective function. ALM was implemented by solving (\ref{eq:min_La}) using Newton's method with an iteration termination condition of $\left| \nabla_x L_{\rm ALM} \right| \le 10^{-4}$. Three different values were used for $\mu$: $10^{-2}$, $10^{0}$, and $10^{2}$, to examine the sensitivity of solutions to this tuning parameter. The proposed method was implemented by Algorithm \ref{alg1}. Two different cases were examined when the for-loop in Algorithm \ref{alg1} was repeated once and twice, respectively, for each time instant $t$.
+ALM and the proposed method solved the problem in the formulation of (\ref{eq:NMPC2}), while SQP solved the problem in the formulation of (\ref{eq:NMPC1}) because SQP did not guarantee to handle the equality constraint (\ref{eq:NMPC2_5}). SQP was implemented by the `fmincon' function available in MATLAB, which is a well-known NLP solver, with the option of `sqp'. Three different values were used for 
+\MSRY{$R$?}$\mm{H}_{\!L}$: $10^{-4}$, $10^{-2}$, and $10^{0}$, to examine the trade-off between the tracking error terms and control effort term in the objective function. ALM was implemented by solving (\ref{eq:min_La}) using Newton's method with an iteration termination condition of $\left| \nabla_x L_{\rm ALM} \right| \le 10^{-4}$. Three different values were used for $\mu$: $10^{-2}$, $10^{0}$, and $10^{2}$, to examine the sensitivity of solutions to this tuning parameter. The proposed method was implemented by Algorithm \ref{alg1}. Two different cases were examined when the for-loop in Algorithm \ref{alg1} was repeated once and twice, respectively, for each time instant $t$.
 
 \begin{figure}[!t]
 \centering

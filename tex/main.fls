@@ -1,8 +1,8 @@
-PWD /Users/dding/Git Projects/Lyapunov Apporach to NLP
+PWD /Users/dding/Git Projects/Lyapunov Apporach to NLP/tex
 INPUT /usr/local/texlive/2024/texmf.cnf
 INPUT /usr/local/texlive/2024/texmf-dist/web2c/texmf.cnf
 INPUT /usr/local/texlive/2024/texmf-var/web2c/pdftex/pdflatex.fmt
-INPUT /Users/dding/Git Projects/Lyapunov Apporach to NLP/main.tex
+INPUT /Users/dding/Git Projects/Lyapunov Apporach to NLP/tex/main.tex
 OUTPUT main.log
 INPUT ./IEEEtranTIE.cls
 INPUT IEEEtranTIE.cls

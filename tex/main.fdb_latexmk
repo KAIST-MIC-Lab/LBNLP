@@ -1,16 +1,16 @@
 # Fdb version 4
-["bibtex main"] 1734525729.06561 "main.aux" "main.bbl" "main" 1734527735.53382 0
+["bibtex main"] 1734528066.91973 "main.aux" "main.bbl" "main" 1734531396.49684 0
   "./Bibliography/BIB_xx-TIE-xxxx.bib" 1734522022 10928 770913969f24dfb4338b59118c5ee98f ""
   "./Bibliography/IEEEabrv.bib" 1734522022 17394 5f68ac6bd88a4483a55f39046634d899 ""
   "./Bibliography/IEEEtranTIE.bst" 1734522022 85255 cf35071704be1c5d3a4dd8f878237a77 ""
   "./Bibliography/LMRES_Bibliography.bib" 1734522022 1583250 8a5956f86cbad97b044332eb14f7dbd4 ""
-  "main.aux" 1734527734.07278 14835 262e22c546548148780f0fb0c52c5d83 "pdflatex"
+  "main.aux" 1734531395.94229 14835 262e22c546548148780f0fb0c52c5d83 "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1734527732.6284 "/Users/dding/Git Projects/Lyapunov Apporach to NLP/main.tex" "main.pdf" "main" 1734527735.53536 0
-  "/Users/dding/Git Projects/Lyapunov Apporach to NLP/main.tex" 1734527732.32522 84706 d630d14abd8c59bdb52c6db82407d9f7 ""
+["pdflatex"] 1734531394.53147 "/Users/dding/Git Projects/Lyapunov Apporach to NLP/tex/main.tex" "main.pdf" "main" 1734531396.49706 0
+  "/Users/dding/Git Projects/Lyapunov Apporach to NLP/tex/main.tex" 1734531394.19208 84793 b5a4bbbcf80b8ff8e89563480dd73eef ""
   "/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2024/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/tfm/adobe/helvetic/phvb7t.tfm" 1136768653 2240 eb56c13537f4d8a0bd3fafc25572b1bd ""
@@ -212,10 +212,10 @@
   "include_symbols/MySymbols_MPC.tex" 1734522022 669 8571442b4163434d67811271586657b5 ""
   "include_symbols/MySymbols_PowerElectronics.tex" 1734522022 6479 47cad6d9f4482b856194b004d28915d1 ""
   "include_symbols/MySymbols_ThreePhaseSystems.tex" 1734522022 15706 73b5e99f6b3b4ac23144094d4e207d66 ""
-  "main.aux" 1734527734.07278 14835 262e22c546548148780f0fb0c52c5d83 "pdflatex"
-  "main.bbl" 1734525729.33616 5561 a00948e9e611fb116b1f39a3670dad19 "bibtex main"
-  "main.out" 1734527734.07413 4265 0be1d7d9dae93d8e80eef1ab0d4c8414 "pdflatex"
-  "main.tex" 1734527732.32522 84706 d630d14abd8c59bdb52c6db82407d9f7 ""
+  "main.aux" 1734531395.94229 14835 262e22c546548148780f0fb0c52c5d83 "pdflatex"
+  "main.bbl" 1734528067.15923 5561 a00948e9e611fb116b1f39a3670dad19 "bibtex main"
+  "main.out" 1734531395.94346 4265 0be1d7d9dae93d8e80eef1ab0d4c8414 "pdflatex"
+  "main.tex" 1734531394.19208 84793 b5a4bbbcf80b8ff8e89563480dd73eef ""
   (generated)
   "main.aux"
   "main.log"
