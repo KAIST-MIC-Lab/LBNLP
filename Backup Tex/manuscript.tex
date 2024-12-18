@@ -1,0 +1,1069 @@
+%\documentclass[onecolumn]{IEEEtranTIE}
+\documentclass[journal]{IEEEtranTIE}
+\usepackage{graphicx}
+\usepackage{cite}
+\usepackage{picinpar}
+\usepackage{amsmath}
+\usepackage{url}
+\usepackage{flushend}
+\usepackage[latin1]{inputenc}
+\usepackage{colortbl}
+\usepackage{soul}
+\usepackage{multirow}
+\usepackage{pifont}
+\usepackage{color}
+\usepackage{alltt}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumerate}
+\usepackage{siunitx}
+\usepackage{breakurl}
+\usepackage{epstopdf}
+\usepackage{pbox}
+% Added
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[table]{xcolor}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{remark}{Remark}
+\newtheorem{definition}{Definition}
+\newtheorem{assumption}{Assumption}
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+\usepackage{subfigure}
+%\usepackage{algorithmic}
+%\definecolor{lightgray}{gray}{0.9}
+\definecolor{lightgray}{rgb}{0.97,0.97,0.97}
+
+
+% some macros for symbols from Christoph
+\input{include_symbols/MySymbols_GeneralMath}
+\input{include_symbols/MySymbols_GeneralDefinitions}
+\input{include_symbols/MySymbols_Controlsystems}
+\input{include_symbols/MySymbols_MPC}
+\input{include_symbols/MySymbols_ThreePhaseSystems}
+\input{include_symbols/MySymbols_PowerElectronics}
+\input{include_symbols/MySymbols_ElectricalDrives}
+
+\newcommand{\CHHA}[1]{{\color{red} [CH: #1]}} % Christoph's comment
+\newcommand{\KYCH}[1]{{\color{blue} [KC: #1]}} % Kyunghwan's comment
+
+\begin{document}
+\title{A Lyapunov-based Approach to Nonlinear Programming and Its Application to Nonlinear Model Predictive Torque Control}
+\author{
+	\vskip 1em
+
+        Kyunghwan Choi
+        and Christoph M. Hackl, \emph{Senior Member}
+	% First A. Author1, \emph{Student Membership},
+	% Second B. Author2, \emph{Membership},
+	% \\ and Third C. Author3, \emph{Membership}
+
+	\thanks{
+	
+		Manuscript received Month xx, 2xxx; revised Month xx, xxxx; accepted Month x, xxxx.
+		This work was supported in part by the xxx Department of xxx under Grant  (sponsor and financial support acknowledgment goes here).
+		
+		Kyunghwan Choi is with the School of Mechanical Engineering, Gwangju Institute of Science and Technology, Gwangju 61005, South Korea (e-mail: khchoi@gist.ac.kr). 
+		
+		Christoph M. Hackl is with the Hochschule M{\"u}nchen (HM) University of Applied Sciences, Laboratory of Mechatronic and Renewable Energy Systems (LMRES), Munich, 80335, Germany (e-mail: christoph.hackl@hm.edu).
+	}
+}
+
+\maketitle
+	
+\begin{abstract}
+A tuning-parameter-free and matrix-inversion-free solution of nonlinear programming (NLP) problems is proposed. The key idea is to design an update law based on Lyapunov analysis to satisfy the first-order necessary conditions for optimality. To this aim, first, the Lyapunov function is defined as the summation of the norms of these conditions. Then, the desired optimization variables and Lagrange multipliers, which minimize the Lyapunov function the most, are found analytically, thereby rapidly approaching the necessary conditions. The proposed method neither requires tuning parameters nor matrix inversions; thus, it can be implemented easily with less iterations and computational load than conventional methods, such as sequential quadratic programming (SQP) and augmented Lagrangian method (ALM). The effectiveness of the proposed method is applied to and validated by using it to solve a nonlinear model predictive torque control (NMPTC) problem in electrical drives. The results are compared with those of SQP and ALM.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Lyapunov analysis, necessary conditions for optimality, matrix-inversion-free, nonlinear model predictive control (NMPC), nonlinear programming (NLP), tuning-parameter-free
+\end{IEEEkeywords}
+
+%\markboth{IEEE TRANSACTIONS ON INDUSTRIAL ELECTRONICS}%
+{}
+
+\definecolor{limegreen}{rgb}{0.2, 0.8, 0.2}
+\definecolor{forestgreen}{rgb}{0.13, 0.55, 0.13}
+\definecolor{greenhtml}{rgb}{0.0, 0.5, 0.0}
+
+
+
+\section*{Notation}
+$\N, \R$:~Natural, real numbers.  
+$\mv{x} := (x_1, \dots, x_n)^\top\in \R^{n}$:~Column vector, $n \in \N$ where ``$^\top$'' and ``$:=$'' mean ``transposed'' and ``is defined as'', respectively. 
+$\mv{x}^\top\mv{y} := x_1 y_1 + \dots + x_n y_n$:~Scalar product of vectors $\mv{x}$ and $\mv{y}$.
+$\norm{\mv{x}} :=\sqrt{\mv{x}^{\top}\mv{x}} = \sqrt{x_1^2 + \dots +x_n^2}$:~Euclidean norm  of $\mv{x}$.
+$\mm{X} \in \R^{n \times m}$:~Matrix with $n$ rows and $m$ columns.
+$\left\| \mm{X} \right\| = \sup(\left\| \mm{X}\mv{z} \right\|:\mv{z} \in \R^{m}~\rm{with}~\left\| \mv{z} \right\| = 1)$: 2-norm of $\mm{X}$.
+$\norm{\mv{z}}_{\mm{W}}:=\sqrt{\mv{x}^\top\mm{W}\mv{z}}$: weighted norm of $\mv{z}$ with weighting matrix $\mm{W} \in \R^{n \times n}$.
+$\mm{I}_n \in \R^{n \times n} :=\diag(1,\dots,1)$:~Identity matrix.
+$\mv{O}_n \in \mathbb{R}^{n \times n}$:~Zero matrix. 
+%$\mm{J} := [0~-1;~1~0]$:~rotation matrix (by $\frac{\pi}{2}$).
+$\mv{x}(t)\in \R^{n}$:~time-varying signal. 
+$\mv{x}[k]:=\mv{x}(k\Ts)\in \R^{n}$:~sampled signal at sampling instant $k\in \N$ with sampling time $\Ts$. 
+
+
+\section{Introduction}
+
+%\IEEEPARstart{T}{his}
+
+Nonlinear programming (NLP) has been used in various applications as a powerful tool for optimizing the performance of (dynamical) systems\cite{betts2010practical,andersson2019casadi}. However, solving NLP problems is still challenging because of the lack of a general analytical solution and the difficulty in designing effective numerical optimization processes\cite{karamanakos2020model}. 
+
+Typical numerical approaches for NLP are sequential quadratic programming (SQP) and augmented Lagrangian method (ALM) \cite{pendeza2020hopfield}. SQP solves an NLP problem effectively when the NLP can be approximated as QPs and the iteration starts near the optimal solution. However, SQP is computationally expensive, especially for large-scale problems, because it involves the inversion of the Karush-Kuhn-Tucker (KKT) matrix \cite{jorge2006numerical}. In addition, two typical methods for SQP to handle inequality constraints, the interior point method and active-set method, may require a heavy computation at each iteration and numerous iterations, respectively, when the NLP includes many inequality constraints \cite{jorge2006numerical}.
+
+In contrast to SQP, ALM provides a simple but effective way to handle inequality constraints by adding penalty terms for the constraint violations to the objective function and by finding the penalty terms' weights (i.e., Lagrange multipliers) with a simple update law \cite{jorge2006numerical}. However, ALM uses multiple tuning parameters regarding handling the constraints, such as the barrier parameter and the constraint violation tolerance. Finding appropriate values for these parameters can be challenging and may require problem-specific tuning. In addition, ALM typically involves either the inversion of the Hessian or the approximation of the inverted Hessian, which is usually computationally demanding \cite{srivastava2020nesterov}.
+
+Besides SQP and ALM, most numerical approaches require (i) computationally demanding steps (such as the inversion of the KKT matrix or the Hessian or its approximation), (ii) tuning of multiple parameters (often problem-specific) and (iii) a large number of iterations until the optimization reaches a satisfactory solution. Therefore, this study presents a tuning-parameter-free and matrix-inversion-free numerical optimization method to solve NLPs. To this aim, a control perspective is adopted that interprets the numerical optimization process as a dynamical system such that typical control principles can be adopted to design an update law without introducing tuning parameters and utilizing matrix inversions. The key idea is to design an update law based on Lyapunov's second method to meet the two first-order necessary conditions for optimality \cite{jorge2006numerical}. The Lyapunov function is defined as the summation of the norms of these two conditions. The desired optimization variables and Lagrange multipliers (which minimize the Lyapunov function) are analytically found which allows and guarantees to approach the necessary conditions rapidly.
+
+The proposed method is called Lyapunov-based Nonlinear Programming (LBNLP). It can be implemented easily and with less iterations and computational load than conventional methods, such as SQP and ALM, due to its tuning-parameter-freeness and matrix-inversion-freeness; thus, it is particularly interesting and effective for nonlinear model predictive control (NMPC), which requires an NLP problem to be solved in real time within a short control period. The proposed method also allows the violation of constraints during the iteration process as ALM does, which is another desirable feature for NMPC with many inequality constraints. The update law of the proposed method can be directly used as the control law for NMPC because each iteration is at least suboptimal and converges towards the local solution rapidly. 
+
+Previous studies, including \cite{bhaya2006control}, have already explored control perspectives on numerical optimization, introducing various update laws. Nevertheless, the majority of these update laws were designed to address unconstrained optimization or relatively straightforward constrained optimization scenarios, such as convex problems. To the authors' knowledge, using a Lyapunov-based approach to solve an NLP and to implement NMPC has not been investigated yet. %except one attempt to prove convergence of Newton's method via Lyapunov Analysis \cite{hurtado2005convergence}. 
+%\KYCH{Update from 23.01.2024: I have revised this sentence to clarify the novelty of this study over previous works adopting control perspectives on numerical optimization.}
+
+The outline of the paper is as follows: \CHHA{to be added at the end...}
+
+\tableofcontents
+
+\section{Preliminaries}
+\label{sec:Preliminaries}
+This section provides preliminaries for this study: Section \ref{subsec:NLP} defines a general formulation of NLPs, whereas Section \ref{subsec:Ne_Cond} states the necessary conditions for optimality of NLPs. Section \ref{subsec:Typ_NLP} describes SQP and ALM in more detail.
+
+\subsection{Nonlinear programming (NLP)}\label{subsec:NLP}
+
+A general scalar formulation of NLP is given by
+\begin{subequations}\label{eq:NLP}
+\begin{align}
+&\mathop {\min }\limits_{\mv{x}} f(\mv{x})\\\nonumber
+&{\rm{subject\ to}}\\
+&c^{\rm eq}_j(\mv{x}) = 0,\ j \in \mathbb{E} \subset \N, \\
+&c^{\rm in}_i(\mv{x}) \leq 0,\ i \in \mathbb{I} \subset \N,
+\end{align}
+\end{subequations}
+%\CHHA{Most often the inequality constraints are written with $\leq$, that is why I have changed it this way. I hope this is ok. Moreover, I was wondering if it might be easier to write if we use vector notation instead of indices? ... which would give
+%
+%\begin{subequations}\label{eq:NLP with inequality and equality constraint}
+%\begin{align}
+%	& \min_{\mv{x}} f(\mv{x}),  \text{ with } f\colon \R^n \to \R \\ 
+%	& \text{subject to} \nonumber \\ 
+ %   & \mv{g}(\mv{x}) = \mv{0}_m,  \text{ with } \mv{g}\colon \R^n \to \R^m \\
+%	&  \mv{h}(\mv{x}) \leq \mv{0}_l, \text{ with } \mv{h}\colon \R^n \to \R^l
+%\end{align}
+%\end{subequations}
+%
+%}
+where $f\colon \R^n \to \R$, $c^{\rm eq}_j\colon \R^n \to \R$ and $c^{\rm in}_i\colon \R^n \to \R$ are (at least) continuously differentiable and represent the objective function, the equality constraints for all  $j \in \mathbb{E}$ (with dimension $n_{\rm eq} := |\mathbb{E}|$) and the inequality constraints for all $i\in \mathbb{I}$ (with dimension $n_{\rm in} := |\mathbb{I}|$), respectively.  $\mathbb{I}$ and $\mathbb{E} $ are two finite sets of indices for the equality and inequality constraints, respectively. The vector $\mv{x} \in \R^n$ comprises  the optimization variables. The goal is to find the optimal $\mv{x}^\star := \argmin_{\mv{x}} f(\mv{x})$  subject to the constraints in \eqref{eq:NLP}. At least one of the functions in \eqref{eq:NLP} must be nonlinear to obtain a nonlinear optimization problem.
+
+
+\subsection{Necessary Conditions for Optimality}\label{subsec:Ne_Cond}
+The Lagrangian for the NLP in \eqref{eq:NLP} is defined as 
+%
+\begin{align}\label{eq:Standard Lagrangian}
+L(\mv{x},\mv{\lambda}) & := f(\mv{x}) + \sum\limits_{j \in \mathbb{E}} \lambda^{\rm eq}_j c^{\rm eq}_j(\mv{x}) + \sum\limits_{i \in \mathbb{I}} \lambda^{\rm in}_i c^{\rm in}_i(\mv{x}) \notag \\
+ & = f(\mv{x}) + \mv{\lambda}^\top \mv{c}(\mv{x}) 
+\end{align}
+%
+where $\lambda_j^{\rm eq}$  and $\lambda_j^{\rm in}$ are the Lagrange multipliers for the equality and inequality constraints, respectively. For compactness all multipliers and constraints are collected in the Lagrangian multiplier vector $\mv{\lambda} := (\lambda_1, \dots, \lambda_{n_{\rm c}})^\top:= (\lambda_1^{\rm eq}, \dots, \lambda_1^{\rm in},\dots)^\top \in \R^{n_{\rm c}}$ and the constraint vector $\mv{c} := (c_1, \dots, c_{n_{\rm c}})^\top := (c_1^{\rm eq}, \dots, c_1^{\rm in},\dots)^\top \in \R^{n_{\rm c}}$ where
+%
+$$
+    n_{\rm c} := n_{\rm eq}+n_{\rm in}
+$$ 
+%
+is the overall dimension of the constraints. For later, the active set $\mathbb{A}(\mv{x})$ at any feasible $\mv{x}$ is introduced, which is the union of the set $\mathbb{E}$ and those indices of the active inequality constraints, i.e.
+%
+\begin{align}
+\mathbb{A}(\mv{x}) = \mathbb{E} \cup \left\{ {\left. {a \in \mathbb{I}}\ \right| c^{\rm in}_a}(\mv{x}) = 0 \right\}.
+\end{align}
+%
+One constraint qualification for the necessary conditions is defined as follows:
+\begin{definition}[Linear independence constraint qualification (LICQ) \cite{jorge2006numerical}] 
+Given a feasible point $\mv{x}$ and the active set $\mathbb{A}(\mv{x})$, the linear independence constraint qualification (LICQ) holds if the set of active constraint gradients $\left\{ {\nabla_{\!\mv{x}} c_a(\mv{x}) \; | \; a \in \mathbb{A}(\mv{x})} \right\}$ is linearly independent.
+\end{definition}
+
+The first-order necessary conditions for optimality, which provide the foundation for many numerical algorithms for NLP, are defined as follows.
+\begin{theorem}[First-Order Necessary Conditions \cite{jorge2006numerical}] 
+Suppose that $\mv{x}^\star$ is a local solution of (\ref{eq:NLP}) and that the LICQ holds at $\mv{x}^\star$. Then there is a Lagrange multiplier vector $\mv{\lambda}^\star := (\lambda_1^\star, \dots, \lambda_{n_{\rm c}}^\star)^\top \in \R^{n_{\rm c}}$, such that the following conditions are satisfied at $(\mv{x}^\star,\mv{\lambda}^\star)$:
+\begin{subequations}\label{eq:KKT}
+\begin{align}\label{eq:KKT1}
+\nabla_x L(\mv{x}^\star,\mv{\lambda}^\star) = 0&,\\
+c^{\rm eq}_j(\mv{x}^\star) = 0&,{\text{\ for\ all\ }}j \in \mathbb{E},\\\label{eq:KKT3}
+c^{\rm in}_i(\mv{x}^\star) \leq 0&,{\text{\ for\ all\ }}i \in \mathbb{I},\\\label{eq:KKT4}
+\lambda^{\rm in,\star}_i := \lambda_{i+n_{\rm eq}}^\star \geq 0&,{\text{\ for\ all\ }}i \in \mathbb{I},\\\label{eq:KKT5}
+\lambda^\star_l{c_l}(\mv{x}^\star) = 0&,{\text{\ for\ all\ }} l \in \mathbb{E} \cup \mathbb{I}.
+\end{align}
+\end{subequations}
+\end{theorem}
+The conditions (\ref{eq:KKT}) are known as the KKT conditions.  %complementary
+Condition (\ref{eq:KKT5}) implies that the Lagrange multipliers corresponding to inactive inequality constraints are zero; thus, the first condition (\ref{eq:KKT1}) can be rewritten by omitting the terms for indices $l \notin \mathbb{A}(\mv{x}^\star)$ as follows
+\begin{align}
+0 = \nabla_{\!\mv{x}}L(\mv{x}^\star,\mv{\lambda}^\star) = \nabla_{\!\mv{x}} f(\mv{x}^\star) + \sum\limits_{a \in \mathbb{A}(\mv{x}^\star)} \lambda^\star_a \nabla_{\!\mv{x}} {c_a}(\mv{x}^\star).
+\end{align}
+
+\subsection{Typical Numerical Approaches to NLP}\label{subsec:Typ_NLP}
+
+SQP and ALM are two typical numerical approaches which are described next to compare those to the proposed method. 
+
+\subsubsection{SQP}
+
+SQP is an iterative method for NLP, solving a sequence of optimization subproblems, each of which is an approximation of the NLP as a quadratic programming (QP). Each subproblem is defined as follows \cite{jorge2006numerical}:
+\begin{subequations}\label{eq:SQP}
+\begin{align}
+\small
+&\mathop {\min }\limits_{\Delta\mv{x}[k]} f(\mv{x}[k]) + \nabla_{\!\mv{x}} f{(\mv{x}[k])^\top}\Delta\mv{x}[k]+  \nonumber \\ 
+& \qquad \qquad \quad +\tfrac{1}{2}{(\Delta\mv{x}[k])^\top}\mm{H}_{\!L}(\mv{x}[k],\mv{\lambda}[k])\Delta\mv{x}[k]\\ 
+&{\rm{subject\ to}} \nonumber \\
+&\nabla_{\!\mv{x}} {c_j}{(\mv{x}[k])^\top}\Delta\mv{x}[k] + {c_j}(\mv{x}[k]) = 0,\ j \in \mathbb{E},\\
+&\nabla_{\!\mv{x}} {c_i}{(\mv{x}[k])^\top}\Delta\mv{x}[k] + {c_i}(\mv{x}[k]) \ge 0,\ i \in \mathbb{I},
+\end{align}
+\end{subequations}
+where $\Delta\mv{x}[k] := \mv{x}[k\!+\!1] - \mv{x}[k]$ (with actual iteration step $k\in \N$) and $\mm{H}_{\!L}(\mv{x},\mv{\lambda}) := \nabla_{\!\mv{x}}^2L(\mv{x},\mv{\lambda})$  denotes the Hessian  of the Lagrangian with respect to $\mv{x}$. As the Hessian may neither be easy to compute nor is always positive definite within the admissible set, alternate choices for $\mm{H}_{\!L}$, such as full quasi-newton approximations and reduced-hessian approximations, can be used instead \cite{jorge2006numerical}.
+
+The solution of (\ref{eq:SQP}) can be obtained by solving 
+%
+\begin{align}\label{eq:KKT_matrix}
+{\scriptsize
+\underbrace{\left[ \begin{array}{*{20}{c}}
+\mm{H}_{\!L}(\mv{x}[k],\mv{\lambda}[k])& \mm{C}_{\!\mathbb{A}}(\mv{x}[k])\\
+\mm{C}^\top_{\!\mathbb{A}}(\mv{x}[k])&0
+\end{array} \right]}_{=:\mm{K}(\mv{x}[k],\mv{\lambda}[k]) \in \R^{(n+m) \times (n+m)}}\left[ \begin{array}{*{20}{c}}
+\Delta\mv{x}[k]\\
+\Delta\mv{\lambda}[k]
+\end{array} \right] = \left[ \begin{array}{*{20}{c}}
+ - \nabla_{\!\mv{x}}L(\mv{x}[k],\mv{\lambda}[k])\\
+ - \mv{c}_{\mathbb{A}}(\mv{x}[k])
+\end{array} \right],
+}
+\end{align}
+for $\big(\Delta\mv{x}[k]^\top, \Delta\mv{\lambda}[k]^\top\big)^\top$ where $\Delta\mv{\lambda}[k] := \mv{\lambda}[k\!+\!1] - \mv{\lambda}[k]$,  $\mm{C}_{\!\mathbb{A}}^\top(\mv{x}) := \left[ {\nabla_{\!\mv{x}} {c_a}(\mv{x})} \right]^\top_ {a \in \mathbb{A}(\mv{x})} \in \R^{m \times n}$, $\mv{c}_{\mathbb{A}}(\mv{x}) := {\left[ {{c_a}(\mv{x})} \right]_{a \in \mathbb{A}(\mv{x})}} \in\R^m$ and  $m \leq n_{\rm c}$ is the number of active constraints. Each iteration $k$ is well-defined when the nonsingularity of the KKT matrix $\mm{K}(\mv{x}[k],\mv{\lambda}[k])$ holds, which is a consequence of LICQ and the positive-definiteness of the Hessian.
+
+SQP solves the NLP effectively when each subproblem approximates the NLP reasonably well. However, solving (\ref{eq:KKT_matrix}) involves the inversion of KKT matrix, which is computationally expensive. In addition, SQP does not allow for the violation of constraints and thus may struggle to find a feasible solution when the NLP includes many inequality constraints.
+
+
+\subsubsection{ALM}
+ALM is an iterative method for NLP, which combines aspects of both Lagrange multipliers and penalty methods to handle constraints by defining the augmented Lagrangian function as follows \cite{jorge2006numerical}:
+\begin{align}
+\begin{split}\label{eq:ALM}
+L_{\rm ALM}(\mv{x},\mv{\lambda};\mu) :=&\, f(\mv{x}) + \sum\limits_{j \in \mathbb{E}} {{\lambda _j}{c_j}(\mv{x})}  + \tfrac{1}{{2\mu }}\sum\limits_{j \in \mathbb{E}} {c_j^2(\mv{x})} \\
+&+ \sum\limits_{i \in \mathbb{I}} \psi(c_{i+n_{\rm eq}}(\mv{x}),\lambda_{i+n_{\rm eq}};\mu),
+\end{split}
+\end{align}
+%
+with barrier parameter $\mu>0$ and function
+%
+\begin{align}
+\psi (t,\sigma;\mu) := \left\{ {\begin{array}{*{20}{c}}
+{ - \sigma t + {t^2}/(2\mu)\,\,\,\,{\rm{if}}\;t - \mu \sigma \le 0,}\\
+{ - \mu{\sigma^2}/2\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;{\rm{otherwise}}{\rm{,}}}
+\end{array}} \right.
+\end{align}
+%
+weighting the inequality constraints $c_{i+n_{\rm eq}}(\mv{x}) = c^{\rm in}_i(\mv{x})$ for all $i \in \mathbb{I}$.
+Note that the augmented Lagrangian $L_{\rm ALM}$ differs from the standard Lagrangian (\ref{eq:Standard Lagrangian}) due to the squared terms of the equality constraints $c_j(\mv{x}) = c^{\rm eq}_j(\mv{x})$ for all $j \in \mathbb{E}$ and the sum of $\psi(c_{i+n_{\rm eq}}(\mv{x}),\lambda_{i+n_{\rm eq}};\mu)$ for all $i \in \mathbb{I}$.
+
+The vector $\mv{x}[k]$ is updated to minimize the augmented Lagrangian function ${L_{\rm ALM}}$ for given $\mv{\lambda}[k]$ and $\mu[k]>0$ as follows
+\begin{align}\label{eq:min_La}
+\mathop {\min }\limits_{\mv{x}[k]} {L_{\rm ALM}}(\mv{x}[k],\mv{\lambda}[k];{\mu[k]}).
+\end{align}
+Methods of unconstrained optimization, such as Newton and quasi-Newton methods, are usually employed to solve this problem \cite{srivastava2020nesterov}. The estimated Lagrange multipliers $\mv{\lambda}[k]$ are updated based on the extent of constraint violation, i.e.
+%
+\begin{subequations}\label{eq:ALM_update}
+\begin{align}
+\lambda_j^{k + 1} &:= \lambda_j[k] + \tfrac{c_j(\mv{x}[k])}{\mu[k]},\ \ \ \ \ \ \ \ \ \ \ {\rm{for\ all\ }} j \in \mathbb{E},\\
+\lambda_i^{k + 1} &:= \max \Big(\lambda_i[k] + \tfrac{c_{i+n_{\rm eq}}(\mv{x}[k])}{\mu[k]},0\Big),\ {\rm{for\ all\ }} i \in \mathbb{I}.
+\end{align}
+\end{subequations}
+%
+The barrier parameter $\mu[k]$ is adjusted during the iterations to balance convergence and numerical stability. 
+
+This separate update of optimization variables and Lagrange multipliers can lead to more efficient and scalable solutions. %, especially for large-scale problems.
+Particularly, this approach allows for the violation of constraints during the iteration process and thus can handle infeasible starting points and inequality constraints. However, ALM uses multiple tuning parameters to handle the constraints, such as the barrier parameter and others used for practical implementation \cite{conn2013lancelot}. Finding appropriate values for these parameters can be challenging and may require problem-specific tuning. In addition, ALM typically involves either the inversion of the Hessian or the approximation of the inverted Hessian; which is (in general) computationally demanding.
+
+
+\section{Lyapunov-based Nonlinear Programming (LBNLP)}
+\label{sec:Lyapunov-based NLP}
+
+This section presents the novel Lyapunov-based approach for solving NLP. Section \ref{subsec:iter_law} presents an update law derived from Lyapunov analysis including a proof of convergence. Section \ref{subsec:algo} proposes an implementation algorithm for the proposed method and Section \ref{subsec:prop} describes beneficial properties of the proposed method in comparison to SQP and ALM.
+
+
+\subsection{(Re-)Introduction of crucial definitions and facts}
+For later, gradient 
+%
+\begin{align}
+\underbrace{\mv{g}_{\! L}(\mv{x},\mv{\lambda})}_{\in \R^n} := \nabla_{\mv{x}} L(\mv{x},\mv{\lambda}) \stackrel{\eqref{eq:Standard Lagrangian}}{=} \underbrace{\nabla_{\mv{x}} f(\mv{x})}_{=:\mv{g}_{\! f}(\mv{x}) \in \R^n} + \underbrace{[\nabla_{\mv{x}} \mv{c}(\mv{x})^\top]}_{=:\mm{C}(\mv{x}) \in \R^{n \times n_{\rm c} }} \mv{\lambda} 
+\label{eq:g_L with respect to x}
+\end{align}
+%
+and Hessian 
+%
+\begin{align}
+\underbrace{\mm{H}_{\! L}(\mv{x},\mv{\lambda})}_{\in \R^{n \times n}} 
+    & :=  \nabla_{\mv{x}} \mv{g}_{\! L}(\mv{x},\mv{\lambda}) := \nabla_{\mv{x}}^2 L(\mv{x},\mv{\lambda})  \notag \\
+    & \stackrel{\eqref{eq:Standard Lagrangian}}{=} \underbrace{\nabla_{\mv{x}}^2 f(\mv{x})}_{=:\mm{H}_{\! f}(\mv{x}) \in \R^{n \times n}} + \underbrace{\nabla_{\mv{x}}  \mm{C}(\mv{x})\mv{\lambda}}_{\mm{H}_{\!C}(\mv{x},\mv{\lambda}) \in \R^{n \times n} }
+\label{eq:H_L with respect to x}
+\end{align}
+%
+%\CHHA{Please note that in your calculation the second term was neglected, correct?}\KYCH{Do you mean the second term in (13)? I was aware of this term but I did not use ${\nabla_{\mv{x}}^2 f(\mv{x})}$ or ${\nabla_{\mv{x}}  \mm{C}(\mv{x})\mv{\lambda}}$ in my calculation. Instead, I used ${\mm{H}_{\! L}(\mv{x},\mv{\lambda})}$ ($W$ in the previous draft) itself in the calculation. In the MATLAB simulation, I calculated ${\mm{H}_{\! L}(\mv{x},\mv{\lambda})}$ the same as (13). Please let me know if I made a mistake in my calculation regarding the second term.}
+of the Lagrangian $L$ as in \eqref{eq:Standard Lagrangian} with respect to $\mv{x}$ are required.
+Moreover, note that the following hold
+%
+\begin{equation}
+\left.\begin{array}{rcl}
+ \nabla_{\mv{\lambda}} \mv{g}_{\! L}(\mv{x},\mv{\lambda}) & \stackrel{\eqref{eq:g_L with respect to x}}{=} & \mm{C}(\mv{x})  \in \R^{n \times n_{\rm c}}, \\ 
+ \nabla_{\mv{\lambda}} L(\mv{x},\mv{\lambda}) & \stackrel{\eqref{eq:Standard Lagrangian}}{=} & \mv{c}(\mv{x})^\top \in \R^{1 \times n_{\rm c}}, \; \text{ and }\\ 
+ \nabla_{\mv{\lambda}}^2 L(\mv{x},\mv{\lambda}) & \stackrel{\eqref{eq:Standard Lagrangian}}{=} & \mm{O}_{n_{\rm c} \times n_{\rm c}}.
+ \end{array}\right\}
+\label{eq:nabla_lambda g_L, nabla_lambda L and nabla_lambda^2 L}
+\end{equation}
+%
+It is also well known \cite{anton2003contemporary} that, for a matrix $\mm{M} \in \R^{k \times l}$ with $k,l \in \N$ and full column rank ($k$ independent columns), the pseudo-inverse  $\mm{M}^+$ exists and is given by 
+%
+\begin{equation}
+    \mm{M}^+ :=(\mm{M}^\top\mm{M})^{-1} \mm{M}^\top \in \R^{l \times k}.
+    \label{eq:pseudo-inverse for matrix with full column rank}
+\end{equation}
+%
+Clearly, for $\mv{x}\in \R^n$, $\mv{y}\in \R^m$, $\mm{A} \in \R^{m \times n}$ and   $\mm{B} \in \R^{n \times m}$, the following holds
+$$
+(\mm{A}\mv{x} - \mm{B}\mv{y})^\top (\mm{A}\mv{x} - \mm{B}\mv{y}) = \mv{x}^\top \mm{A}^\top\mm{A}\mv{x} +  \mv{y}^\top \mm{B}^\top\mm{B}\mv{y} - 2 \mv{x}^\top \mm{A}^\top\mm{B}\mv{y} 
+$$
+which gives
+%
+\begin{equation}
+\mv{x}^\top \mm{A}^\top\mm{B}\mv{y} \leq \tfrac{1}{2}\Big( \mv{x}^\top \mm{A}^\top\mm{A}\mv{x} +  \mv{y}^\top \mm{B}^\top\mm{B}\mv{y} \Big).
+\label{eq:(binomial) matrix inequality}
+\end{equation}
+\KYCH{I think you introduced the above inequality for a possible explanation of the derivation of (\ref{eq:inequality for proof}). To make it more clear, I introduce the followings.}
+For $\mm{C} \in \R^{n \times n}$,
+\begin{equation}
+\left\| \mm{C} - \mm{I}_n \right\| = {\max _i}\left| {{\sigma _i}(\mm{C}) - 1} \right|
+\label{eq:matrix norm inequality}
+\end{equation}
+where $\sigma_i(\cdot)$ denotes the $i$th eigenvalue of its input matrix and $\sigma_1(\cdot) < \sigma_2(\cdot) < \cdots < \sigma_n(\cdot)$.
+%
+For $x \in \R$ and $y \in \R$, the following holds
+$$
+(x - y)^2 = x^2 - 2xy + y^2 \ge 0
+$$
+which gives
+\begin{equation}
+xy \le \frac{1}{2}(x^2 + y^2).
+\label{eq:real number inequality}
+\end{equation}
+Finally, the following Lyapunov function 
+%
+\begin{align}\label{eq:V}
+V := \tfrac{1}{2}\mv{g}_{\!L}(\mv{x},\mv{\lambda})^\top \mv{g}_{\!L}(\mv{x},\mv{\lambda}) + \tfrac{1}{2}\mv{c}(\mv{x})^\top\mv{c}(\mv{x}).
+%V := \tfrac{1}{2}g^\top g + \tfrac{1}{2}{\mm{C}_{\!\mathbb{A}}^\top}\mm{C}_{\!\mathbb{A}}.
+\end{align}
+%
+\CHHA{I think if we introduce $V := \tfrac{1}{2}\mv{g}_{\!L}^\top \mv{g}_{\!L} + \tfrac{1}{2}{\mv{c}^\top}\mv{c} + \Delta \mv{x}^\top \Delta\mv{x}$. We can also show convergence as $ \Delta\mv{x} \to 0$.}\KYCH{This is a great idea! I will try with this one. 
+%Once we have found a simple update law, it would be easier to add and analyze the additional term of $\Delta \mv{x}^\top \Delta\mv{x}$.
+}\KYCH{Update from 23.01.2024: In \cite{bhaya2006control}, I have found a method to do this in the continuous-time domain. I will try to modify this method to work in the discrete-time domain.}
+
+will play a crucial role with its time derivative
+%
+\begin{eqnarray}
+\ddtsmall V & \stackrel{\eqref{eq:H_L with respect to x},\eqref{eq:nabla_lambda g_L, nabla_lambda L and nabla_lambda^2 L}}{=} & \mv{g}_{\!L}(\mv{x},\mv{\lambda})^\top \Big( \mm{H}_{\! L}(\mv{x},\mv{\lambda})\ddtsmall \mv{x} + \mm{C}(\mv{x})\ddtsmall \mv{\lambda} \Big) \notag  \\ 
+& & +  \mv{c}(\mv{x})^\top \mm{C}(\mv{x})^\top\ddtsmall \mv{x} \label{eq:d/dt V} \\
+& \approx & \mv{g}_{\!L}(\mv{x},\mv{\lambda})^\top \Big( \mm{H}_{\! L}(\mv{x},\mv{\lambda})\tfrac{\Delta \mv{x}}{\Delta t}  + \mm{C}(\mv{x}) \tfrac{\Delta \mv{\lambda}}{\Delta t}  \Big) \notag   \\ 
+& & + \mv{c}(\mv{x})^\top \mm{C}(\mv{x})^\top \tfrac{\Delta \mv{x}}{\Delta t}\\
+& = & \tfrac{1}{\Delta t}\left[ {\begin{array}{*{20}{c}}
+{\mv{g}_{\!L}}(\mv{x},\mv{\lambda})\\
+{\mv{c}}(\mv{x})
+\end{array}} \right]^\top \mm{K}(\mv{x},\mv{\lambda}) \left[ {\begin{array}{*{20}{c}}
+{\Delta \mv{x}}\\
+{\Delta \mv{\lambda}}
+\end{array}} \right],\label{eq:Delta V / Delta t}
+%V := \tfrac{1}{2}g^\top g + \tfrac{1}{2}{\mm{C}_{\!\mathbb{A}}^\top}\mm{C}_{\!\mathbb{A}}.
+\end{eqnarray}
+%
+where, in the second step, the approximations $\ddtsmall \mv{x} \approx \tfrac{\Delta \mv{x}}{\Delta t} $ and $\ddtsmall \mv{\lambda} \approx  \tfrac{\Delta \mv{\lambda}}{\Delta t}$ were used (with $\Delta t >0)$. 
+Clearly, it is well known from Lyapunov's second method \cite{khalil2002nonlinear}, that if $\ddtsmall V < 0$ for all non-zero $(\mv{x},\mv{\lambda})$, the system is stable; which implies for this approach here that the iteration algorithm is not diverging.
+
+\CHHA{$\mm{K}$ should be introduced / stated explicitely!}
+
+\subsection{Update law}\label{subsec:iter_law}
+Several update laws will be presented. To do so, define (i) the vector of Lagrange multipliers of active constraints as $\mv{\lambda}_{\mathbb{A}} := \left[ \lambda_a \right]_{a \in \mathbb{A}} \in \R^m$ (with $m \leq n_{\rm c}$), (ii) the active constraint vector as $\mv{c}_{\mathbb{A}}(\mv{x}) := \left[ c_a(\mv{x}) \right]_{a \in \mathbb{A}} \in \R^m$ and (iii) its derivative with respect to $\mv{x}$ as $\mm{C}_{\!\mathbb{A}}(\mv{x}) := \nabla_{\mv{x}} \mv{c}_{\mathbb{A}}(\mv{x}) \in \R^{n \times m}$. Hence, only active constraints are considered in the following which will allow to invoke the LICQ (see Defintion 1).
+
+\subsubsection{Update law 1}
+For $\alpha >0$, the first update law is proposed as 
+%
+\begin{equation}\label{eq:update law 1}
+\left.\begin{array}{rcl}
+    \Delta\mv{x} & \!\!\!\! := \!\!\!\! & -\alpha \mm{H}^\top_{\! L}(\mv{x},\mv{\lambda}_{\mathbb{A}})\mv{g}_{\! L}(\mv{x},\mv{\lambda}_{\mathbb{A}})  \\
+    \Delta\mv{\lambda}_{\mathbb{A}}  & \!\!\!\! := \!\!\!\! & \alpha \mv{C}^+_{\mathbb{A}}(\mv{x})\mm{H}_{\! L}(\mv{x},\mv{\lambda}_{\mathbb{A}})\mm{C}_{\!\mathbb{A}}(\mv{x})\mv{c}_{\mathbb{A}}(\mv{x}).
+\end{array}
+\right\}
+\end{equation}
+%
+Evaluating the time derivative \eqref{eq:Delta V / Delta t} of the Lyapunov function \eqref{eq:V} with $V := \tfrac{1}{2}\mv{g}_{\!L}^\top \mv{g}_{\!L} + \tfrac{1}{2}\mv{c}_{\mathbb{A}}^\top\mv{c}_{\mathbb{A}}$ (only considering the active constraints, i.e. $\mm{C}(\mv{x})=\mm{C}_{\!\mathbb{A}}(\mv{x})$ and $\mv{c}(\mv{x})=\mv{c}_{\mathbb{A}}(\mv{x})$) for \eqref{eq:update law 1} yields\footnote{The arguments $\mv{x}$ and $\mv{\lambda}$ are dropped to ease readability.}
+%
+\begin{eqnarray}
+\ddtsmall V & \!\!\!\! \stackrel{\eqref{eq:Delta V / Delta t}}{\approx} \!\!\!\!  & \mv{g}_{\!L}^\top \Big( \mm{H}_{\! L}\tfrac{\Delta \mv{x}}{\Delta t}  + \mm{C}_{\!\mathbb{A}} \tfrac{\Delta \mv{\lambda}}{\Delta t}  \Big) + \mv{c}_{\mathbb{A}}^\top \mm{C}_{\!\mathbb{A}}^\top \tfrac{\Delta \mv{x}}{\Delta t} \notag \\
+& \!\!\!\! \stackrel{\eqref{eq:update law 1}}{=} \!\!\!\! & -\tfrac{\alpha}{\Delta t}\mv{g}_{\!L}^\top \Big[ \mm{H}_{\! L} \mm{H}_{\! L}^\top \Big]\mv{g}_{\!L} + \tfrac{\alpha}{\Delta t} \mv{g}_{\!L}^\top \underbrace{\mm{C}_{\!\mathbb{A}}\mv{C}^+_{\mathbb{A}}}_{\stackrel{\eqref{eq:pseudo-inverse for matrix with full column rank}}{=}\mm{I}_{n_{\rm c}}}\mm{H}_{\! L}\mm{C}_{\!\mathbb{A}}\mv{c}_{\mathbb{A}}  \notag \\
+ & & -\tfrac{\alpha}{\Delta t} \mv{c}_{\mathbb{A}}^\top \mm{C}_{\!\mathbb{A}}^\top \mm{H}_{\! L}^\top \mv{g}_{\!L} \notag \\ 
+ & \!\!\!\! = \!\!\!\! & -\tfrac{\alpha}{\Delta t}\mv{g}_{\!L}^\top \Big[ \mm{H}_{\! L} \mm{H}_{\! L}^\top \Big]\mv{g}_{\!L} \leq 0.
+\end{eqnarray}
+%
+
+\CHHA{Update from 30.01.2023: The use of Pseudo-Inverse as above is not correct!!! We have full column rank, hence the pseudo-inverse is not leading to $\mm{I}_{n_{\rm c}}$; moreover, we would need here $\mm{I}_n$ ... so update law 1 does not give the desired result! Please forget it... I need to check again! }\KYCH{This was the major challenge when I tried to devise an update law. I also found that the previous version of update law 3 using the pseudo-inverse $\mm{C}_{\mathbb{A}}^+$ was valid only for linear constraints. In addition, using a pseudo-inverse is not a matrix-inverse-free approach that we are trying to develop. Therefore, I have revised update law 3. Also, I have added a simpler one as update law 2.}
+
+\subsubsection{Update law 2 (Existing)}
+For $\alpha >0$, the second update law is presented as 
+%
+\begin{equation}\label{eq:update law 2}
+\left[ {\begin{array}{*{20}{c}}
+{\Delta \mv{x}}\\
+{\Delta \mv{\lambda}_{\mathbb{A}}}
+\end{array}} \right] :=  - \alpha \mm{K}^\top(\mv{x},\mv{\lambda}_{\mathbb{A}})\left[ {\begin{array}{*{20}{c}}
+{\mv{g}_{\!L}}(\mv{x},\mv{\lambda}_{\mathbb{A}})\\
+{\mv{c}_{\mathbb{A}}}(\mv{x},\mv{\lambda}_{\mathbb{A}})
+\end{array}} \right]
+\end{equation}
+%
+Evaluating the time derivative \eqref{eq:Delta V / Delta t} of the Lyapunov function \eqref{eq:V} yields
+\begin{eqnarray}
+\ddtsmall V & \!\!\!\! \stackrel{\eqref{eq:Delta V / Delta t}}{\approx} \!\!\!\!  & \tfrac{1}{\Delta t}\left[ {\begin{array}{*{20}{c}}
+{\mv{g}_{\!L}}\\
+{\mv{c}_{\mathbb{A}}}
+\end{array}} \right]^\top \mm{K} \left[ {\begin{array}{*{20}{c}}
+{\Delta \mv{x}}\\
+{\Delta \mv{\lambda}_{\mathbb{A}}}
+\end{array}} \right] \notag \\
+ & \!\!\!\! \stackrel{\eqref{eq:update law 2}}{=} \!\!\!\! & -\tfrac{\alpha}{\Delta t}\left[ {\begin{array}{*{20}{c}}
+{\mv{g}_{\!L}}\\
+{\mv{c}_{\mathbb{A}}}
+\end{array}} \right]^\top \mm{K}\mm{K}^\top \left[ {\begin{array}{*{20}{c}}
+{\mv{g}_{\!L}}\\
+{\mv{c}_{\mathbb{A}}}
+\end{array}} \right] \le 0.
+\end{eqnarray}
+
+This update law was introduced in \cite{bhaya2006control} as the discrete-time Jacobian matrix transpose method (DJT). 
+%\KYCH{Update from 23.01.24: This sentence is added.}
+
+\subsubsection{Update law 3 (Proposed)}
+Assume the inverse of $\mm{H}_{\! L}(\mv{x},\mv{\lambda}_{\mathbb{A}})$ exists but does not need to be known. Define a set 
+\begin{align}\label{eq:beta set}
+{\rm B} = \left\{\beta \in \R \; | \left \| \beta \mm{H}_{\! L}^{-1} - \mm{I}_n \right\| \le 1, \beta \ge 0 \right\}.
+\end{align}
+For $\alpha > 0$ and $\beta \in {\rm B}$, the second update law is given by 
+%
+\begin{eqnarray}\label{eq:update law 3}
+\left[ {\begin{array}{*{20}{c}}
+{\Delta \mv{x}}\\
+{\Delta \mv{\lambda}_{\mathbb{A}}}
+\end{array}} \right] 
+& \!\!\!\! := \!\!\!\! &  - \alpha \Big(\mm{K}^\top + \left[ {\begin{array}{*{20}{c}}
+\mm{O}_{n \times n}&\mm{O}_{n \times m}\\
+\mm{O}_{m \times n}&{ - 2\beta {\mm{I}_m}}
+\end{array}} \right] \Big) \left[ {\begin{array}{*{20}{c}}
+{\mv{g}_{\!L}}\\
+{\mv{c}_{\mathbb{A}}}
+\end{array}} \right]\notag \\
+\end{eqnarray}
+%
+Evaluating the time derivative \eqref{eq:Delta V / Delta t} of the Lyapunov function \eqref{eq:V} again with $V := \tfrac{1}{2}\mv{g}_{\!L}^\top \mv{g}_{\!L} + \tfrac{1}{2}\mv{c}_{\mathbb{A}}^\top\mv{c}_{\mathbb{A}}$ for \eqref{eq:update law 2} yields
+%
+\begin{eqnarray}
+\ddtsmall V & \!\!\!\! \stackrel{\eqref{eq:Delta V / Delta t}}{\approx} \!\!\!\!  & \mv{g}_{\!L}^\top \Big( \mm{H}_{\! L}\tfrac{\Delta \mv{x}}{\Delta t}  + \mm{C}_{\!\mathbb{A}} \tfrac{\Delta \mv{\lambda}}{\Delta t}  \Big) + \mv{c}_{\mathbb{A}}^\top \mm{C}_{\!\mathbb{A}}^\top \tfrac{\Delta \mv{x}}{\Delta t} \notag \\
+%& \!\!\!\! \stackrel{\eqref{eq:update law 2}}{=} \!\!\!\! & 
+%-\tfrac{\alpha}{2\, \Delta t}\mv{g}_{\!L}^\top \mm{H}_{\! L} \Big( \mm{H}_{\! L}^\top \mv{g}_{\!L} + \mm{C}_{\!\mathbb{A}}\mv{c}_{\mathbb{A}} \Big) \notag \\ 
+%& & + \tfrac{\alpha}{\Delta t} \mv{g}_{\!L}^\top \mm{C}_{\!\mathbb{A}} \Big(\beta\mv{c}_{\mathbb{A}} - \tfrac{1}{2} \mm{C}^\top_{\mathbb{A}} \mv{g}_{\! L} \Big)  \notag \\
+% & & -\tfrac{\alpha}{2\, \Delta t} \mv{c}_{\mathbb{A}}^\top \mm{C}_{\!\mathbb{A}}^\top \Big( \mm{H}_{\! L}^\top \mv{g}_{\!L} + \mm{C}_{\!\mathbb{A}}\mv{c}_{\mathbb{A}} \Big)\notag \\ 
+ & \!\!\!\! \stackrel{\eqref{eq:update law 3}}{=} \!\!\!\! & -\tfrac{\alpha}{\Delta t} \mv{g}_{\!L}^\top \Big[ \mm{H}_{\! L} \mm{H}_{\! L}^\top + \mm{C}_{\!\mathbb{A}} \mm{C}_{\!\mathbb{A}}^\top \Big] \mv{g}_{\!L} \notag \\
+ & &  -\tfrac{\alpha}{\Delta t}  \mv{c}_{\mathbb{A}}^\top \mm{C}_{\!\mathbb{A}}^\top  \mm{C}_{\!\mathbb{A}} \mv{c}_{\mathbb{A}} \notag \\
+ & & + \tfrac{2\alpha}{\Delta t} \mv{g}_{\!L}^\top \mm{H}_{\! L} \big(\beta \mm{H}_{\! L}^{-1} - \mm{I}_n \big) \mm{C}_{\!\mathbb{A}} \mv{c}_{\mathbb{A}} \label{eq:Delta V / Update 3}, \\
+ & \!\!\!\! \stackrel{\eqref{eq:inequality for proof}}{\le} \!\!\!\! & -\tfrac{\alpha}{\Delta t} \mv{g}_{\!L}^\top \Big[\mm{C}_{\!\mathbb{A}} \mm{C}_{\!\mathbb{A}}^\top \Big] \mv{g}_{\!L} \le 0.\label{eq:Delta V / Upper Bound / Update 3}
+\end{eqnarray}
+
+
+\CHHA{In my humble opinion, in (24), there are too many definitions, that is why have rewritten this part as above. Hence, Theorem 2 etc. should be rewritten. I will do this later.}\KYCH{The rewritten one is much better! We can rewrite Theorem 2 after finalizing the update laws.}
+
+% Define the vector of Lagrange multipliers of active constraints as $\mv{\lambda}_{\mathbb{A}} := \left[ \lambda_a \right]_{a \in \mathbb{A}(\mv{x})} \in \R^m$. The desired steps of $\mv{x}$ and $\mv{\lambda}_{\mathbb{A}}$ are computed by
+% %
+% \begin{subequations}
+% \begin{align}\label{eq:iter_1}     
+% \Delta\mv{x} & := \alpha {\mv{p}_{\mv{x}}} ,\\\label{eq:iter_2}
+% \Delta\mv{\lambda}_{\mathbb{A}}  & := \alpha \mv{p}_{\mv{\lambda}},
+% \end{align}
+% \end{subequations}
+% %
+% with step length $\alpha$ and search directions
+% %
+% \begin{subequations}\label{eq:iter2}
+% \begin{align}
+% {\mv{p}_{\mv{x}}} &=  - \left( {{\mm{H}_{\! L}^\top}\mv{g}_{\! L} + {\mm{C}_{\!\mathbb{A}}^\top}\mv{c}_{\mathbb{A}}} \right)/2,\\\label{eq:iter2_2}
+% \mv{p}_{\mv{\lambda}} &=  - ({\mm{C}_{\!\mathbb{A}}^\top})^+ \mm{H}_{\! L}{\mm{C}_{\!\mathbb{A}}^\top}\mv{c}_{\mathbb{A}} + \mm{C}_{\!\mathbb{A}}\mv{g}_{\! L}/2,\\
+% % \mv{p}_{\mv{g}_{\! L}} &= \Delta \mv{g}_{\! L}/\alpha  = \mm{H}_{\! L}{\mv{p}_{\mv{x}}} - \mm{C}_{\!\mathbb{A}}\mv{p}_{\mv{\lambda}},\\
+% % \mv{p}_{\mm{C}_{\!\mathbb{A}}} &= \Delta \mm{C}_{\!\mathbb{A}}/\alpha  = \mm{C}_{\!\mathbb{A}}^\top{\mv{p}_{\mv{x}}},
+% \mv{p}_{\mv{g}_{\! L}} &= \mm{H}_{\! L}{\mv{p}_{\mv{x}}} - {\mm{C}_{\!\mathbb{A}}^\top}\mv{p}_{\mv{\lambda}},\\
+% \mv{p}_{\mm{C}_{\!\mathbb{A}}} &= \mm{C}_{\!\mathbb{A}}{\mv{p}_{\mv{x}}},\\\label{eq:iter2_1}
+% \alpha  &=  - \frac{{\mv{p}_{\mv{g}_{\! L}}^\top \mv{g}_{\! L} + \mv{p}_{\mm{C}_{\!\mathbb{A}}}^\top\mv{c}_{\mathbb{A}}}}{{\mv{p}_{\mv{g}_{\! L}}^\top\mv{p}_{\mv{g}_{\! L}} + \mv{p}_{\mm{C}_{\!\mathbb{A}}}^\top{\mv{p}_{\mm{C}_{\!\mathbb{A}}}}}},
+% \end{align}
+% \end{subequations}
+% where $\mv{g}_{\! L}$ denotes $\nabla_{\!\mv{x}}L(\mv{x},\mv{\lambda})$ and the inputs of functions $\mm{H}_{\!L}(\mv{x},\mv{\lambda})$, $\mv{g}_{\! L}(\mv{x},\mv{\lambda})$, and $\mm{C}_{\!\mathbb{A}}(\mv{x})$ are omitted here for simplicity. 
+
+\KYCH{Update from 23.01.2024: The following subsection has been added.}
+\subsubsection{Comparison of update laws 2 and 3}
+${\Delta \mv{\lambda}_{\mathbb{A}}}$ of update law 2 depends only on ${\mv{g}_{\!L}}$ not on ${\mv{c}_{\mathbb{A}}}$ (see the elements of matrix $\mm{K}$ defined in (\ref{eq:KKT_matrix})). Thus, update law 2 may not effectively handle the constraints even though the Lyapunov analysis proved the convergence. Referring to ALM, where the update of $\mv{\lambda}_{\mathbb{A}}$ solely depends on ${\mv{c}_{\mathbb{A}}}$ (see \ref{eq:ALM_update}), update law 3 was derived to include an additional term of $2\alpha\beta{\mv{c}_{\mathbb{A}}}$ for updating $\mv{\lambda}_{\mathbb{A}}$. Update law 2 is considered a special case of update law 3 with $\beta = 0$. 
+
+The effectiveness of including the additional term can be shown by analyzing the time derivative (\ref{eq:Delta V / Update 3}) of the Lyapunov function for two extreme cases. When $\beta = 0$ (i.e., update law 2), the upper bound of inequality (\ref{eq:Delta V / Update 3}) is derived as (\ref{eq:Delta V / Upper Bound / Update 3}). When $\beta$ is designed to make the last term in (\ref{eq:Delta V / Update 3}) negligibly small (i.e., ideal case of update 3), the upper bound of inequality (\ref{eq:Delta V / Update 3}) approximately becomes
+\begin{eqnarray}
+\ddtsmall V & \!\!\!\! \stackrel{\eqref{eq:Delta V / Update 3}}{\approx} \!\!\!\!  & -\tfrac{\alpha}{\Delta t} \mv{g}_{\!L}^\top \Big[ \mm{H}_{\! L} \mm{H}_{\! L}^\top + \mm{C}_{\!\mathbb{A}} \mm{C}_{\!\mathbb{A}}^\top \Big] \mv{g}_{\!L} -\tfrac{\alpha}{\Delta t}  \mv{c}_{\mathbb{A}}^\top \mm{C}_{\!\mathbb{A}}^\top  \mm{C}_{\!\mathbb{A}} \mv{c}_{\mathbb{A}}, \notag
+\end{eqnarray}
+which shows a stronger convergence than update law 2 for both $\mv{g}_{\!L}$ and $\mv{c}_{\mathbb{A}}$.
+
+\CHHA{What do we know about $ \Big[ \mm{H}_{\! L} \mm{H}_{\! L}^\top + \mm{C}_{\!\mathbb{A}} \mm{C}_{\!\mathbb{A}}^\top \Big]$ and $ \mm{C}_{\!\mathbb{A}}^\top  \mm{C}_{\!\mathbb{A}}$? Positive (semi)definite for all operating points? If positive definite, we can adopt the proof from \url{https://arxiv.org/abs/1902.04653} (see Theorem A.2 and A.3) to show exponential decay and provide an upper bound on the decay rate.}
+
+\KYCH{Update from 23.01.2024: I'm testing update law 4 (presented in the appendix) hoping that this could be included in this chapter. So far, update law 4 does not provide a good convergence behavior. Let me investigate this further.}
+
+Theorem \ref{thm:convergence} states the convergence of the update law (\ref{eq:iter}) as follows.
+\CHHA{Theorem 2 must be adjusted/reformulated. Or we completely remove it?! ... as we already somehow proof convergence above for each update law.}
+\begin{theorem}\label{thm:convergence}
+Suppose the iteration to find the local solution $(\mv{x}^\star,\mv{\lambda}^\star)$ starts sufficiently close to the solution.
+%and the LICQ holds during the iteration. %at $\mv{x}^\star$.
+Then, the update law (\ref{eq:update law 2}) guarantees the convergence to the solution with some $\alpha$.
+\end{theorem}
+
+\begin{proof}
+Define the Lyapunov function as 
+\begin{align}%\label{eq:V}
+V := \tfrac{1}{2}\mv{g}_{\!L}(\mv{x},\mv{\lambda})^\top \mv{g}_{\!L}(\mv{x},\mv{\lambda}) + \tfrac{1}{2}{\mv{c}_{\mathbb{A}}(\mv{x})^\top}\mv{c}_{\mathbb{A}}(\mv{x}).
+%V := \tfrac{1}{2}g^\top g + \tfrac{1}{2}{\mm{C}_{\!\mathbb{A}}^\top}\mm{C}_{\!\mathbb{A}}.
+\end{align}
+The perturbation in the Lyapunov function under perturbations in $\mv{x}$ and $\mv{\lambda}_{\mathbb{A}}$ is derived as
+\begin{subequations}\label{eq:delta_V}
+\begin{align}\nonumber
+\Delta V &= \tfrac{1}{2}{\left( {g + \Delta g} \right)^\top}\left( {g + \Delta g} \right)\\\label{eq:delta_V_1}
+&\ \ \ \ + \tfrac{1}{2}{\left( {\mv{c}_{\mathbb{A}} + \Delta \mv{c}_{\mathbb{A}}} \right)^\top}\left( {\mv{c}_{\mathbb{A}} + \Delta \mv{c}_{\mathbb{A}}} \right) - V\\\label{eq:delta_V_2}
+ &= {g^\top}\Delta g +  \mv{c}_{\mathbb{A}}^\top\Delta \mv{c}_{\mathbb{A}} + \tfrac{1}{2}\Delta {g^\top}\Delta g + \tfrac{1}{2}\Delta \mv{c}_{\mathbb{A}}^\top\Delta \mv{c}_{\mathbb{A}}
+\end{align}
+\end{subequations}
+The perturbation $\Delta V$ is approximated as  
+\begin{align}\label{eq:delta_V0}
+\Delta V \approx \Delta V_0 := {g^\top}\Delta g +  \mv{c}_{\mathbb{A}}^\top\Delta \mv{c}_{\mathbb{A}}
+\end{align}
+to derive the search directions in a simpler form, where
+\begin{subequations}\label{eq:delta_g_c}
+\begin{align}
+\Delta g &= \mm{H}_{\! L}\Delta\mv{x} - \mm{C}_{\!\mathbb{A}}^\top \Delta\mv{\lambda}_{\mathbb{A}} := \alpha \mv{p}_{\mv{g}_{\! L}},\\
+\Delta \mm{C}_{\!\mathbb{A}} &= \mm{C}_{\!\mathbb{A}}\Delta\mv{x} := \alpha p_{\mm{C}_{\!\mathbb{A}}},
+\end{align}
+\end{subequations}
+
+Inserting (\ref{eq:delta_g_c}) into (\ref{eq:delta_V0}) yields
+\begin{subequations}
+\begin{align}\nonumber
+\Delta V_0 &=  - \alpha {\mv{g}_{\! L}^\top}\Big[ {\mm{H}_{\! L}{\mm{H}_{\! L}^\top} + {\mm{C}_{\!\mathbb{A}}}\mm{C}_{\!\mathbb{A}}^\top}\Big]\mv{g}_{\! L} - \alpha \mv{c}_{\mathbb{A}}^\top\Big[ {\mm{C}_{\!\mathbb{A}}^\top{\mm{C}_{\!\mathbb{A}}}} \Big] \mv{c}_{\mathbb{A}}\\\label{eq:delta_V0_ineq_1}
+ &\ \ \ + 2\alpha {\mv{g}_{\! L}^\top}\left( {{\mm{C}_{\!\mathbb{A}}}\mm{C}_{\!\mathbb{A}}^+  - \mm{I}_n} \right)\mm{H}_{\! L}{\mm{C}_{\!\mathbb{A}}}\mv{c}_{\mathbb{A}}\\\label{eq:delta_V0_ineq_2}
+ &\ \ \ < - \alpha {\mv{g}_{\! L}^\top}\Big[{\mm{C}_{\!\mathbb{A}} \mm{C}_{\!\mathbb{A}}^\top}\Big]\mv{g}_{\! L} \\\label{eq:delta_V0_ineq_3}
+ &\ \ \ \le 0.
+\end{align}
+\end{subequations}
+Consequently, $\Delta V_0 < 0$, which proves a descent property of $\mv{p}_{\mv{x}}$ and $p_\lambda$. In the derivation of (\ref{eq:delta_V0_ineq_2}) from (\ref{eq:delta_V0_ineq_1}), the following inequality was applied: \CHHA{I do not understand this inequality; could you please give more details?  ... Please note that invoking \eqref{eq:(binomial) matrix inequality} does NOT give the result below!}
+\KYCH{I have revised the following inequality with more details.}
+\begin{align}\nonumber
+& \mv{g}_{\!L}^\top \mm{H}_{\! L} \big(\beta \mm{H}_{\! L}^{-1} - \mm{I}_n \big) \mm{C}_{\!\mathbb{A}} \mv{c}_{\mathbb{A}} \\
+& {\le} \left\| {{\mv{g}_{\! L}^\top}\mm{H}_{\! L}} \right\| \left \| \beta \mm{H}_{\! L}^{-1} - \mm{I}_n \right\| \left \| {{\mm{C}_{\!\mathbb{A}}}\mv{c}_{\mathbb{A}}} \right\| \notag \\
+& \stackrel{\eqref{eq:beta set}}{\le} \left\| {{\mv{g}_{\! L}^\top}\mm{H}_{\! L}} \right\| \left \| {{\mm{C}_{\!\mathbb{A}}}\mv{c}_{\mathbb{A}}} \right\| \notag \\
+& \stackrel{\eqref{eq:real number inequality}}{\le} \frac{1}{2}{\mv{g}_{\! L}^\top}\Big[ \mm{H}_{\! L}{\mm{H}_{\! L}^\top} \Big]\mv{g}_{\! L} + \frac{1}{2}\mv{c}_{\mathbb{A}}^\top\Big[ \mm{C}_{\!\mathbb{A}}^\top{\mm{C}_{\!\mathbb{A}}} \Big]\mv{c}_{\mathbb{A}}\label{eq:inequality for proof}.
+\end{align}
+%The last inequality (\ref{eq:delta_V0_ineq_3}) holds because ${\mm{C}_{\!\mathbb{A}}^\top \mm{C}_{\!\mathbb{A}}}$ is positive semidefinite. 
+
+\CHHA{With this result, we whould be able to show exponential decay!}
+
+A possible selection of $\beta$ depends on the eigenvalues of $\mm{H}_{\! L}$ according to (\ref{eq:matrix norm inequality}). A suggestion is given as follows:
+\begin{equation}
+% \beta  = \left\{ {\begin{array}{*{20}{c}}
+% {1/{\sigma _n}(\mm{H}_{\! L})\,\,\,\,\,\,\;{\rm{if}}\,{\sigma _1}(\mm{H}_{\! L}) \ge 0\,}\\
+% {1/\left| {{\sigma _1}(\mm{H}_{\! L})} \right|\,\,\;{\rm{if}}\,{\sigma _n}(\mm{H}_{\! L}) \le 0}\\
+% {0\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,{\rm{else}}}
+% \end{array}} \right..
+\beta  = \left\{ {\begin{array}{*{20}{c}}
+{{\sigma _1}(\mm{H}_{\! L})\,\,\,\,\,\,\;{\rm{if}}\,{\sigma _1}(\mm{H}_{\! L}) \ge 0\,}\\
+{\left| {{\sigma _n}(\mm{H}_{\! L})} \right|\,\;{\rm{if}}\,{\sigma _n}(\mm{H}_{\! L}) \le 0}\\
+{0\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,{\rm{else}}}
+\end{array}} \right..
+\end{equation}
+
+
+
+\KYCH{The following will be rewritten later. The following analysis to obtain the step size works for both update laws 2 and 3.}
+Equation (\ref{eq:delta_V_2}) is rewritten as follows: 
+\begin{align}\label{eq:del_V2}
+\Delta V = \frac{{{v_2}}}{2}{\alpha ^2} + {v_1}\alpha
+\end{align}
+where
+\begin{subequations}
+\begin{align}
+{v_1} &= {\mv{g}_{\! L}^\top}\mv{p}_{\mv{g}_{\! L}} + \mv{c}_{\mathbb{A}}^\top{\mv{p}_{\mm{C}_{\!\mathbb{A}}}},\\
+{v_2} &= \mv{p}_{\mv{g}_{\! L}}^\top\mv{p}_{\mv{g}_{\! L}} + \mv{p}_{\mm{C}_{\!\mathbb{A}}}^\top{\mv{p}_{\mm{C}_{\!\mathbb{A}}}}.
+\end{align}
+\end{subequations}
+Because $v_1$ is negative by (\ref{eq:delta_V0_ineq_3}) and $v_2$ is intrinsically positive, $\Delta V$ is negative for a step length in the range of 
+\begin{align}
+0 < \alpha  <  - \frac{{2{v_1}}}{{{v_2}}}.
+\end{align}
+Therefore, the update law (\ref{eq:iter}) makes the Lyapunov function $V$ decrease to zero, consequently approaching the necessary conditions for optimality. Therefore, the update law (\ref{eq:iter}) guarantees the convergence to the solution if the iteration starts sufficiently close to the solution.
+\end{proof}
+
+
+Lemma \ref{lem:1} states properties of the step length $\alpha$.% determined by (\ref{eq:iter2_1}).
+\begin{lemma}\label{lem:1}
+The step length $\alpha$ computed by (\ref{eq:iter2_1}) is positive and minimizes the perturbation in the Lyapunov function the most.
+\end{lemma}
+
+\begin{proof}
+Because $v_1$ is negative and $v_2$ is positive, $\alpha$ computed by $-v_1/v_2$ is positive and minimizes the quadratic function (\ref{eq:del_V2}) the most.
+\end{proof}
+
+\subsection{Algorithm}\label{subsec:algo}
+
+The optimization variables and Lagrange multipliers are updated using the computation result of (\ref{eq:iter}) as follows:
+\begin{subequations}
+\begin{align}
+ \mv{x}^{k + 1} &\leftarrow \mv{x}[k] + \Delta\mv{x}[k],\\
+ \mv{\lambda}_{\mathbb{A}}^{k + 1} &\leftarrow {\mv{\lambda}_{\mathbb{A}}^{k}} + \Delta\mv{\lambda}_{\mathbb{A}}[k].
+\end{align}
+\end{subequations}
+
+Even though the Lyapunov function defined in (\ref{eq:V}) does not explicitly include three necessary conditions of (\ref{eq:KKT3}), (\ref{eq:KKT4}), and (\ref{eq:KKT5}) for the inequality constraints, these three conditions can be easily satisfied by adding the following actions at the end of each iteration: % at the end of the for-loop?
+\begin{itemize}
+    \item Restrain the Lagrange multipliers for the inequality constraints greater than or equal to 0. 
+    \item Remove the inequality constraints with $\lambda_i = 0$ from the active set $\mathbb{A}(\mv{x})$.
+    \item Add the inequality constraints with $c_i(\mv{x}) < 0$ to the active set $\mathbb{A}(\mv{x})$. %이때, 최대수는 n을 넣을 수 없다.
+\end{itemize}
+
+The proposed method can be implemented by Algorithm \ref{alg1}. 
+
+\CHHA{UNTIL HERE I HAVE READ IN DETAIL AND REVISED THE PAPER ... I will proceed from here} 
+
+%\begin{remark}
+%1
+%\end{remark}
+
+\begin{algorithm}[!t]
+\caption{Proposed method for NLP} 
+\label{alg1}
+Compute a feasible starting point $(\mv{x}^0,\mv{\lambda}^0)$;\\
+Set the initial active set $\mathbb{A}(\mv{x}^0)$;\\
+\For{$k = 0,1,2, \ldots $}
+{
+    %{\bf{Input:}} $T_{e,k\!+\!1}^{cmd}$\\
+    Compute $\Delta\mv{x}[k]$ and $\Delta\mv{\lambda}_{\mathbb{A}}^{k}$ using (\ref{eq:iter}); \\
+    $\mv{x}^{k + 1} \leftarrow \mv{x}[k] + \Delta\mv{x}[k]$;\\
+    $\mv{\lambda}_{\mathbb{A}}^{k + 1} \leftarrow {\mv{\lambda}_{\mathbb{A}}^{k}} + {\Delta\mv{\lambda}_{\mathbb{A}}^{k}}$;\\
+    $\lambda_i^{k + 1} \leftarrow \max(\lambda_i[k\!+\!1],0), i \in \mathbb{A}(x[k]) \cap \mathbb{E}$;\\
+    $\lambda_i^{k + 1} \leftarrow \lambda _{i}^{k}, i \notin \mathbb{A}(x[k])$;\\
+    $\mathbb{A}(\mv{x}[k\!+\!1]) \leftarrow \mathbb{A}(\mv{x}[k]) \backslash \{j\}$, for all $j \in \mathbb{A}(\mv{x}[k])$ with $\lambda_j[k\!+\!1] = 0$;\\ %, c_j(\mv{x}[k\!+\!1]) > 0
+    $\mathbb{A}(\mv{x}[k\!+\!1]) \leftarrow \mathbb{A}(\mv{x}[k]) \cup \{j\}$, for all $j \notin \mathbb{A}(\mv{x}[k])$ with $c_j(\mv{x}[k\!+\!1]) < 0$;\\ %\lambda_j[k\!+\!1] = 0
+ }
+\end{algorithm}
+
+\subsection{Comparison of Properties of LBNLP, SQP, and ALM}
+\label{subsec:prop}
+
+Equations (\ref{eq:iter}) and (\ref{eq:iter2}) show that the proposed method is matrix-inversion-free and tuning-parameter-free. There are two more to note. First, the proposed method does not require the positive definiteness of the Hessian matrix because matrix $\mm{H}_{\! L}^\top$, which is at least positive semidefinite regardless of the positive definiteness of Hessian $\mm{H}_{\!L}$, determines the negative definiteness of the perturbation in the Lyapunov function.
+% + the PM does not require LICQ. (true?)
+Second, the update law for $\mv{\lambda}_{\mathbb{A}}$, (\ref{eq:iter_2}), is similar to that of ALM, (\ref{eq:ALM_update}), in that both include information on constraint violations (i.e., $c_i$) but differs in that (\ref{eq:iter_2}) also includes information on $g(= \nabla_{\!\mv{x}}L(\mv{x},\mv{\lambda}))$. The inclusion of $g$ allows the appropriate update of $\mv{\lambda}_{\mathbb{A}}$ without using tuning parameters as in ALM. Actually, the term $\mm{C}_{\!\mathbb{A}}g/2$ in (\ref{eq:iter2_2}) yields the term in right-hand side of inequality (\ref{eq:delta_V0_ineq_2}), thereby endowing the proposed method with a descent property. 
+
+The properties of the proposed method are summarized in Table \ref{tab:Comparison of LBNLP, SQP and ALM} as compared with SQP and ALM. Note that this comparison only considers the case for local convergence.
+
+\begin{table}[!t]
+\caption{Property Comparison of LBNLP, SQP, and ALM.}
+\label{tab:Comparison of LBNLP, SQP and ALM}
+\centering
+{\begin{tabular}{cccc}\hline
+  & SQP & ALM & LBNLP \\
+\hline\hline
+\rowcolor{lightgray} 
+Matrix  & Yes & Yes & \\
+\rowcolor{lightgray}
+inversion(s) & (e.g., KKT) & (e.g., Hessian) & \multirow{-2}{*}{No}\\
+Tuning & Not & Necessary & \\
+parameters & necessary & ($\mu$ and others) & \multirow{-2}{*}{No}\\
+\rowcolor{lightgray}
+Allowance of &  &  & \\
+\rowcolor{lightgray}
+constraint violation & \multirow{-2}{*}{No} & \multirow{-2}{*}{Yes} & \multirow{-2}{*}{Yes}\\
+Positive definiteness &  &  & Not \\
+of (approx.) Hessian & \multirow{-2}{*}{Required} & \multirow{-2}{*}{Required} & necessary\\
+\rowcolor{lightgray}
+Update of & & &\\
+\rowcolor{lightgray}
+$\mv{x}$ and $\lambda$  & \multirow{-2}{*}{Simultaneous} & \multirow{-2}{*}{Separate} & \multirow{-2}{*}{Simultaneous}\\
+\hline
+\end{tabular}}
+\end{table}
+
+\section{Application of LBNLP to NMPTC}
+\label{sec:Application to NMPTC}
+
+This section discusses the possible application of the proposed LBNLP to NMPC in general and NMPTC specifically: Section \ref{subsec:NMPC} explains two different formulations of a general NMPC problem,  whereas Section \ref{subsec:NMPTC} introduces NMPTC of electrical drives. Section \ref{subsec:val} provides validation results of the proposed method for the NMPTC problem and compares those to the results obtained by SQP and ALM.
+
+\subsection{Nonlinear model predictive control (NMPC)}
+\label{subsec:NMPC}
+
+\subsubsection{Problem statement}
+
+The NMPC formulation is \CHHA{REF?}
+\begin{subequations}\label{eq:NMPC1}
+\begin{align}
+\mv{u}^\star:=&\mathop {\rm arg\min }\limits_{\mv{u}[k\!+\!1], \cdots ,\mv{u}[k\!+\!N]} \norm{\mv{e}[k\!+\!N]}_{\mm{F}}^2 + \sum\limits_{n = 1}^{N - 1} \norm{\mv{e}[k\!+\!n]}_{\mm{Q}}^2 + \nonumber \\ 
+& \qquad \qquad \qquad \qquad + q\big( \mv{x}[k\!+\!n],\mv{u}[k\!+\!n] \big) \label{eq:NMPC1 - objective function} \\
+&{\rm{subject\ to}} \nonumber\\
+&\mv{x}[k\!+\!n\!+\!1] = \mv{f}\big( \mv{x}[k\!+\!n] ,\mv{u}[k\!+\!n] \big), \\ &\mv{y}[k\!+\!n]  = \mv{g}\big(\mv{x}[k\!+\!n], \mv{u}[k\!+\!n] \big), \\
+&\mv{h}(\mv{x}[k\!+\!n],\mv{u}[k\!+\!n]) \ge \mv{0},\ n = 1, \ldots ,N %\\
+%&\mv{x}[k] = \mv{x}(k\Ts)
+\end{align}
+\end{subequations}
+where arguments $k$, $k\!+\!1$, $\dots$, $k\!+\!N$ denote (succeeding) sampling instants until the prediction horizon  $1 \leq N \in \N$; $\mv{x}$, $\mv{u}$, and $\mv{y}$ denote system state, control input, and output vector, respectively; $\mv{e} := \mv{y}_{\MYREF} - \mv{y}$ represents the tracking error (difference between output $\mv{y}$ and reference signal $\mv{y}_{\MYREF}$; $\mm{F}$ and $\mm{Q}$ are symmetric positive definite matrices (of appropriate size) weighting final and preceeding tracking errors; $q(\cdot, \cdot)$ represents the control effort function whose typical choice is $\norm{ \mv{u} }_{\mm{R}}^2$ with symmetric positive definite matrix $\mm{R}=\mm{R}^\top >0$; and $\mv{f}(\cdot,\cdot)$, $\mv{g}(\cdot,\cdot)$, and $\mv{h}(\cdot,\cdot)$ denote functions of the state, output, and (in)equality constraints, respectively. 
+
+This NMPC formulation can describe several optimal tracking control problems of various applications \CHHA{REF}. However, it requires an appropriate tuning of the matrices $\mm{F}$ and $\mm{Q}$, and function $q$ to guarantee stability and convergence of the tracking error to zero due to the trade-off between the tracking error and control effort terms in the objective function \CHHA{REF?}.
+To avoid this tuning a reformulation of the problem statement is beneficial which is introduced next. 
+
+\subsubsection{NMPC reformulation}
+%
+The NMPC problem (\ref{eq:NMPC1}) can be reformulated by considering the (final) tracking error as equality constraint in contrast to considering it in the objective function \eqref{eq:NMPC1 - objective function} which resolves the inevitable weighting trade-off between tracking error and control effort terms in \eqref{eq:NMPC1 - objective function} \cite{2013_Hackl_Ismultiple-objectivemodel-predictivecontroloptimal}. The NMPC reformulation is given by
+%
+\begin{subequations}\label{eq:NMPC2}
+\begin{align}
+\mv{u}^\star:=&\mathop {\rm arg\min }\limits_{\mv{u}[k\!+\!1], \cdots ,\mv{u}[k\!+\!N]}   \sum\limits_{n = 1}^{N - 1}  q\big( \mv{x}[k\!+\!n],\mv{u}[k\!+\!n] \big) \\
+\nonumber
+&{\rm{subject\ to}}\\
+&\mv{x}[k\!+\!n\!+\!1] = \mv{f}\big( \mv{x}[k\!+\!n] ,\mv{u}[k\!+\!n] \big), \\ &\mv{y}[k\!+\!n]  = \mv{g}\big(\mv{x}[k\!+\!n], \mv{u}[k\!+\!n] \big), \\
+&\mv{h}(\mv{x}[k\!+\!n],\mv{u}[k\!+\!n]) \ge \mv{0},\ n = 1, \ldots ,N\\
+&\mv{e}[k\!+\!N] = \mv{0} \label{eq:NMPC2 final e}
+\end{align}
+\end{subequations}
+%
+There is no guarantee to satisfy the equality constraint in \eqref{eq:NMPC2 final e} (i) if the reference signal $\mv{y}_{\MYREF}$ cannot be attained within the prediction horizon no matter what control effort is admissible, or (ii) if a numerical optimization method for this problem does not allow violation of the equality constraint \CHHA{REF}. 
+However, if a numerical optimization method allows for the violation of constraints like the proposed LBNLP method, this NMPC problem can (approximately) be solved even if the reference signal cannot be attained within the prediction horizon. 
+
+Note that SQP does not allow for the violation of constraints whereas ALM does. However, using the proposed LBNLP is even more advantageous than using ALM (recall Table \ref{tab:Comparison of LBNLP, SQP and ALM} and see validation in the next Subection~\ref{subsec:NMPTC}).
+
+\begin{remark}
+In general, it is beneficial for the NMPC convergence if the reference signal is a smooth function as this helps to satisfy the (in)equality constraints at all sampling instants \CHHA{REF?}
+\end{remark}
+
+\subsection{Nonlinear model predictive torque control (NMPTC)}
+\label{subsec:NMPTC}
+
+The NMPTC problem presented in \cite{choi2023model} is re-discussed to apply and validate the proposed LBNLP method. The NMPTC here is used to solve the Maximum-Torque per Current (MTPC) problem -- a subproblem of optimal feedforward torque control (OFTC) \cite{2017_Eldeeb_Aunifiedtheoryforoptimalfeedforwardtorquecontrolofanisotropicsynchronousmachines} of permanent magnet synchronous machines (PMSMs) modelled by the nonlinear dynamics
+% 
+\begin{equation}
+	\left.
+	\begin{array}{rcl}
+		\usdq &\!\!=\!\!& \Rsdq\isdq + \omegaP\J\psisdq+\ddt\psisdq,  \\
+        \ddtsmall \omegaM &\!\!=\!\!& \tfrac{1}{\ThetaM}\Big( \tfrac{2}{3\kappa^2}\nP (\isdq)^\top\J \psisdq - \mL \Big) \\
+        \ddtsmall \phiM &\!\!=\!\!& \omegaM
+	\end{array}
+	\right\}
+	\label{eq:transformer-like FLDM}
+\end{equation}
+% 
+with
+$\J:={\tiny\begin{bmatrix}
+	0 & -1 \\ 1 & 0
+\end{bmatrix}}$, 
+stator voltages $\usdq:=(\usd,\usd)^\top$, 
+stator currents  $\isdq:=(\isd,\isd)^\top$,  
+stator resistance matrix $\Rsdq:=\Rsdq(\isdq,\omegaP,\phiP) = (\Rsdq)^\top >0$,
+stator flux linkages $\psisdq:=(\psisd,\psisd)^\top:=\psisdq(\isdq,\omegaP,\phiP)$,  
+load torque $\mL$,
+Clarke transformation factor $\kappa \in \{2/3, \sqrt{2/3}\}$ \cite[Ch.~14]{2017_Hackl_Non-identifierbasedadaptivecontrolinmechatronics:TheoryandApplication},
+electrical angular velocity $\omegaP = \nP\omegaM$ (i.e., the product of pole pair number $\nP$ and  mechanical angular velocity $\omegaM$) and machine torque $\mM:=\tfrac{2}{3\kappa^2}\nP (\isdq)^\top\J \psisdq$.
+Note that stator resistance matrix $\Rsdq(\isdq,\omegaP,\phiP)$ and stator flux linkages $\psisdq(\isdq,\omegaP,\phiP$ may vary with current, frequency and angle, respectively \cite{2021_Hackl_GenericLossMinimizationforNonlinearSynchronousMachinesbyAnalyticalComputationofOptimalReferenceCurrentsConsideringCopperandIronLosses}. For this paper, only the dependency on the currents $\isdq$ is considered. Moreover, the machine torque $\mM$ represents the average torque neglecting the dependencies on rotor position %(e.g. due to cogging torque or harmonic effects~)
+or iron losses~\cite{2023_Rossmann_NonlinearThreePhaseReluctanceSynchronousMachineModelingwithExtendedTorqueEquation}. Stator voltages and currents are limited to \cite{2021_Hackl_GenericLossMinimizationforNonlinearSynchronousMachinesbyAnalyticalComputationofOptimalReferenceCurrentsConsideringCopperandIronLosses}
+%
+\begin{equation}
+\norm{\usdq} \leq \usmax \quad \text{ and \quad } \norm{\isdq} \leq \ismax 
+\label{eq:voltage and current constraints}
+\end{equation}
+%
+to protect the machine (isolation and thermal capacity).
+Rewriting \eqref{eq:transformer-like FLDM} with current dynamics and discretizing\footnote{Invoking the Euler forward method leads to $\ddtsmall x(t) \approx (x[k\!+\!1] - x[k])/\Ts$ with sampled quantity $x[k]\approx x(k\Ts)$ at sampling instant $k\in \N$ and sampling frequency $\Ts>0$.} yields
+%
+\begin{equation}
+	\left.
+	\begin{array}{rcl}
+		\isdq[k\!+\!1] &\!\!=\!\!& \Ts\Lsdq[k]^{-1} \Big(\usdq[k] - \Rsdq\isdq[k] \\ 
+& & \hspace{-8ex} - \omegaP[k]\J\psisdq[k]  \Big) - \isdq[k] =: \mv{f}(\isdq[k],\usdq[k]) ,  \\
+        \omegaM[k\!+\!1] &\!\!=\!\!& \tfrac{\Ts}{\ThetaM}\Big( \mM[k]  - \mL[k] \Big) - \omegaM[k] \\
+        \phiM[k\!+\!1] &\!\!=\!\!& \Ts \omegaM[k] - \phiM[k],
+	\end{array}
+	\right\}
+	\label{eq:transformer-like CDM (discrete)}
+\end{equation}
+%
+where, to simplify notation, the following conventions were and will be applied for differential inductance matrix $\Lsdq[k]:=\Lsdq(\isdq[k])=\Lsdq(\isdq[k])^\top>0$,  flux linkages $\psisdq[k]:=\psisdq(\isdq[k])$ and machine torque $\mM[k]:= \tfrac{2}{3\kappa^2}\nP \isdq[k]^\top\J \psisdq[k]$.
+%
+
+
+For MTPC (or MTPA\footnote{Maximum Torque per Ampere.}) operation, the minimization of Joule losses $(\isdq)^\top\Rsdq\isdq$ is crucial and usual a prediction horizon of $N=1$ is sufficient~\cite{choi2023model,2017_Eldeeb_Aunifiedtheoryforoptimalfeedforwardtorquecontrolofanisotropicsynchronousmachines}. With these losses, the right-hand side $\mv{f}(\isdq[k],\usdq[k])$ of the current dynamics in \eqref{eq:transformer-like CDM (discrete)} and the physical machine constraints in \eqref{eq:voltage and current constraints}, the NLMPTC problem can directly be formulated:
+%
+\begin{subequations}
+\label{eq:NMPTC}
+\begin{align}
+\mv{u}^\star:=&\mathop {\rm arg\min }\limits_{\mv{u}[k\!+\!1]}  \underbrace{\isdq[k\!+\!1]^\top\Rsdq\isdq[k\!+\!1]}_{=:q(\mv{x}[k\!+\!1],\mv{u}[k\!+\!1])} \\
+\nonumber
+&{\rm{subject\ to}}\\
+&\mv{x}[k\!+\!1] := \isdq[k\!+\!1] = \mv{f}\big( \isdq[k] ,\usdq[k] \big), \\ 
+&y[k\!+\!1] := \mM[k\!+\!1] = \tfrac{2}{3\kappa^2}\nP \isdq[k\!+\!1]^\top\J \psisdq[k\!+\!1],\\ % = \mv{g}\big(\isdq[k\!+\!1], \usdq[k\!+\!1] \big), \\
+&\mv{h}(\mv{x}[k\!+\!1],\mv{u}[k\!+\!1]) := \begin{pmatrix}\usmax^2 - \norm{\usdq[k\!+\!1]}^2\\ \ismax^2 - \norm{\isdq[k\!+\!1]}^2  \end{pmatrix} \geq \mv{0}_2, \\
+&e[k\!+\!1] := \mMref[k\!+\!1] - \mM[k\!+\!1] = 0 \label{eq:NMPC2 final e}
+\end{align}
+\end{subequations}
+%
+where $\mv{x}[k\!+\!1]=\isdq[k\!+\!1]$ and $\mv{u}[k\!+\!1]=\usdq[k\!+\!1]$ denote the stator current and voltage vectors at the next sampling instant, respectively.
+Clearly, NMPTC in \eqref{eq:NMPTC} is a subproblem of the reformulated NMPC in \eqref{eq:NMPC2}.
+
+\subsection{Validation}\label{subsec:val}
+For the validation of the proposed LBNLP, the NMPTC problem is implemented for an anisotropic PMSM with affine stator flux linkage
+$$
+\psisdq = \begin{bmatrix} \Lsd & 0 \\ 0 & \Lsq \end{bmatrix}\isdq + \begin{pmatrix} \psiPM \\ 0 \end{pmatrix},
+$$
+where $\Lsd$ and $\Lsq$ denote the $d$- and $q$-axis inductances, respectively. $\psiPM$ denotes the flux linkage of the permanent magnets. The machine parameters are collected in Table \ref{tab:Comparison of LBNLP, SQP and ALM}. 
+
+\begin{table}
+\caption{Implementation parameters of PMSM.}\label{tab:Comparison of LBNLP, SQP and ALM}
+\centering
+{\begin{tabular}{cc}\hline
+Parameter & Value \\\hline\hline
+\rowcolor{lightgray}
+$\Rs$ & 25 m$\Omega$\\
+$\Lsd$ & 0.45 mH\\
+\rowcolor{lightgray}
+$\Lsq$ & 0.66 mH\\
+$\psiPM$ & 0.0563 Wb\\
+\rowcolor{lightgray}
+$\nP$ & 8\\
+$\usmax$ & 56.5 V \\
+\rowcolor{lightgray}
+$\Ts$ & 0.1 ms \\\hline
+\end{tabular}}
+\end{table}
+
+
+
+The NMPTC problem introduced in Section \ref{subsec:target_prob} was implemented and numerically solved in MATLAB 2022a by SQP, ALM, and the proposed LBNLP, respectively. The reference torque $\mMref$ was given with 30 Nm. Two different electrical angular velocities $\omegaP$, at 840 rad/s and 1090 rad/s, were simulated to examine the cases when the inequality (voltage) constraint in were inactive and active, respectively. \CHHA{SO we do MORE THAN MTPC??? also field weakening? Before I finalize this subsection, we need to have the updated figues ... see also comment below - very nice would be to have such comparative plots for all OFTC operation strategies like MTPC, MC, FW, MTPV!}
+
+ALM and the proposed method solved the problem in the formulation of (\ref{eq:NMPC2}), while SQP solved the problem in the formulation of (\ref{eq:NMPC1}) because SQP did not guarantee to handle the equality constraint (\ref{eq:NMPC2_5}). SQP was implemented by the `fmincon' function available in MATLAB, which is a well-known NLP solver, with the option of `sqp'. Three different values were used for $\mm{H}_{\!L}$: $10^{-4}$, $10^{-2}$, and $10^{0}$, to examine the trade-off between the tracking error terms and control effort term in the objective function. ALM was implemented by solving (\ref{eq:min_La}) using Newton's method with an iteration termination condition of $\left| \nabla_x L_{\rm ALM} \right| \le 10^{-4}$. Three different values were used for $\mu$: $10^{-2}$, $10^{0}$, and $10^{2}$, to examine the sensitivity of solutions to this tuning parameter. The proposed method was implemented by Algorithm \ref{alg1}. Two different cases were examined when the for-loop in Algorithm \ref{alg1} was repeated once and twice, respectively, for each time instant $t$.
+
+The NMPTC results obtained using SQP with $w = 10^{-4}, 10^{-2},$ and $10^{0}$ are shown in Figs. \ref{Fig1}, \ref{Fig2}, and \ref{Fig3}, respectively. $x_1$ and $x_2$ on the horizontal and vertical axes represent the first and second elements of the state $\mv{x}$, respectively. The MTPA line, denoted by dashed lines in the figures, represents the points satisfying
+\begin{subequations}
+\begin{align}
+&\mathop {\min }\limits_x q(x,u)\\\nonumber
+&{\rm{subject\ to}}\\
+&e = r - y = 0,
+\end{align}
+\end{subequations}
+meaning the target points of the state $\mv{x}$ when the inequality constraint $h(x,u) \ge 0$ is inactive. with $w = 10^{-4}$, the state trajectory, $x_t$, satisfied the tracking condition $e_{t+N} = 0$ well but quite deviated from the control-effort-minimizing points (i.e., MTPA line) due to the large portion of the tracking error terms (see Fig. \ref{Fig1}). with $w = 10^{0}$, the state trajectory aligned with the MTPA line when the inequality constraint was inactive (see Fig. \ref{Fig3a}) or moved close to the MTPA line even when the constraint was active (see Fig. \ref{Fig3b}). However, the state trajectory hardly satisfied the tracking condition due to the large portion of the control effort term. The balance between the tracking error terms and control effort term was made with $w = 10^{-2}$ (see Fig. \ref{Fig2}).
+
+The NMPTC results obtained using ALM with $\mu = 10^{-2}, 10^{0},$ and $10^{2}$ are shown in Figs. \ref{Fig4}, \ref{Fig5}, and \ref{Fig6}, respectively. with $\mu = 10^{-2}$, the state trajectory, $x_t$, was unstable until reaching the final point when the inequality constraint was inactive (see Fig. \ref{Fig4a}). This was because the barrier parameter $\mu$ was too small so the Lagrange multiplier for the inequality constraint (\ref{eq:NMPC2_3}) was easily updated and considered active, which had to be inactive.
+% Fig. 4b에 대한 언급도 필요?
+with $w = 10^{2}$, by contrast, the state trajectory hardly satisfied the tracking condition (see Fig. \ref{Fig6}) because the Lagrange multiplier for the equality constraint (\ref{eq:NMPC2_5}) was updated slowly due to the large value of $\mu$. The Lagrange multipliers for the constraints were updated appropriately with $\mu = 10^{0}$, and thus a desirable state trajectory was obtained (see Fig. \ref{Fig5}).
+
+\KYCH{Update from 23.01.2024: The following paragraph has been revised to explain the results of update laws 2 and 3.}
+The NMPTC results obtained using update laws 2 and 3 of repeating the for-loop once and twice are shown in Figs. \ref{Fig7} and \ref{Fig8}, and, Figs. \ref{Fig_UpdateLaw3_OneIteration} and \ref{Fig_UpdateLaw3_TwoIterations}, respectively. While update law 2 showed good convergence with only one iteration when the inequality constraint is not active, update law 2 failed to handle the active constraint with one iteration (see Fig. \ref{Fig7b}). Update law 2 with two iterations converged to the target point at the end; however, Fig. it showed an infeasible transient behavior (i.e., the inequality constraint was violated) (see. Fig (\ref{Fig8b}). On the other hand, update law 3 provided an almost direct move to the target points even with one repetition of the for-loop (see Fig. \ref{Fig_UpdateLaw3_OneIteration}). Just one more repetition of the for-loop guaranteed a very accurate move, as shown by Fig. \ref{Fig_UpdateLaw3_TwoIterations}. This result is significant in that conventional methods like SQP and ALM provided satisfactory results only with appropriate values of tuning parameters, 
+% Tuning parameter에 대한 sensitivity
+whereas update law 3 guaranteed a desirable result just by repeating the simple algorithm once or twice, not relying on tuning parameters.
+
+Computation times of representative results of each method are shown in Fig. \ref{Fig9}. The representative results were selected as Figs. \ref{Fig2b}, \ref{Fig5b}, and \ref{Fig7b} for SQP, ALM, and the proposed method, respectively. The computation times of SQP were approximately one hundred times greater than those of ALM and the proposed method, which is probably due to the inversion of the KKT matrix for SQP and multiple iterations to elaborate solutions. The average computation time of ALM was approximately twice greater than that of the proposed method. This is because ALM used multiple iterations to guarantee the convergence of Newton's method. This result verifies that the proposed method, which is matrix-inversion-free and does not require large numbers of iterations, is computationally efficient.
+
+
+\section{Conclusion}
+
+This study presented a novel numerical optimization method to solve NLP. This method was designed based on a Lyapunov approach to reach the necessary conditions for optimality. The advantage of using the Lyapunov approach was the update law was derived in a tuning-parameter-free and matrix-inversion-free manner; thus, the proposed method could be implemented easily with less iteration and computation time than conventional methods, such as SQP and ALM. The effectiveness of the proposed method was validated by using it to solve an NLP problem, which was an NMPC problem for optimal torque control of PMSMs, and comparing it with SQP and ALM.
+
+The following issues need to be handled in a future study:
+\begin{itemize}
+    \item \textbf{Validation for large-scale problems:} This study used a small-scale NLP problem, whose number of optimization variables was two. The effectiveness of the proposed method is expected to be further highlighted for large-scale problems. A possible target problem would be an NMPC problem with a longer prediction horizon like the one presented in \cite{de2022system}.
+    \item \textbf{Proof of the convergence rate:} No discussion was made on the convergence rate of the proposed method. The convergence rate of the proposed method needs to be investigated in that other methods such as SQP guarantee quadratic convergence near local solutions. 
+    \item \textbf{Considerations on global convergence:} Ensuring global convergence is a very well-known but challenging issue in numerical optimization. Nonetheless, it is expected to guarantee global and fast convergence for an NMPC problem if a well-approximated problem is solved and the approximated solution is provided as the initial guess for the original problem. For instance, define the optimization variable as ${u_t} = {\hat u_t} + \Delta {u_t}$, where ${\hat u_t}$ is the solution of an approximated problem and $\Delta {u_t}$ is the deviation between the true and approximated solutions. The approximated solution ${\hat u_t}$ could be obtained by solving the following problem:
+    \begin{subequations}\label{eq:NMPC3}
+    \begin{align}
+    &\mathop {\min }\limits_{{u_t}} {{\hat q}\left( {{x_{t}},{u_{t}}} \right)} \\\nonumber
+    &{\rm{subject\ to}}\\
+    &{x_{t + 1}} = {\hat f}\left( {{x_{t}},{u_{t}}} \right),\ {y_{t}} = {\hat g}({x_{t}},{u_{t}}),\\
+    %&{\hat h}({x_{t + 1}},{u_{t + 1}}) \ge 0,\\
+    &{x_t} = x(t),\\
+    &{e_{t + 1}} = 0,
+    \end{align}
+    \end{subequations}
+    where the prediction horizon $N$ is set to 1, $\hat q$ is a quadratic approximation of function $q$, and, $\hat f$ and $\hat g$ are linear approximations of function $f$ and $g$, respectively. This is a QP with equality constraints, whose solution is easily obtained by solving a KKT matrix. Then, the original problem (\ref{eq:NMPC2}) is rewritten with the new optimization variable $\Delta {u_t}$ and solved by the proposed method.
+    \end{itemize}
+
+
+\CHHA{In the figures, the correct operation strategy should be indicated as well; at the moment, the reader might think that MTPA should work but all methods do not always converge to the MTPA hyperbola (of course, this is due to the voltage constraint, Hence, we should show FW, MTPV, etc. all "correct" points on the operation strategy line. }\KYCH{I will add such indications in the next update of the figures.} \CHHA{I would present for both angular velocities all results of SQP, ALM and LBNLP in ONE FIG. It would be nice if the simulations could show ALL OFTC operation strategies such as MPTC, MC, FW, MTPV - do you think this is feasible?}
+\begin{figure}[!t]
+\centering
+\subfigure[]{\includegraphics[width=0.9\linewidth]{Fig1a}%
+\label{Fig1a}}
+\vfill
+\subfigure[]{\includegraphics[width=0.9\linewidth]{Fig1b}%
+\label{Fig1b}}
+\caption{NMPC results obtained using SQP with $w = 10^{-4}$ for the conditions of (a) $w_r = 840$ rad/s  and (b) $w_r = 1090$ rad/s.
+}\label{Fig1}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\subfigure[]{\includegraphics[width=0.9\linewidth]{Fig2a}%
+\label{Fig2a}}
+\vfill
+\subfigure[]{\includegraphics[width=0.9\linewidth]{Fig2b}%
+\label{Fig2b}}
+\caption{NMPC results obtained using SQP with $w = 10^{-2}$ for the conditions of (a) $w_r = 840$ rad/s  and (b) $w_r = 1090$ rad/s.
+}\label{Fig2}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\subfigure[]{\includegraphics[width=0.9\linewidth]{Fig3a}%
+\label{Fig3a}}
+\vfill
+\subfigure[]{\includegraphics[width=0.9\linewidth]{Fig3b}%
+\label{Fig3b}}
+\caption{NMPC results obtained using SQP with $w = 10^{0}$ for the conditions of (a) $w_r = 840$ rad/s  and (b) $w_r = 1090$ rad/s.
+}\label{Fig3}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\subfigure[]{\includegraphics[width=0.9\linewidth]{Fig4a}%
+\label{Fig4a}}
+\vfill
+\subfigure[]{\includegraphics[width=0.9\linewidth]{Fig4b}%
+\label{Fig4b}}
+\caption{NMPC results obtained using ALM with $\mu = 10^{-2}$ for the conditions of (a) $w_r = 840$ rad/s  and (b) $w_r = 1090$ rad/s.
+}\label{Fig4}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\subfigure[]{\includegraphics[width=0.9\linewidth]{Fig5a}%
+\label{Fig5a}}
+\vfill
+\subfigure[]{\includegraphics[width=0.9\linewidth]{Fig5b}%
+\label{Fig5b}}
+\caption{NMPC results obtained using ALM with $\mu = 10^{0}$ for the conditions of (a) $w_r = 840$ rad/s  and (b) $w_r = 1090$ rad/s.
+}\label{Fig5}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\subfigure[]{\includegraphics[width=0.9\linewidth]{Fig6a}%
+\label{Fig6a}}
+\vfill
+\subfigure[]{\includegraphics[width=0.9\linewidth]{Fig6b}%
+\label{Fig6b}}
+\caption{NMPC results obtained using ALM with $\mu = 10^{2}$ for the conditions of (a) $w_r = 840$ rad/s  and (b) $w_r = 1090$ rad/s.
+}\label{Fig6}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\subfigure[]{\includegraphics[width=0.88\linewidth]{Fig_UpdateLaw2_OneIteration_a}%
+\label{Fig7a}}
+\vfill
+\subfigure[]{\includegraphics[width=0.88\linewidth]{Fig_UpdateLaw2_OneIteration_b}%
+\label{Fig7b}}
+\caption{NMPC results obtained using update law 2 of repeating the for-loop once for each time instant $t$, for the conditions of (a) $w_r = 840$ rad/s  and (b) $w_r = 1090$ rad/s.
+}\label{Fig7}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\subfigure[]{\includegraphics[width=0.88\linewidth]{Fig_UpdateLaw2_TwoIterations_a}%
+\label{Fig8a}}
+\vfill
+\subfigure[]{\includegraphics[width=0.88\linewidth]{Fig_UpdateLaw2_TwoIterations_b}%
+\label{Fig8b}}
+\caption{NMPC results obtained using update law 2 of repeating the for-loop twice for each time instant $t$, for the conditions of (a) $w_r = 840$ rad/s  and (b) $w_r = 1090$ rad/s.
+}\label{Fig8}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\subfigure[]{\includegraphics[width=0.88\linewidth]{Fig_UpdateLaw3_OneIteration_a}%
+\label{Fig_UpdateLaw3_OneIteration_a}}
+\vfill
+\subfigure[]{\includegraphics[width=0.88\linewidth]{Fig_UpdateLaw3_OneIteration_b}%
+\label{Fig_UpdateLaw3_OneIteration_b}}
+\caption{NMPC results obtained using update law 3 of repeating the for-loop once for each time instant $t$, for the conditions of (a) $w_r = 840$ rad/s  and (b) $w_r = 1090$ rad/s.
+}\label{Fig_UpdateLaw3_OneIteration}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\subfigure[]{\includegraphics[width=0.88\linewidth]{Fig_UpdateLaw3_TwoIterations_a}%
+\label{Fig_UpdateLaw3_TwoIterations_a}}
+\vfill
+\subfigure[]{\includegraphics[width=0.88\linewidth]{Fig_UpdateLaw3_TwoIterations_b}%
+\label{Fig_UpdateLaw3_TwoIterations_b}}
+\caption{NMPC results obtained using update law 3 of repeating the for-loop twice for each time instant $t$, for the conditions of (a) $w_r = 840$ rad/s  and (b) $w_r = 1090$ rad/s.
+}\label{Fig_UpdateLaw3_TwoIterations}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\subfigure[]{\includegraphics[width=0.9\linewidth]{Fig9a}%
+\label{Fig9a}}
+\vfill
+\subfigure[]{\includegraphics[width=0.9\linewidth]{Fig9b}%
+\label{Fig9b}}
+\vfill
+\subfigure[]{\includegraphics[width=0.9\linewidth]{Fig9c}%
+\label{Fig9c}}
+\caption{Computation time at each time instant $t$ of (a) the SQP's result presented in Fig. \ref{Fig2b}, (b) the ALM's result presented in Fig. \ref{Fig5b}, and (c) update law 3's result presented in Fig. \ref{Fig7b}. The solid lines and shaded areas represent the mean values and standard deviations, respectively. \KYCH{The title of Fig. 9(c) will be revised as update law 3.}
+}\label{Fig9}
+\end{figure}
+
+\clearpage
+
+
+%\section*{Appendix}
+%Appendixes, if needed, appear before the acknowledgment.
+
+%\section*{Acknowledgment}
+%The preferred spelling of the word ``acknowledgment'' in American English is without an ``e'' after the ``g.'' Use the singular heading even if you have many acknowledgments. Avoid expressions such as ``One of us (S.B.A.) would like to thank ... .'' Instead, write ``F. A. Author thanks ... .'' In most cases, sponsor and financial support acknowledgments are placed in the unnumbered footnote on the first page, not here.
+
+
+
+% References
+\bibliographystyle{Bibliography/IEEEtranTIE}
+\bibliography{Bibliography/IEEEabrv,Bibliography/BIB_xx-TIE-xxxx,Bibliography/LMRES_Bibliography}\ %IEEEabrv instead of IEEEfull
+
+	
+%\vspace{-1cm}
+% \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{photo-men.eps}}]
+% {First A. Author1} and the other authors may include biographies at the end of regular papers. The first paragraph may contain a place and/or date of birth (list place, then date). Next, the author's educational background is listed. The degrees should be listed with type of degree in what field, which institution, city, state or country, and year degree was earned. The author's major field of study should be lower-cased.
+
+% The second paragraph uses the pronoun of the person (he or she) and not the author's last name. It lists military and work experience, including summer and fellowship jobs. Job titles are capitalized. The current job must have a location; previous positions may be listed without one. Information concerning previous publications may be included.
+
+% The third paragraph begins with the author's title and last name (e.g., Dr. Smith, Prof. Jones, Mr. Kajor, Ms. Hunter). List any memberships in professional societies other than the IEEE. Finally, list any awards and work for IEEE committees and publications. If a photograph is provided, the biography will be indented around it. The photograph is placed at the top left of the biography. Personal hobbies will be deleted from the biography.
+% \end{IEEEbiography}
+
+% %\vspace{-1cm}
+% \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{photo-men.eps}}]
+% {Second B. Author2} (M'12) was born in City, Country. He received the M. degree in electrical engineering from University of City, Country in 2012.
+
+% The second paragraph uses the pronoun of the person (he or she) and not the author's last name. It lists military and work experience, including similar information to the previous author, including military, work experience, and other jobs. Job titles are capitalized. The current job must have a location; previous positions may be listed without one. Information concerning previous publications may be included.
+
+% The third paragraph begins with the author's title and last name (e.g., Dr. Smith, Prof. Jones, Mr. Kajor, Ms. Hunter), including similar information to the previous author, including the list of any awards and work for IEEE committees and publications. The photograph is placed at the top left of the biography. Personal hobbies will be deleted from the 
+% biography.
+% \end{IEEEbiography}
+
+% %\vspace{-2cm}
+% \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{photo-men.eps}}]
+% {Third C. Author3} (M'99-SM'04-F'09) was born in City, Country. He received the M. and SM. and F. degrees in electrical engineering from University of City, Country in 1999, 2004 and 2009 respectively.
+
+% The second paragraph uses the pronoun of the person (he or she) and not the author's last name. It lists military and work experience, including similar information to the previous author, including military, work experience, and other jobs.
+
+% The third paragraph begins with the author's title and last name (e.g., Dr. Smith, Prof. Jones, Mr. Kajor, Ms. Hunter), including similar information to the previous author, including the list of any awards and work for IEEE committees and publications. The photograph is placed at the top left of the biography. Personal hobbies will be deleted from the biography.
+% %\\ \\ 
+% \end{IEEEbiography}
+
+
+\end{document}

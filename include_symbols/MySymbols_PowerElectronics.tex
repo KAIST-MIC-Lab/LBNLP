@@ -1,0 +1,135 @@
+% --------------------------------------------------------------------------------------
+% TIME CONSTANTS AND SWITCHING FREQUENCY - START
+% --------------------------------------------------------------------------------------	
+\newcommand*{\Tdelay}{T_{\DELAY}} 				% Verzögerungs- oder Wartezeit
+\newcommand*{\Tinterlock}{T_{\INTERLOCK}} 		% Interlock Delay Time
+\newcommand*{\Tersx}[1]{T_{\APPROXIMATION,#1}}
+\newcommand*{\Ters}{T_{\APPROXIMATION}}
+\newcommand*{\Tappx}[1]{T_{\APPROXIMATION,#1}}
+\newcommand*{\Tapp}{T_{\APPROXIMATION}}
+\newcommand*{\Ttot}{T_{\DEAD}}
+\newcommand*{\Tdead}{T_{\DEAD}}
+\newcommand*{\Ton}{T_{\ON}}
+\newcommand*{\Tonref}{T_{\ON,\MYREF}}
+\newcommand*{\Toff}{T_{\OFF}}
+\newcommand*{\Tpwm}{T_{\PWM}}
+\newcommand*{\fpwm}{f_{\PWM}}
+\newcommand*{\Tsvm}{T_{\SVM}}
+\newcommand*{\fsvm}{f_{\SVM}}
+\newcommand*{\Ts}{T_{\mathrm{s}}}
+\newcommand*{\fs}{f_{\mathrm{s}}}
+\newcommand*{\Tsw}{T_{\SWITCHING}}
+\newcommand*{\fsw}{f_{\SWITCHING}}
+\newcommand*{\fSwitching}{f_{\SWITCHING}}
+\newcommand*{\TSwitching}{T_{\SWITCHING}}
+\newcommand*{\Tavg}{\overline{T}}
+\newcommand*{\Tbar}{\overline{T}}
+\newcommand*{\Tcarrier}{T_{\CARRIER}}
+\newcommand*{\fcarrier}{f_{\CARRIER}}
+% --------------------------------------------------------------------------------------
+% TIME CONSTANTS AND SWITCHING FREQUENCY - END
+% --------------------------------------------------------------------------------------	
+
+% --------------------------------------------------------------------------------------
+% VSI VOLTAGES - START
+% --------------------------------------------------------------------------------------	
+% mid-point voltages
+\newcommand*{\uMabc}{\mv{\VOLTAGE}^{\abcCOSY}_{\VMIDPOINT}}
+\newcommand*{\uMa}{\VOLTAGE^{a}_{\VMIDPOINT}}
+\newcommand*{\uMb}{\VOLTAGE^{b}_{\VMIDPOINT}}
+\newcommand*{\uMc}{\VOLTAGE^{c}_{\VMIDPOINT}}
+% common mode voltages
+\newcommand*{\ucm}{\VOLTAGE_{\COMMONMODE}}
+% --------------------------------------------------------------------------------------
+% VSI VOLTAGES - END
+% --------------------------------------------------------------------------------------	
+
+% --------------------------------------------------------------------------------------
+% DC LINK AND INVERTER - START
+% --------------------------------------------------------------------------------------	
+\newcommand*{\udc}{\VOLTAGE_{\DC}}
+\newcommand*{\udcnom}{\VOLTAGE_{\DC,\NOMINAL}}
+\newcommand*{\udcmin}{\VOLTAGE_{\DC,\min}}
+\newcommand*{\udcmax}{\VOLTAGE_{\DC,\max}}
+\newcommand*{\udcinit}{\VOLTAGE_{\DC,0}}
+\newcommand*{\udcref}{\VOLTAGE_{\DC,\MYREF}}
+\newcommand*{\Cdc}{C_{\DC}}
+\newcommand*{\pdc}{p_{\DC}}
+\newcommand*{\idc}{\CURRENT_{\DC}}
+\newcommand*{\implus}{\CURRENT_{\MACHINE}^{+}}
+\newcommand*{\isplus}{\CURRENT_{\STATOR}^{+}}
+\newcommand*{\ifplus}{\CURRENT_{\FILTER}^{+}}
+\newcommand*{\igplus}{\CURRENT_{\GRID}^{+}}
+% --------------------------------------------------------------------------------------
+% DC LINK AND INVERTER - END
+% --------------------------------------------------------------------------------------	
+
+% --------------------------------------------------------------------------------------
+% SWITCHING AND GATE SIGNALS - START
+% --------------------------------------------------------------------------------------
+%	switching signals (general)
+\newcommand*{\sabc}{\mv{\SWITCH}^{\abcCOSY}}
+\newcommand*{\sa}{\SWITCH^a}
+% \renewcommand*{\sb}{\SWITCH^b} % DO NOT UNCOMMENT since command already by Latex --> define e.g. \switchb
+% \renewcommand*{\sc}{\SWITCH^c} % DO NOT UNCOMMENT since command already by Latex --> define e.g. \switchc
+\newcommand*{\sanot}{\overline{\SWITCH}^a}
+\newcommand*{\sbnot}{\overline{\SWITCH}^b}
+\newcommand*{\scnot}{\overline{\SWITCH}^c}
+% stator switching signals
+\newcommand*{\ssabc}{\mv{\SWITCH}_{\STATOR}^{\abcCOSY}}
+\newcommand*{\ssa}{\SWITCH_{\STATOR}^a}
+\newcommand*{\ssb}{\SWITCH_{\STATOR}^b}
+\newcommand*{\ssc}{\SWITCH_{\STATOR}^c}
+\newcommand*{\ssanot}{\overline{\SWITCH}_{\STATOR}^a}
+\newcommand*{\ssbnot}{\overline{\SWITCH}_{\STATOR}^b}
+\newcommand*{\sscnot}{\overline{\SWITCH}_{\STATOR}^c}
+% rotor switching signals
+\newcommand*{\srabc}{\mv{\SWITCH}_{\ROTOR}^{\abcCOSY}}
+\newcommand*{\sra}{\SWITCH_{\ROTOR}^a}
+\newcommand*{\srb}{\SWITCH_{\ROTOR}^b}
+\newcommand*{\src}{\SWITCH_{\ROTOR}^c}
+\newcommand*{\sranot}{\overline{\SWITCH}_{\ROTOR}^a}
+\newcommand*{\srbnot}{\overline{\SWITCH}_{\ROTOR}^b}
+\newcommand*{\srcnot}{\overline{\SWITCH}_{\ROTOR}^c}
+% machine-side switching signals
+\newcommand*{\smabc}{\mv{\SWITCH}_{\MACHINE}^{\abcCOSY}}
+\newcommand*{\sma}{\SWITCH_{\MACHINE}^a}
+\newcommand*{\smb}{\SWITCH_{\MACHINE}^b}
+\newcommand*{\smc}{\SWITCH_{\MACHINE}^c}
+\newcommand*{\smanot}{\overline{\SWITCH}_{\MACHINE}^a}
+\newcommand*{\smbnot}{\overline{\SWITCH}_{\MACHINE}^b}
+\newcommand*{\smcnot}{\overline{\SWITCH}_{\MACHINE}^c}
+% grid-side switching signals
+\newcommand*{\sgabc}{\mv{\SWITCH}_{\GRID}^{\abcCOSY}}
+\newcommand*{\sgabcnot}{\overline{\mv{\SWITCH}}_{\GRID}^{\abcCOSY}}
+\newcommand*{\sga}{\SWITCH_{\GRID}^a}
+\newcommand*{\sgb}{\SWITCH_{\GRID}^b}
+\newcommand*{\sgc}{\SWITCH_{\GRID}^c}
+\newcommand*{\sganot}{\overline{\SWITCH}_{\GRID}^a}
+\newcommand*{\sgbnot}{\overline{\SWITCH}_{\GRID}^b}
+\newcommand*{\sgcnot}{\overline{\SWITCH}_{\GRID}^c}
+% filter-side switching signals
+\newcommand*{\sfabc}{\mv{\SWITCH}_{\FILTER}^{\abcCOSY}}
+% gate signal
+\newcommand*{\gs}[2]{g^{#1}_{#2}}
+\newcommand*{\gsn}[2]{\overline{g}^{#1}_{#2}}
+% --------------------------------------------------------------------------------------
+% SWITCHING SIGNALS - END
+% --------------------------------------------------------------------------------------
+
+% --------------------------------------------------------------------------------------
+% BUCK-/BOOST or BUCK-BOOST CONVERTER - START
+% --------------------------------------------------------------------------------------
+\newcommand*{\ton}{t_{\ON}}
+\newcommand*{\toff}{t_{\OFF}}
+\newcommand*{\uin}{\VOLTAGE_{\MYINPUT}}
+\newcommand*{\iin}{\CURRENT_{\MYINPUT}}
+\newcommand*{\uout}{\VOLTAGE_{\MYOUTPUT}}
+\newcommand*{\iout}{\CURRENT_{\MYOUTPUT}}
+\newcommand*{\uinbar}{\overline{u}_{\MYINPUT}}
+\newcommand*{\iinbar}{\overline{i}_{\MYINPUT}}
+\newcommand*{\uoutbar}{\overline{u}_{\MYOUTPUT}}
+\newcommand*{\ioutbar}{\overline{i}_{\MYOUTPUT}}
+% --------------------------------------------------------------------------------------
+% BUCK-/BOOST or BUCK-BOOST CONVERTER - END
+% --------------------------------------------------------------------------------------

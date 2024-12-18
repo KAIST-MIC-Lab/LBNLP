@@ -1,0 +1,235 @@
+% ----------------------------------------------------------------------------------
+% IDENTICAL DEFINITIONS for ENGLISH and GERMAN - START
+% ----------------------------------------------------------------------------------
+% control
+\newcommand*{\DEZIBEL}{\protect\mathrm{dB}}
+\newcommand*{\MYREF}{\mathrm{ref}}			% reference / Referenz 	
+\newcommand*{\PROPORTIONAL}{\mathrm{p}}		% proportional	
+\newcommand*{\INTEGRATOR}{\mathrm{i}}		% integral / integrierend
+\newcommand*{\DERIVATIVE}{\mathrm{d}}		% differential / differenzierend
+\newcommand*{\INTERNALMODEL}{\mathrm{im}}	% internal model / internes Model
+\newcommand*{\ANTIWINDUP}{\mathrm{aw}}		% anti-windup
+\newcommand*{\SYSTEMSUB}{\mathrm{s}}		% system / System
+\newcommand*{\SYSTEM}{\mathrm{S}}			% system / System
+\newcommand*{\PICON}{\mathrm{pi}}			
+\newcommand*{\FCCON}{\mathrm{fc}}
+\newcommand*{\MEASURED}{\mathrm{m}}			% measured / (ge)messen
+% three phase systems 
+\newcommand*{\dAXIS}{d}
+\newcommand*{\qAXIS}{q}
+\newcommand*{\zeroAXIS}{0}
+\newcommand*{\gammaAXIS}{\gamma}
+\newcommand*{\arAXIS}{a_{\mathrm{r}}}
+\newcommand*{\brAXIS}{b_{\mathrm{r}}}
+\newcommand*{\crAXIS}{c_{\mathrm{r}}}
+\newcommand*{\alphaAXIS}{\alpha}
+\newcommand*{\betaAXIS}{\beta}
+\newcommand*{\kCOSY}{\dAXIS\qAXIS\gammaAXIS}            % [DEPRECATED]
+\newcommand*{\dqgaCOSY}{\dAXIS\qAXIS\gammaAXIS}
+\newcommand*{\dqCOSY}{\dAXIS\qAXIS} 			
+\newcommand*{\sCOSY}{\alphaAXIS\betaAXIS\gammaAXIS}     % [DEPRECATED]
+\newcommand*{\albegaCOSY}{\alphaAXIS\betaAXIS\gammaAXIS}
+\newcommand*{\alphabetaCOSY}{\alphaAXIS\betaAXIS}       % [DEPRECATED]
+\newcommand*{\albeCOSY}{\alphaAXIS\betaAXIS}
+\newcommand*{\abcCOSY}{abc}
+\newcommand*{\uvwCOSY}{uvw}
+\newcommand*{\arbrcrCOSY}{a_{\mathrm{r}}b_{\mathrm{r}}c_{\mathrm{r}}}
+\newcommand*{\AtoB}{a\text{-}b}
+\newcommand*{\BtoA}{b\text{-}a}
+\newcommand*{\BtoC}{b\text{-}c}
+\newcommand*{\CtoB}{c\text{-}b}
+\newcommand*{\CtoA}{c\text{-}a}
+\newcommand*{\AtoC}{a\text{-}c}
+\newcommand*{\LTL}{a\text{-}b\text{-}c}
+\newcommand*{\PARK}{\mathrm{p}}
+\newcommand*{\CLARKE}{\mathrm{c}}	
+\newcommand*{\PHASE}{p}						% phase / Phase
+% electrical signals: voltages, currents, flux linkage, etc
+\newcommand*{\VOLTAGE}{u} 					% voltage (e.g. $u$ or $v$)
+\newcommand*{\CURRENT}{i}					% current
+\newcommand*{\FLUX}{\psi} 					% flux (e.g. $\psi$ or $\lambda$)
+\newcommand*{\TORQUE}{m} 					% torque (e.g. $m$ or $\tau$); attention: note that $\tau$ has conflict with time 
+\newcommand*{\TEMPERATURE}{\vartheta} 		% temperature (e.g. temperature of stator and rotor)
+% power electronics
+\newcommand*{\INTERLOCK}{\mathrm{itl}}		% interlock time
+\newcommand*{\BTB}{\mathrm{btb}}			% back-to-back (converter)
+\newcommand*{\SWITCH}{s} 					% switch / Schalter (e.g. $s$ or $\sigma$); attentation: note that $\sigma$ has conflict with Heaviside function
+% electrical drives
+\newcommand*{\PM}{\mathrm{pm}}				% permanent magnet / Permanentmagnet
+\newcommand*{\EE}{\mathrm{ee}}				% electrical excitation / elektrische Erregung
+\newcommand*{\SE}{\mathrm{se}}
+\newcommand*{\MACHINE}{\mathrm{m}}
+\newcommand*{\GENERATOR}{\mathrm{g}}
+\newcommand*{\MECH}{\mathrm{m}}
+\newcommand*{\STATOR}{\mathrm{s}}
+\newcommand*{\ROTOR}{\mathrm{r}}
+\newcommand*{\EXCITATION}{\mathrm{e}}
+\newcommand*{\ELEC}{\mathrm{el}}
+\newcommand*{\ANKER}{\mathrm{a}}
+\newcommand*{\alpharAXIS}{\alpha_{\ROTOR}}
+\newcommand*{\betarAXIS}{\beta_{\ROTOR}}
+\newcommand*{\gammarAXIS}{\gamma_{\mathrm{r}}}
+\newcommand*{\rCOSY}{\alpharAXIS\betarAXIS\gammarAXIS}      % [DEPRECATED]
+\newcommand*{\alrbergarCOSY}{\alpharAXIS\betarAXIS\gammarAXIS}
+\newcommand*{\alpharbetarCOSY}{\alpharAXIS\betarAXIS}       % [DEPRECATED]
+\newcommand*{\alrberCOSY}{\alpharAXIS\betarAXIS}
+\newcommand*{\IRON}{\mathrm{Fe}}			% iron / Eisen (lat. ferrum)
+\newcommand*{\COPPER}{\mathrm{Cu}}			% copper / Kupfer (lat. Cuprum)
+\newcommand*{\MAGNETIZATION}{\mathrm{m}}	% magnetization / Magnetisierung
+\newcommand*{\RELUCTANCE}{\mathrm{re}}		% reluctance / Reluktanz
+% mechatronics
+\newcommand*{\GEAR}{\mathrm{g}}				% gear / Getriebe
+\newcommand*{\ACTUATOR}{\mathrm{a}}			% actuator / Aktuator
+\newcommand*{\LOAD}{\mathrm{l}}				% load / Last
+% wind turbines
+\newcommand*{\CUTIN}{\mathrm{cut}\text{-}\mathrm{in}}
+\newcommand*{\CUTOUT}{\mathrm{cut}\text{-}\mathrm{out}}
+\newcommand*{\ROTATION}{\mathrm{rot}}		% rotational / rotatorisch
+\newcommand*{\TURBINE}{\mathrm{t}}			% turbine / Turbine
+\newcommand*{\WIND}{\mathrm{w}}				% wind / Wind
+\newcommand*{\PLL}{\mathrm{pll}}			% phase-locked loop (PLL)
+\newcommand*{\FILTER}{\mathrm{f}}			% filter / Filter
+% sensors
+\newcommand*{\ENCODER}{\mathrm{enc}} 		% (incremental) encoder 
+% grid connection
+\newcommand*{\CAPACITANCE}{\mathrm{c}} 		% capacitance of LC or LCL filter
+% Differential Inductances
+\newcommand*{\LDIFF}{\mathcal{L}}
+\newcommand*{\MDIFF}{\mathcal{M}}
+% Differential Resistances
+\newcommand*{\RDIFF}{\mathcal{R}}
+% filters
+\newcommand*{\lcl}{\mathrm{lcl}} 			% lcl
+% ----------------------------------------------------------------------------------
+% IDENTICAL DEFINITIONS for ENGLISH and GERMAN - END
+% ----------------------------------------------------------------------------------
+
+% ----------------------------------------------------------------------------------
+% DIFFERENT DEFINITIONS for ENGLISH and GERMAN - START
+% ----------------------------------------------------------------------------------
+% GERMAN - START
+\ifx \chosenlanguage\germanlanguage % GERMAN
+% math 
+\newcommand*{\foraa}{\mathrm{f{\"u}r f.a.~}} % für fast alle
+% subscripts control 
+\newcommand*{\OBS}{\mathrm{beo}} 			% Beobachter
+\newcommand*{\DO}{\mathrm{sb}} 				% Störgrößenbeobachter
+\newcommand*{\FEEDFORWARD}{\mathrm{VS}} 	% Vorsteuerung
+\newcommand*{\DISTURBANCEFF}{\mathrm{SA}}	% Störgrößenaufschaltung
+\newcommand*{\FEEDBACK}{\mathrm{RF}}		% Rückführun
+\newcommand*{\CL}{\mathrm{RK}} 				% Regelkreis
+\newcommand*{\LPF}{\mathrm{tpf}} 			% Tiefpass-Filter
+\newcommand*{\HPF}{\mathrm{hpf}} 			% Hochpass-Filter
+\newcommand*{\BPF}{\protect\mathrm{hpf}}	% Bandpass Filter
+\newcommand*{\RISE}{\mathrm{an}} 			% Anregelzeit
+\newcommand*{\SETTLE}{\mathrm{aus}} 		% Ausregelzeit
+\newcommand*{\FILTERING}{\mathrm{G}}		% Glättung
+\newcommand*{\FILTERINGSUB}{\mathrm{g}}		% Glättungssubskript
+\newcommand*{\DISTURBANCE}{\mathrm{stoer}}	% Störung
+\newcommand*{\COMPENSATION}{\mathrm{komp}}	% Kompensation
+\newcommand*{\CONTROLLERSUB}{\mathrm{r}}	% Regler (Subskript für z.B. Parameter)
+\newcommand*{\CONTROLLER}{\mathrm{R}}		% Regler (Subskript für Übertragungsfunktionen, etc)
+\newcommand*{\RMS}{\mathrm{eff}}			% Effektivwert
+% power electronics
+\newcommand*{\PWM}{\mathrm{pwm}}			% Pulsweiten-Modulation
+\newcommand*{\SVM}{\mathrm{rzm}}			% Raum-Zeiger-Modulation
+\newcommand*{\CARRIER}{\mathrm{trg}}		% Träger
+\newcommand*{\DC}{\mathrm{zk}} 				% Zwischenkreis 	
+\newcommand*{\SWITCHING}{\mathrm{sf}}		% Schaltfrequenz
+\newcommand*{\APPROXIMATION}{\mathrm{ers}}	% Ersatz...
+\newcommand*{\DEAD}{\mathrm{tot}}			% Tot...
+\newcommand*{\DELAY}{\mathrm{w}} 			% Warte... (Verzögerung...)
+\newcommand*{\ON}{\mathrm{an}}				% An
+\newcommand*{\OFF}{\mathrm{aus}}			% Aus
+\newcommand*{\MYINPUT}{\mathrm{ein}}		% Eingang
+\newcommand*{\MYOUTPUT}{\mathrm{aus}}		% Ausgang
+\newcommand*{\HB}{\mathrm{hb}} 				% H-Brücke oder 4-quadrantensteller
+\newcommand*{\VSI}{\mathrm{fu}} 			% Frequenz-Umrichter (FU) oder Wechselrichter
+\newcommand*{\COMMONMODE}{\mathrm{gs}} 		% Gleichtakt-Spannung
+\newcommand*{\VMIDPOINT}{\mathtt{M}}		% Mittelpunkt
+% electrical drives
+\newcommand*{\SHORTCIRCUIT}{\mathrm{KS}} 	% Kurzschluss
+\newcommand*{\EMF}{\mathrm{emk}} 			% Elektro-motorische Kraft 
+\newcommand*{\FEAS}{\mathrm{mach}} 			% machbare / physikalisch noch stellbare Größe
+\newcommand*{\COOLING}{\mathrm{k}} 			% Kühlung
+\newcommand*{\LOSS}{\mathrm{V}}				% Verlust(e)
+\newcommand*{\NOMINAL}{\mathrm{N}} 			% Nenn...
+% mechatronics
+\newcommand*{\ZMS}{\mathrm{zms}}			% Zwei-Massen-System
+\newcommand*{\STIFF}{\mathrm{starr}}		% starr
+\newcommand*{\ELASTIC}{\mathrm{elastisch}}	% elastische
+\newcommand*{\SHAFT}{\mathrm{w}} 			% Welle	
+\newcommand*{\FRICTION}{\mathrm{r}} 	    % Reibung	
+% wind turbines
+\newcommand*{\DESIRED}{\mathrm{wunsch}}		% Wunsch
+\newcommand*{\GRID}{\mathrm{n}}				% Netz...
+\newcommand*{\PCC}{\mathrm{nep}} 			% Netzeinspeisepunkt
+\newcommand*{\PCCTEXT}{NEP} 				% Netzeinspeisepunkt (NEP) used in Text
+% GERMAN - END
+%
+% ENGLISH - START
+\else % ENGLISH
+% math
+\newcommand*{\foraa}{\mathrm{for a.a.~}}	% for almost all
+% control
+\newcommand*{\OBS}{\mathrm{obs}} 			% obverser
+\newcommand*{\DO}{\mathrm{do}} 				% disturbance obverser
+\newcommand*{\FEEDFORWARD}{\mathrm{FF}} 	% feedforward
+\newcommand*{\DISTURBANCEFF}{\mathrm{DF}}	% disturbance feedforward
+\newcommand*{\FEEDBACK}{\mathrm{FB}}		% feedback 
+\newcommand*{\CL}{\mathrm{CL}} 				% closed loop
+\newcommand*{\LPF}{\protect\mathrm{lpf}}	% low-pass filter
+\newcommand*{\HPF}{\protect\mathrm{hpf}}	% high-pass filter
+\newcommand*{\BPF}{\protect\mathrm{hpf}}	% band-pass filter
+\newcommand*{\RISE}{\mathrm{rise}}			% rise
+\newcommand*{\SETTLE}{\mathrm{settle}}		% settling
+\newcommand*{\FILTERING}{\mathrm{F}}		% filter
+\newcommand*{\FILTERINGSUB}{\mathrm{f}}		% filter subscript
+\newcommand*{\DISTURBANCE}{\mathrm{dist}}	% disturbance
+\newcommand*{\COMPENSATION}{\mathrm{comp}}	% compensation
+\newcommand*{\CONTROLLERSUB}{\mathrm{r}}	% Regler=controller (subscript for e.g. parameters) [as in German to be consistent with Formulary]
+\newcommand*{\CONTROLLER}{\mathrm{C}}		% controller (subscript for e.g. transfer functions)
+% three phase systems
+\newcommand*{\RMS}{\mathrm{rms}}			% root mean square (RMS)
+% power electronics
+\newcommand*{\PWM}{\mathrm{pwm}}			% pulse width modulation (PMW)
+\newcommand*{\SVM}{\mathrm{svm}}			% space vector modulation (SVM)
+\newcommand*{\CARRIER}{\mathrm{car}}		% carrier
+\newcommand*{\DC}{\mathrm{dc}}				% direct current (DC)
+\newcommand*{\AC}{\mathrm{ac}}				% alternating current (AC)
+\newcommand*{\SWITCHING}{\mathrm{sw}}		% switching
+\newcommand*{\APPROXIMATION}{\mathrm{app}}	% approximation 	
+\newcommand*{\DEAD}{\mathrm{dead}}			% dead
+\newcommand*{\DELAY}{\mathrm{delay}}		% delay
+\newcommand*{\ON}{\mathrm{on}}				% on
+\newcommand*{\OFF}{\mathrm{off}}			% off
+\newcommand*{\MYINPUT}{\mathrm{in}}			% input
+\newcommand*{\MYOUTPUT}{\mathrm{out}}		% output
+\newcommand*{\HB}{\mathrm{fb}} 				% full bridge
+\newcommand*{\VSI}{\mathrm{vsi}} 			% voltage source inverter (VSI)
+\newcommand*{\COMMONMODE}{\mathrm{cm}}		% common mode
+\newcommand*{\VMIDPOINT}{\mathtt{M}}		% midpoint
+% electrical drives
+\newcommand*{\SHORTCIRCUIT}{\mathrm{SC}} 	% short circuit
+\newcommand*{\EMF}{\mathrm{emf}} 			% Electro-motive force
+\newcommand*{\FEAS}{\mathrm{feas}} 			% feasible (quantity)
+\newcommand*{\COOLING}{\mathrm{c}} 			% cooling
+\newcommand*{\LOSS}{\mathrm{L}}				% loss(es)
+\newcommand*{\NOMINAL}{\mathrm{R}} 			% rated
+% mechatronics
+\newcommand*{\ZMS}{\mathrm{tms}}			% two-mass system
+\newcommand*{\STIFF}{\mathrm{stiff}}		% stiff
+\newcommand*{\ELASTIC}{\mathrm{elastic}}	% elastic
+\newcommand*{\SHAFT}{\mathrm{s}}			% shaft
+\newcommand*{\FRICTION}{\mathrm{f}} 	    % Friction	
+% wind turbines
+\newcommand*{\DESIRED}{\mathrm{des}}		% desired
+\newcommand*{\GRID}{\mathrm{g}} 			% grid
+\newcommand*{\PCC}{\mathrm{pcc}} 			% point of common coupling (PCC)
+\newcommand*{\PCCTEXT}{PCC} 				% point of common coupling (PCC) used in Text
+%
+\fi
+% ENGLISH - END
+% ----------------------------------------------------------------------------------
+% DIFFERENT DEFINITIONS for ENGLISH and GERMAN - END
+% ----------------------------------------------------------------------------------

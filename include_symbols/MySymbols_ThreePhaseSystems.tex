@@ -1,0 +1,348 @@
+% generic quantities
+\newcommand*{\FLUXvecrmxy}[2]{\mv{\FLUX}_{\mathrm{#1}}^{#2}} 
+\newcommand*{\FLUXrmxy}[2]{\FLUX_{\mathrm{#1}}^{#2}} 
+\newcommand*{\uvecrmxy}[2]{\mv{\VOLTAGE}_{\mathrm{#1}}^{#2}} 
+\newcommand*{\urmxy}[2]{\VOLTAGE_{\mathrm{#1}}^{#2}} 
+\newcommand*{\ivecrmxy}[2]{\mv{\CURRENT}_{\mathrm{#1}}^{#2}} 
+\newcommand*{\irmxy}[2]{i_{\mathrm{#1}}^{#2}} 
+
+%	Transformation matrices
+\newcommand*{\Tc}{\mm{T}_{\!\mathrm{c}}} 					% Clarke-Transformation matrix
+\newcommand*{\Tcbar}{\overline{\mm{T}}_{\!\mathrm{c}}} 		% Clarke-Transformation matrix 2x3
+\newcommand*{\Tltl}{\mm{T}_{\!\LTL}} 						% line-to-line Matrix (not invertible)
+\newcommand*{\Tltlstar}{\mm{T}_{\!\LTL}^{\star}} 			% line-to-line Matrix (INvertible!)
+\newcommand*{\Tcltl}{\mm{T}_{\!\mathrm{c}}^{\LTL}} 			% Clarke-Transformation matrix for line-to-line quantities
+\newcommand*{\Tcltlbar}{\overline{\mm{T}}_{\!\mathrm{c}}^{\LTL}} % Clarke-Transformation matrix for line-to-line quantities
+\newcommand*{\Tcverk}{\mm{T}_{\!\mathrm{c}}^{\LTL}} 		% Clarke-Transformation matrix
+\newcommand*{\Tcstar}{\mm{T}_{\!\mathrm{c}}^{\star}} 		% simplifed Clarke-Transformation matrix 3x2
+\newcommand*{\Tck}[1]{\mm{T}_{\!\mathrm{c},#1}} 			% Clarke-Transformation matrix (with k)
+\newcommand*{\Tckstar}[1]{\mm{T}_{\!\mathrm{c},#1}^{\star}} % simplifed Clarke-Transformation matrix 3x2 (with k)
+\newcommand*{\Tp}{\mm{T}_{\!\PARK}}	 						% Park-Transformation matrix 3x3
+\newcommand*{\Tpbar}{\overline{\mm{T}}_{\!\PARK}} 			% Park-Transformation matrix 2x2
+\newcommand*{\Tpstar}{\mm{T}_{\!\PARK}^{\star}} 			% simplified Park-Transformation matrix 2x2
+\newcommand*{\dotTp}{\dot{\mm{T}}_{\!\PARK}} 				% time derivative of Park-Transformation matrix
+\newcommand*{\dotTpstar}{\dot{\mm{T}}_{\!\PARK}^{\star}} 	% time derivative of simplified Park-Transformation matrix 2x2
+\newcommand*{\J}{\mm{J}} 									% Park-Transformation matrix for phi=90°
+\newcommand*{\Jprime}{\mm{J}^\prime} 					    % Park-Transformation matrix for phi=90° (3x3) but with zero gamma row/column
+\newcommand*{\Jim}{\mm{J}_{\INTERNALMODEL}} 				% Internal model matrix 
+\newcommand*{\Jsum}{\mm{J}_{\sum}} 							% Park-Transformation matrix for phi=90°
+\newcommand*{\Jbar}{\overline{\mm{J}}} 						% Park-Transformation matrix for phi=90° 2x2
+\newcommand*{\Jalpha}{\mm{J}_{\!\alpha}} 					% Park-Transformation matrix for phi=90° (general case)
+\newcommand*{\Jzero}{\mm{J}_{\!0}} 							% Park-Transformation matrix for phi=90° (for back EMF)
+\newcommand*{\Jone}{\mm{J}_{\!1}} 							% Park-Transformation matrix for phi=90° (for torque generation)
+\newcommand*{\Jstar}{\mm{J}^{\star}} 						% simplified Park-Transformation matrix for phi=90°: 2x2
+\newcommand*{\Tv}{\mm{T}_{\mathrm{v}}} 						% phase-> ltl transformation matrix (singular!)
+
+
+% angle and velocity (using subscript P)
+\newcommand*{\phiP}{\phi_{\PARK}}
+\newcommand*{\phiPinit}{\phi_{\PARK,0}}
+\newcommand*{\phiPnom}{\phi_{\PARK,\NOMINAL}}
+\newcommand*{\phiPtilde}{\widetilde{\phi}_{\PARK,0}}
+\newcommand*{\wP}{\omega_{\PARK}}
+\newcommand*{\wPx}[1]{\omega_{\PARK,#1}}
+\newcommand*{\omegaP}{\omega_{\PARK}}
+\newcommand*{\omegaPnom}{\omega_{\PARK,\NOMINAL}}
+\newcommand*{\omegaPinit}{\omega_{\PARK,0}}
+\newcommand*{\omegaPtilde}{\widetilde{\omega}_{\PARK}}
+
+%	power (instantenous, active, reactive, apparent)
+\newcommand*{\psim}{p_{\sim}}
+\newcommand*{\pthreesim}{p_{3\sim}}
+\newcommand*{\qthreesim}{q_{3\sim}}
+\newcommand*{\sthreesim}{s_{3\sim}}
+\newcommand*{\Psim}{P_{\sim}}
+\newcommand*{\Pthreesim}{P_{3\sim}}
+\newcommand*{\Ssim}{S_{\sim}}
+\newcommand*{\Sthreesim}{S_{3\sim}}
+\newcommand*{\Qsim}{Q_{\sim}}
+\newcommand*{\Qthreesim}{Q_{3\sim}}
+
+%	three phase system
+% currents
+\newcommand*{\iabc}{\mv{\CURRENT}^{\abcCOSY}}
+\newcommand*{\ia}{\CURRENT^a}
+\newcommand*{\ib}{\CURRENT^b}
+\newcommand*{\ic}{\CURRENT^c}
+\newcommand*{\iabcverk}{\mv{\CURRENT}^{\LTL}}
+\newcommand*{\iabcltl}{\mv{\CURRENT}^{\LTL}}
+\newcommand*{\iltl}{\mv{\CURRENT}^{\LTL}}
+\newcommand*{\is}{\mv{\CURRENT}^{\sCOSY}}       % [DEPRECATED]
+\newcommand*{\ialbega}{\mv{\CURRENT}^{\albegaCOSY}}
+\newcommand*{\ialbe}{\mv{\CURRENT}^{\albeCOSY}}
+\newcommand*{\ialpha}{\CURRENT^{\alpha}}
+\newcommand*{\ibeta}{\CURRENT^{\beta}}
+\newcommand*{\ik}{\mv{\CURRENT}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\idqga}{\mv{\CURRENT}^{\dqgaCOSY}}
+\newcommand*{\idq}{\mv{\CURRENT}^{\dqCOSY}}
+\newcommand*{\id}{\CURRENT^{\dAXIS}}
+\newcommand*{\iq}{\CURRENT^{\qAXIS}}
+\newcommand*{\iab}{\CURRENT^{\AtoB}}
+\newcommand*{\ibc}{\CURRENT^{\BtoC}}
+\newcommand*{\ica}{\CURRENT^{\CtoA}}
+\newcommand*{\idqinit}{\mv{\CURRENT}_{0}^{\dqCOSY}}
+
+% voltages
+\newcommand*{\uabc}{\mv{\VOLTAGE}^{\abcCOSY}}
+\newcommand*{\uabcbar}{\overline{\mv{\VOLTAGE}}^{\abcCOSY}}
+\newcommand*{\uabcavg}{\overline{\mv{\VOLTAGE}}^{\abcCOSY}}
+\newcommand*{\ua}{\VOLTAGE^a}
+\newcommand*{\ub}{\VOLTAGE^b}
+\newcommand*{\uc}{\VOLTAGE^c}
+\newcommand*{\uabcverk}{\mv{\VOLTAGE}^{\LTL}}
+\newcommand*{\uabcltl}{\mv{\VOLTAGE}^{\LTL}}
+\newcommand*{\ultl}{\mv{\VOLTAGE}^{\LTL}}
+\newcommand*{\uab}{\VOLTAGE^{\AtoB}}
+\newcommand*{\uba}{\VOLTAGE^{\BtoA}}
+\newcommand*{\ubc}{\VOLTAGE^{\BtoC}}
+\newcommand*{\ucb}{\VOLTAGE^{\CtoB}}
+\newcommand*{\uca}{\VOLTAGE^{\CtoA}}
+\newcommand*{\uac}{\VOLTAGE^{\AtoC}}
+\newcommand*{\uk}{\mv{\VOLTAGE}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\ukbar}{\overline{\mv{\VOLTAGE}}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\ukavg}{\overline{\mv{\VOLTAGE}}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\udqga}{\mv{\VOLTAGE}^{\dqgaCOSY}}
+\newcommand*{\udqgabar}{\overline{\mv{\VOLTAGE}}^{\dqgaCOSY}}
+\newcommand*{\udqgaavg}{\overline{\mv{\VOLTAGE}}^{\dqgaCOSY}}
+\newcommand*{\udq}{\mv{\VOLTAGE}^{\dqCOSY}}
+\newcommand*{\udqbar}{\overline{\mv{\VOLTAGE}}^{\dqCOSY}}
+\newcommand*{\udqavg}{\overline{\mv{\VOLTAGE}}^{\dqCOSY}}
+\newcommand*{\ud}{\VOLTAGE^{\dAXIS}}
+\newcommand*{\uq}{\VOLTAGE^{\qAXIS}}
+\newcommand*{\us}{\mv{\VOLTAGE}^{\sCOSY}}       % [DEPRECATED]
+\newcommand*{\ualbega}{\mv{\VOLTAGE}^{\albegaCOSY}}
+\newcommand*{\ualbe}{\mv{\VOLTAGE}^{\albeCOSY}}
+\newcommand*{\ualpha}{\VOLTAGE^{\alpha}}
+\newcommand*{\ubeta}{\VOLTAGE^{\beta}}
+\newcommand*{\ugamma}{\VOLTAGE^{\gamma}}
+\newcommand*{\uzero}{\VOLTAGE^0}
+\newcommand*{\uabcground}{\mv{\VOLTAGE}^{\abcCOSY0}}
+
+% magnetic flux linkages
+\newcommand*{\psidqtilde}{\widetilde{\mv{\FLUX}}^{\dqCOSY}}
+\newcommand*{\psidqinit}{\mv{\FLUX}_{0}^{\dqCOSY}}
+\newcommand*{\psidqop}{\overline{\mv{\psi}}^{\dqCOSY}}
+
+%	references
+% voltages
+\newcommand*{\uabcref}{\mv{\VOLTAGE}^{\abcCOSY}_{\MYREF}}
+\newcommand*{\uaref}{\VOLTAGE^a_{\MYREF}}
+\newcommand*{\ubref}{\VOLTAGE^b_{\MYREF}}
+\newcommand*{\ucref}{\VOLTAGE^c_{\MYREF}}
+\newcommand*{\usref}{\mv{\VOLTAGE}^{\sCOSY}_{\MYREF}}       % [DEPRECATED]
+\newcommand*{\ualbegaref}{\mv{\VOLTAGE}^{\albegaCOSY}_{\MYREF}}
+\newcommand*{\ualberef}{\mv{\VOLTAGE}^{\albeCOSY}_{\MYREF}}
+\newcommand*{\ualpharef}{\VOLTAGE^{\alpha}_{\MYREF}}
+\newcommand*{\ubetaref}{\VOLTAGE^{\beta}_{\MYREF}}
+\newcommand*{\ukref}{\mv{\VOLTAGE}^{\kCOSY}_{\MYREF}}       % [DEPRECATED]
+\newcommand*{\udqgaref}{\mv{\VOLTAGE}^{\dqgaCOSY}_{\MYREF}}
+\newcommand*{\udqref}{\mv{\VOLTAGE}^{\dqCOSY}_{\MYREF}}
+\newcommand*{\udref}{\VOLTAGE^{\dAXIS}_{\MYREF}}
+\newcommand*{\uqref}{\VOLTAGE^{\qAXIS}_{\MYREF}}
+% currents
+\newcommand*{\iabcref}{\mv{\CURRENT}^{\abcCOSY}_{\MYREF}}
+\newcommand*{\iaref}{\CURRENT^a_{\MYREF}}
+\newcommand*{\ibref}{\CURRENT^b_{\MYREF}}
+\newcommand*{\icref}{\CURRENT^c_{\MYREF}}
+\newcommand*{\isref}{\mv{\CURRENT}^{\sCOSY}_{\MYREF}}       % [DEPRECATED]
+\newcommand*{\ialbegaref}{\mv{\CURRENT}^{\albegaCOSY}_{\MYREF}}
+\newcommand*{\ialberef}{\mv{\CURRENT}^{\albeCOSY}_{\MYREF}}
+\newcommand*{\ialpharef}{\CURRENT^{\alpha}_{\MYREF}}
+\newcommand*{\ibetaref}{\CURRENT^{\beta}_{\MYREF}}
+\newcommand*{\ikref}{\mv{\CURRENT}^{\kCOSY}_{\MYREF}}       % [DEPRECATED]
+\newcommand*{\idqgaref}{\mv{\CURRENT}^{\dqgaCOSY}_{\MYREF}}
+\newcommand*{\idqref}{\mv{\CURRENT}^{\dqCOSY}_{\MYREF}}
+\newcommand*{\idref}{\CURRENT^{\dAXIS}_{\MYREF}}
+\newcommand*{\iqref}{\CURRENT^{\qAXIS}_{\MYREF}}
+% resistances
+\newcommand*{\Rdq}{\mm{R}^{\dqCOSY}}
+\newcommand*{\Rdqga}{\mm{R}^{\dqgaCOSY}}
+
+%	disturbance and compensation terms
+\newcommand*{\ukstoer}{\mv{\VOLTAGE}_{\DISTURBANCE}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\udqgastoer}{\mv{\VOLTAGE}_{\DISTURBANCE}^{\dqgaCOSY}}
+\newcommand*{\udqstoer}{\mv{\VOLTAGE}_{\DISTURBANCE}^{\dqCOSY}}
+\newcommand*{\udstoer}{\VOLTAGE_{\DISTURBANCE}^{\dAXIS}}
+\newcommand*{\uqstoer}{\VOLTAGE_{\DISTURBANCE}^{\qAXIS}}
+\newcommand*{\ukkomp}{\mv{\VOLTAGE}_{\COMPENSATION}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\udqgakomp}{\mv{\VOLTAGE}_{\COMPENSATION}^{\dqgaCOSY}}
+\newcommand*{\udqkomp}{\mv{\VOLTAGE}_{\COMPENSATION}^{\dqCOSY}}
+\newcommand*{\udkomp}{\VOLTAGE_{\COMPENSATION}^{\dAXIS}}
+\newcommand*{\uqkomp}{\VOLTAGE_{\COMPENSATION}^{\qAXIS}}
+\newcommand*{\usdist}{\mv{\VOLTAGE}_{\DISTURBANCE}^{\sCOSY}}       % [DEPRECATED]
+\newcommand*{\ualbegadist}{\mv{\VOLTAGE}_{\DISTURBANCE}^{\albegaCOSY}}
+\newcommand*{\ualbedist}{\mv{\VOLTAGE}_{\DISTURBANCE}^{\albeCOSY}}
+\newcommand*{\ualphadist}{\VOLTAGE_{\DISTURBANCE}^{\alpha}}
+\newcommand*{\ubetadist}{\VOLTAGE_{\DISTURBANCE}^{\beta}}
+\newcommand*{\ukdist}{\mv{\VOLTAGE}_{\DISTURBANCE}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\udqgadist}{\mv{\VOLTAGE}_{\DISTURBANCE}^{\dqgaCOSY}}
+\newcommand*{\udqdist}{\mv{\VOLTAGE}_{\DISTURBANCE}^{\dqCOSY}}
+\newcommand*{\uddist}{\VOLTAGE_{\DISTURBANCE}^{\dAXIS}}
+\newcommand*{\uqdist}{\VOLTAGE_{\DISTURBANCE}^{\qAXIS}}
+\newcommand*{\ukcomp}{\mv{\VOLTAGE}_{\COMPENSATION}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\udqgacomp}{\mv{\VOLTAGE}_{\COMPENSATION}^{\dqgaCOSY}}
+\newcommand*{\udqcomp}{\mv{\VOLTAGE}_{\COMPENSATION}^{\dqCOSY}}
+\newcommand*{\udcomp}{\VOLTAGE_{\COMPENSATION}^{\dAXIS}}
+\newcommand*{\uqcomp}{\VOLTAGE_{\COMPENSATION}^{\qAXIS}}
+\newcommand*{\uscomp}{\mv{\VOLTAGE}_{\COMPENSATION}^{\sCOSY}}       % [DEPRECATED]
+\newcommand*{\ualbegacomp}{\mv{\VOLTAGE}_{\COMPENSATION}^{\albegaCOSY}}
+\newcommand*{\ualbecomp}{\mv{\VOLTAGE}_{\COMPENSATION}^{\albeCOSY}}
+\newcommand*{\ualphacomp}{\VOLTAGE_{\COMPENSATION}^{\alpha}}
+\newcommand*{\ubetacomp}{\VOLTAGE_{\COMPENSATION}^{\beta}}
+
+% amplitudes of and maximal currents and voltages
+\newcommand*{\ihat}{\widehat{\imath}}
+\newcommand*{\imax}{\widehat{\imath}_{\max}}
+\newcommand*{\iahat}{\widehat{\imath}^a}
+\newcommand*{\ibhat}{\widehat{\imath}^b}
+\newcommand*{\ichat}{\widehat{\imath}^c}
+\newcommand*{\uahat}{\widehat{\VOLTAGE}^a}
+\newcommand*{\ubhat}{\widehat{\VOLTAGE}^b}
+\newcommand*{\uchat}{\widehat{\VOLTAGE}^c}
+
+% positive / negative / zero sequence
+\newcommand*{\uphat}{\widehat{\VOLTAGE}^+}
+\newcommand*{\unhat}{\widehat{\VOLTAGE}^-}
+\newcommand*{\uzhat}{\widehat{\VOLTAGE}^0}
+
+% angles
+\newcommand*{\phia}{\phi^a}
+\newcommand*{\phib}{\phi^b}
+\newcommand*{\phic}{\phi^c}
+\newcommand*{\phips}{\phi^+}
+\newcommand*{\phins}{\phi^-}
+\newcommand*{\phizs}{\phi^0}
+
+% angles
+\newcommand*{\phiax}{\phi^a_x}
+\newcommand*{\phibx}{\phi^b_x}
+\newcommand*{\phicx}{\phi^c_x}
+\newcommand*{\phipsx}{\phi^+_x}
+\newcommand*{\phinsx}{\phi^-_x}
+\newcommand*{\phizsx}{\phi^0_x}
+
+
+% general signal
+\newcommand*{\xabc}{\mv{x}^{\abcCOSY}}
+\newcommand*{\xabchat}{\widehat{\mv{x}}^{\abcCOSY}}
+\newcommand*{\xabcps}{\mv{x}^{\abcCOSY}_{+}}
+\newcommand*{\xabcns}{\mv{x}^{\abcCOSY}_{-}}
+\newcommand*{\xabczs}{\mv{x}^{\abcCOSY}_{0}}
+\newcommand*{\xsps}{\mv{x}^{\sCOSY}_{+}}       % [DEPRECATED]
+\newcommand*{\xsns}{\mv{x}^{\sCOSY}_{-}}       % [DEPRECATED]
+\newcommand*{\xszs}{\mv{x}^{\sCOSY}_{0}}       % [DEPRECATED]
+\newcommand*{\xalbegaPositive}{\mv{x}^{\albegaCOSY}_{+}}
+\newcommand*{\xalbegaNegative}{\mv{x}^{\albegaCOSY}_{-}}
+\newcommand*{\xalbegaZero}{\mv{x}^{\albegaCOSY}_{0}}
+\newcommand*{\xalbePositive}{\mv{x}^{\albeCOSY}_{+}}
+\newcommand*{\xalbeNegative}{\mv{x}^{\albeCOSY}_{-}}
+\newcommand*{\xalbeZero}{\mv{x}^{\albeCOSY}_{0}}
+
+\newcommand*{\xa}{x^a}
+\newcommand*{\xb}{x^b}
+\newcommand*{\xc}{x^c}
+
+\newcommand*{\xp}{x^+}
+\newcommand*{\xn}{x^-}
+\newcommand*{\xz}{x^0}
+\newcommand*{\xahat}{\widehat{x}^a}
+\newcommand*{\xbhat}{\widehat{x}^b}
+\newcommand*{\xchat}{\widehat{x}^c}
+\newcommand*{\xpshat}{\widehat{x}^+}
+\newcommand*{\xnshat}{\widehat{x}^-}
+\newcommand*{\xzshat}{\widehat{x}^0}
+
+\newcommand*{\xabcverk}{\mv{x}^{\LTL}}
+\newcommand*{\xabcltl}{\mv{x}^{\LTL}}
+\newcommand*{\xltl}{\mv{x}^{\LTL}}
+\newcommand*{\xab}{x^{\AtoB}}
+\newcommand*{\xbc}{x^{\BtoC}}
+\newcommand*{\xca}{x^{\CtoA}}
+\newcommand*{\xs}{\mv{x}^{\sCOSY}}       % [DEPRECATED]
+\newcommand*{\xalbega}{\mv{x}^{\albegaCOSY}}
+\newcommand*{\xalbe}{\mv{x}^{\albeCOSY}}
+\newcommand*{\xalbehat}{\widehat{\mv{x}}^{\albeCOSY}}
+\newcommand*{\xalpha}{x^{\alpha}}
+\newcommand*{\xbeta}{x^{\beta}}
+\newcommand*{\xr}{\mv{x}^{\rCOSY}}       % [DEPRECATED]
+\newcommand*{\xalrbergar}{\mv{x}^{\alrbergarCOSY}}
+\newcommand*{\xalrber}{\mv{x}^{\alrberCOSY}}
+\newcommand*{\xk}{\mv{x}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\xdqga}{\mv{x}^{\dqgaCOSY}}
+\newcommand*{\xdq}{\mv{x}^{\dqCOSY}}
+\newcommand*{\xd}{x^{\dAXIS}}
+\newcommand*{\xq}{x^{\qAXIS}}
+\newcommand*{\xzero}{x^0}
+
+%	Effektivwerte (root-mean square)
+\newcommand*{\Ieff}{I_{\RMS}}
+\newcommand*{\Ueff}{U_{\RMS}}
+\newcommand*{\IeffY}{I_{\RMS}^{\Ydown}}
+\newcommand*{\IeffT}{I_{\RMS}^{\vartriangle}}
+\newcommand*{\UeffY}{U_{\RMS}^{\Ydown}}
+\newcommand*{\UeffT}{U_{\RMS}^{\vartriangle}}
+\newcommand*{\Ieffverk}{I_{\RMS}^{\LTL}}
+\newcommand*{\Ieffstr}{I_{\RMS}^{\PHASE}}
+\newcommand*{\Ueffverk}{U_{\RMS}^{\LTL}}
+\newcommand*{\Ueffstr}{U_{\RMS}^{\PHASE}}
+
+%	arbitrary signal
+\newcommand*{\XeffY}{X_{\RMS}^{\Ydown}}
+\newcommand*{\XeffT}{X_{\RMS}^{\vartriangle}}
+\newcommand*{\Xeff}{X_{\RMS}}
+\newcommand*{\Xeffverk}{X_{\RMS}^{\LTL}}
+\newcommand*{\Xeffstr}{X_{\RMS}^{\PHASE}}
+
+% unbalanced three-phase systems (estimates, +-0-sequence signals)
+% general signal
+\newcommand*{\yabc}{\mv{y}^{\abcCOSY}}
+\newcommand*{\ya}{y^a}
+\newcommand*{\yb}{y^b}
+\newcommand*{\yc}{y^c}
+\newcommand*{\yab}{y^{\AtoB}}
+\newcommand*{\ybc}{y^{\BtoC}}
+\newcommand*{\yca}{y^{\CtoA}}
+\newcommand*{\ys}{\mv{y}^{\sCOSY}}       % [DEPRECATED]
+\newcommand*{\yalbega}{\mv{y}^{\albegaCOSY}}
+\newcommand*{\yalbe}{\mv{y}^{\albeCOSY}}
+\newcommand*{\yalpha}{y^{\alpha}}
+\newcommand*{\ybeta}{y^{\beta}}
+\newcommand*{\yr}{\mv{y}^{\rCOSY}}       % [DEPRECATED]
+\newcommand*{\yalrbergar}{\mv{y}^{\alrbergarCOSY}}
+\newcommand*{\yalrber}{\mv{y}^{\alrberCOSY}}
+\newcommand*{\yk}{\mv{y}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\ydqga}{\mv{y}^{\dqgaCOSY}}
+\newcommand*{\ydq}{\mv{y}^{\dqCOSY}}
+% quadrature signal
+\newcommand*{\qabc}{\mv{q}^{\abcCOSY}}
+\newcommand*{\qa}{q^a}
+\newcommand*{\qb}{q^b}
+\newcommand*{\qc}{q^c}
+% +-0-sequence
+\newcommand*{\yabcp}{\mv{y}^{\abcCOSY}_{+}}
+\newcommand*{\yabcn}{\mv{y}^{\abcCOSY}_{-}}
+\newcommand*{\yabcz}{\mv{y}^{\abcCOSY}_{0}}
+\newcommand*{\ysp}{\mv{y}^{\sCOSY}_{+}}       % [DEPRECATED]
+\newcommand*{\ysn}{\mv{y}^{\sCOSY}_{-}}       % [DEPRECATED]
+\newcommand*{\ysz}{\mv{y}^{\sCOSY}_{0}}       % [DEPRECATED]
+\newcommand*{\yalbegaPositive}{\mv{y}^{\albegaCOSY}_{+}}
+\newcommand*{\yalbegaNegative}{\mv{y}^{\albegaCOSY}_{-}}
+\newcommand*{\yalbegaZero}{\mv{y}^{\albegaCOSY}_{0}} 
+\newcommand*{\yalbePositive}{\mv{y}^{\albeCOSY}_{+}}
+\newcommand*{\yalbeNegative}{\mv{y}^{\albeCOSY}_{-}}
+\newcommand*{\yalbeZero}{\mv{y}^{\albeCOSY}_{0}} 
+\newcommand*{\yp}{y^+}
+\newcommand*{\yn}{y^-}
+\newcommand*{\yz}{y^0}
+% estimates
+\newcommand*{\yabchat}{\widehat{\mv{y}}^{\abcCOSY}}
+\newcommand*{\yahat}{\widehat{y}^a}
+\newcommand*{\ybhat}{\widehat{y}^b}
+\newcommand*{\ychat}{\widehat{y}^c}
+\newcommand*{\yphat}{\widehat{y}^+}
+\newcommand*{\ynhat}{\widehat{y}^-}
+\newcommand*{\yzhat}{\widehat{y}^0}
+\newcommand*{\qabchat}{\widehat{\mv{q}}^{\abcCOSY}}
+\newcommand*{\qahat}{\widehat{q}^a}
+\newcommand*{\qbhat}{\widehat{q}^b}
+\newcommand*{\qchat}{\widehat{q}^c}

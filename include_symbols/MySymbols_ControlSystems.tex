@@ -1,0 +1,276 @@
+% some abbreviations
+\newcommand*{\PTone}{\mathrm{PT}_1}
+\newcommand*{\PTtwo}{\mathrm{PT}_2}
+\newcommand*{\PTthree}{\mathrm{PT}_3}
+\newcommand*{\ITone}{\mathrm{IT}_1}
+\newcommand*{\ITtwo}{\mathrm{IT}_2}
+\newcommand*{\Pcontroller}{\mathrm{P}}
+\newcommand*{\PIcontroller}{\mathrm{PI}}
+\newcommand*{\PDcontroller}{\mathrm{PD}}
+\newcommand*{\PIDcontroller}{\mathrm{PID}}
+\newcommand*{\FC}{\mathrm{FC}}
+
+% some transfer functions
+\newcommand*{\FITone}{F_{\mathrm{IT}_1}}
+\newcommand*{\FPTone}{F_{\mathrm{PT}_1}}
+\newcommand*{\FPTtwo}{F_{\mathrm{PT}_2}}
+\newcommand*{\FI}{F_{\mathrm{I}}}
+\newcommand*{\FR}{F_{\CONTROLLER}}
+\newcommand*{\FRx}[1]{F_{\CONTROLLER,#1}}
+\newcommand*{\FRF}{F_{\FEEDBACK}}
+\newcommand*{\FRK}{F_{\CL}}
+\newcommand*{\FRKx}[1]{F_{\CL,#1}}
+\newcommand*{\FP}{F_{\mathrm{P}}}
+\newcommand*{\FPI}{F_{\mathrm{PI}}}
+\newcommand*{\FPID}{F_{\mathrm{PID}}}
+\newcommand*{\FPD}{F_{\mathrm{PD}}}
+\newcommand*{\FS}{F_{\SYSTEM}}
+\newcommand*{\FSx}[1]{F_{\SYSTEM,#1}}
+\newcommand*{\FGx}[1]{F_{\FILTERING,#1}}
+\newcommand*{\FG}{F_{\FILTERING}}
+\newcommand*{\FVS}{F_{\FEEDFORWARD}}
+\newcommand*{\FSA}{F_{\DISTURBANCEFF}}
+\newcommand*{\FX}[1]{F_{\mathrm{#1}}}
+
+%	system classes
+\newcommand*{\sclass}[1]{\mathcal{#1}}
+\newcommand*{\Sonelin}{\sclass{S}_1^{\lin}}
+\newcommand*{\Stwolin}{\sclass{S}_2^{\lin}}
+\newcommand*{\Sone}{\sclass{S}_1}
+\newcommand*{\Sonesat}{\sclass{S}_1^{\sat}}
+\newcommand*{\Stwo}{\sclass{S}_2}
+\newcommand*{\Stwosat}{\sclass{S}_2^{\sat}}
+
+% root locus
+\newcommand*{\RLk}{\mathcal{RL}_k}
+
+%	my (gain) scaling
+\newcommand*{\GSC}{\varsigma}
+\newcommand*{\GSCmin}{\underline{\varsigma}}
+%	high-frequency gain
+\newcommand*{\HFG}{\gamma_0}
+%	steady-state gain
+\newcommand*{\SSG}{\gamma_{\infty}}
+%	root locus center
+\newcommand*{\RLC}{\Xi}
+
+%	internal model
+\newcommand*{\xIM}{\mv{x}_{\INTERNALMODEL}}
+\newcommand*{\cIM}{\mv{c}_{\INTERNALMODEL}}
+\newcommand*{\bIM}{\mv{b}_{\INTERNALMODEL}}
+\newcommand*{\AIM}{\mm{A}_{\INTERNALMODEL}}
+\newcommand*{\uIM}{u_{\INTERNALMODEL}}
+\newcommand*{\FIM}{F_{\INTERNALMODEL}}
+\newcommand*{\NIM}{N_{\INTERNALMODEL}}
+\newcommand*{\NIMhat}{\widehat{N}_{\INTERNALMODEL}}
+\newcommand*{\DIM}{D_{\INTERNALMODEL}}
+\newcommand*{\rIM}{r_{\INTERNALMODEL}} 
+\newcommand*{\HFGIM}{\HFG^\INTERNALMODEL} 
+
+%	Anti-windup
+\newcommand*{\fdaw}{f_{\mathrm{aw}}^\delta}
+\newcommand*{\fdiaw}[1]{f_{\mathrm{aw}}^{\delta_{#1}}}
+
+% Nussbaum function
+\newcommand*{\fnb}{f_{\mathrm{nb}}} 
+
+% PID control
+\newcommand*{\xI}{x_{\INTEGRATOR}}
+\newcommand*{\xIinit}{x_{\INTEGRATOR,0}}
+\newcommand*{\xIvec}{\mv{x}_{\INTEGRATOR}}
+\newcommand*{\xIvecinit}{\mv{x}_{\INTEGRATOR,0}}
+\newcommand*{\xdI}{\dot{x}_{\INTEGRATOR}}
+\newcommand*{\dotxI}{\dot{x}_{\INTEGRATOR}}
+\newcommand*{\kP}{k_{\PROPORTIONAL}}
+\newcommand*{\kI}{k_{\INTEGRATOR}}
+\newcommand*{\kD}{k_{\DERIVATIVE}}
+\newcommand*{\uvecpi}{\mv{u}_{\mathrm{pi}}}
+\newcommand*{\uvecpiff}{\mv{u}_{\mathrm{pi+}+\FEEDFORWARD}}
+\newcommand*{\uI}{k_{\INTEGRATOR}}
+\newcommand*{\uD}{u_{\DERIVATIVE}}
+
+% state feedback
+\newcommand*{\kV}{k_{\mathrm{v}}}
+
+%	FUNNEL CONTROL 
+%	boundaries
+\newcommand*{\pFC}{\psi}
+\newcommand*{\pFE}{\psi_{\mathrm{exp}}}
+\newcommand*{\pFexp}{\psi_{0,\mathrm{exp}}}
+\newcommand*{\pFdexp}{\psi_{1,\mathrm{exp}}}
+\newcommand*{\Texp}{T_{\mathrm{exp}}}
+\newcommand*{\pFlin}{\psi_{0,\mathrm{lin}}}
+\newcommand*{\pFdlin}{\psi_{1,\mathrm{lin}}}
+\newcommand*{\Tlin}{T_{\mathrm{lin}}}
+\newcommand*{\pFgau}{\psi_{0,\mathrm{gau}}}
+\newcommand*{\pFdgau}{\psi_{1,\mathrm{gau}}}
+\newcommand*{\Tgau}{T_{\mathrm{gau}}}
+\newcommand*{\pFphi}{\mathcal{F}_{\phi}}
+\newcommand*{\eps}{\varepsilon}
+\newcommand*{\dFUT}{d_{\mathrm{f}}}
+\newcommand*{\tFUT}{t_{\mathrm{f}}}
+\newcommand*{\uvecfc}{\mv{u}_{\mathrm{fc}}}
+
+%	certain instants of time / time constants
+\newcommand*{\tstar}{t^{\star}}
+\newcommand*{\tlstar}{t_{\star}}
+\newcommand*{\tend}{t_{\mathrm{end}}}
+\newcommand*{\Tref}{T_{\MYREF}}
+
+%	Reference signals and function spaces
+\newcommand*{\yref}{y_{\MYREF}}
+\newcommand*{\yrefhat}{\widehat{y}_{\MYREF}}
+\newcommand*{\yrefx}[1]{y_{\MYREF,#1}}
+\newcommand*{\yd}{\dot{y}}
+\newcommand*{\ydd}{\ddot{y}}
+\newcommand*{\ydref}{\dot{y}_{\MYREF}}
+\newcommand*{\yddref}{\ddot{y}_{\MYREF}}
+\newcommand*{\yhatref}{\widehat{y}_{\MYREF}}
+\newcommand*{\Yref}{Y_{\MYREF}}
+
+%	gains 
+\newcommand*{\kmax}{k_{\max}}
+\newcommand*{\kvecmax}{\mv{k}_{\max}}
+\newcommand*{\kinf}{k_{\infty}}
+\newcommand*{\kmin}{k_{\min}}
+\newcommand*{\kstar}{k^{\star}}
+
+%	state space representation
+% control action
+\newcommand*{\ufeas}{\widehat{u}_{\mathrm{feas}}}
+\newcommand*{\uhat}{\widehat{u}}
+\newcommand*{\uhatref}{\widehat{u}_{\MYREF}}
+\newcommand*{\usat}{u_{\sat}}
+\newcommand*{\tus}{t_{\mathrm{us}}}
+\newcommand*{\vhat}{\widehat{v}}
+\newcommand*{\umax}{u_{\max}}
+\newcommand*{\uFF}{u_{\FEEDFORWARD}}
+\newcommand*{\dinput}{d_u}
+\newcommand*{\ustar}{u^{\star}}
+\newcommand*{\uFC}{u_{{\mathrm{fc}}}}
+\newcommand*{\uAS}{u_{{\mathrm{as}}}}
+
+
+%	control objectives
+\newcommand*{\tAN}{t_{\RISE}}
+\newcommand*{\tAUS}{t_{\SETTLE}}
+\newcommand*{\trise}[1]{t_{y(\cdot),{#1}}^{\RISE}}
+\newcommand*{\triseref}[1]{t_{{\MYREF},{#1}}^{\RISE}}
+\newcommand*{\tset}[1]{t_{y(\cdot),{#1}}^{\SETTLE}}
+\newcommand*{\tsetref}[1]{t_{{\MYREF},{#1}}^{\SETTLE}}
+\newcommand*{\os}{\Delta_{y(\cdot)}}
+\newcommand*{\osref}{\Delta_{\MYREF}}
+% 	performance measures
+\newcommand{\ITAE}{\mathrm{ITAE}}
+\newcommand{\ISE}{\mathrm{ISE}}
+\newcommand{\IAE}{\mathrm{IAE}}
+
+
+% feedforward
+\newcommand*{\uvecff}{\mv{u}_{\FEEDFORWARD}}
+
+% important constants
+\newcommand*{\Mgconstant}{M_{\mv{g}}}
+\newcommand*{\GCconstant}{G_{\cset{C}}}
+\newcommand*{\MCconstant}{M_{\cset{C}}}
+
+% noise
+\newcommand*{\nphi}{n_{\phi}}
+\newcommand*{\nomega}{n_{\omega}}
+\newcommand*{\nphione}{n_{\phi_1}}
+\newcommand*{\nomegaone}{n_{\omega_1}}
+\newcommand*{\nphitwo}{n_{\phi_2}}
+\newcommand*{\nomegatwo}{n_{\omega_2}}
+\newcommand*{\nmeas}{n_y}
+\newcommand*{\ndmeas}{n_{\dot{y}}}
+\newcommand*{\nmeasx}[1]{n_{#1}}
+\newcommand*{\ymeas}{\widehat{y}}
+
+% filter
+\newcommand*{\xF}{x_{\mathrm{f}}}
+\newcommand*{\dotxF}{\dot{x}_{\mathrm{f}}}
+\newcommand*{\kF}{k_{\mathrm{f}}}
+
+% implementation 
+\newcommand*{\Tcycle}{T_{\mathrm{cyc}}}
+
+% gains, time constants
+\newcommand*{\VS}{V_{\SYSTEMSUB}}
+\newcommand*{\VSx}[1]{V_{\SYSTEMSUB,#1}}
+\newcommand*{\VR}{V_{\CONTROLLERSUB}}
+\newcommand*{\VRx}[1]{V_{\CONTROLLERSUB,#1}}
+\newcommand*{\TS}{T_{\SYSTEMSUB}}
+\newcommand*{\TSx}[1]{T_{\SYSTEMSUB,#1}}
+\newcommand*{\TG}{T_{\FILTERINGSUB}}
+\newcommand*{\TGx}[1]{T_{\FILTERINGSUB,#1}}
+\newcommand*{\TN}{T_{\mathrm{n}}}
+\newcommand*{\TNx}[1]{T_{\mathrm{n},#1}}
+\newcommand*{\TV}{T_{\mathrm{v}}}
+\newcommand*{\TVx}[1]{T_{\mathrm{v},#1}}
+\newcommand*{\Tsigma}{T_{\sigma}}
+\newcommand*{\Tsigmax}[1]{T_{\sigma,#1}}
+\newcommand*{\Tonex}[1]{T_{1,#1}}
+
+% current PI controller parameters
+\newcommand*{\VRk}{\mv{V}_{\CONTROLLERSUB}^{\kCOSY}}
+\newcommand*{\VRd}{V_{\CONTROLLERSUB}^{\dAXIS}}
+\newcommand*{\VRq}{V_{\CONTROLLERSUB}^{\qAXIS}}
+\newcommand*{\TNk}{\mv{T}_{\mathrm{n}}^{\kCOSY}}
+\newcommand*{\TNd}{T_{\mathrm{n}}^{\dAXIS}}
+\newcommand*{\TNq}{T_{\mathrm{n}}^{\qAXIS}}
+
+% k_p and k_i
+\newcommand*{\Kpk}{\mm{K}_{\mathrm{p}}^{\kCOSY}}
+\newcommand*{\Kps}{\mm{K}_{\mathrm{p}}^{\sCOSY}}
+\newcommand*{\Kpstilde}{\widetilde{\mm{K}}_{\mathrm{p}}^{\sCOSY}}
+\newcommand*{\kpd}{k_{\mathrm{p}}^{\dAXIS}}
+\newcommand*{\kpq}{k_{\mathrm{p}}^{\qAXIS}}
+\newcommand*{\kpalpha}{k_{\mathrm{p}}^{\alpha}}
+\newcommand*{\kpbeta}{k_{\mathrm{p}}^{\beta}}
+\newcommand*{\Kik}{\mm{K}_{\mathrm{i}}^{\kCOSY}}
+\newcommand*{\Kis}{\mm{K}_{\mathrm{i}}^{\sCOSY}}
+\newcommand*{\Kistilde}{\widetilde{\mm{K}}_{\mathrm{i}}^{\sCOSY}}
+\newcommand*{\Krk}{\mm{K}_{\mathrm{r}}^{\kCOSY}}
+\newcommand*{\Krs}{\mm{K}_{\mathrm{r}}^{\sCOSY}}
+\newcommand*{\kid}{k_{\mathrm{i}}^{\dAXIS}}
+\newcommand*{\kiq}{k_{\mathrm{i}}^{\qAXIS}}
+\newcommand*{\kralpha}{k_{\mathrm{r}}^{\alpha}}
+\newcommand*{\krbeta}{k_{\mathrm{r}}^{\beta}}
+\newcommand*{\kR}{k_{\mathrm{r}}}
+% integrator / resonant
+\newcommand*{\xik}{\mv{\xi}_{\mathrm{i}}^{\kCOSY}}
+\newcommand*{\xidq}{\mv{\xi}_{\mathrm{i}}^{\dqCOSY}}
+\newcommand*{\xidqinit}{\mv{\xi}_{\mathrm{i},0}^{\dqCOSY}}
+\newcommand*{\xis}{\mv{\xi}_{\mathrm{i}}^{\sCOSY}}
+\newcommand*{\xikinit}{\mv{\xi}_{\mathrm{i},0}^{\kCOSY}}
+\newcommand*{\xisinit}{\mv{\xi}_{\mathrm{i},0}^{\sCOSY}}
+\newcommand*{\xid}{\xi_{\mathrm{i}}^{\dAXIS}}
+\newcommand*{\xiq}{\xi_{\mathrm{i}}^{\qAXIS}}
+\newcommand*{\xialpha}{\xi_{\mathrm{i}}^{\alpha}}
+\newcommand*{\xibeta}{\xi_{\mathrm{i}}^{\beta}}
+\newcommand*{\xrs}{\mv{\xi}_{\mathrm{r}}^{\sCOSY}}
+\newcommand*{\xrk}{\mv{\xi}_{\mathrm{r}}^{\kCOSY}}
+\newcommand*{\xrsinit}{\mv{\xi}_{\mathrm{r},0}^{\sCOSY}}
+\newcommand*{\xrkinit}{\mv{\xi}_{\mathrm{r},0}^{\kCOSY}}
+\newcommand*{\xralpha}{\xi_{\mathrm{r}}^{\alpha}}
+\newcommand*{\xrbeta}{\xi_{\mathrm{r}}^{\beta}}
+% PI and PR controller
+\newcommand*{\ukpi}{\mv{u}_{\mathrm{pi}}^{\kCOSY}}
+\newcommand*{\udpi}{u_{\mathrm{pi}}^{\dAXIS}}
+\newcommand*{\uqpi}{u_{\mathrm{pi}}^{\qAXIS}}
+\newcommand*{\uspi}{\mv{u}_{\mathrm{pi}}^{\sCOSY}}
+\newcommand*{\ualphapi}{u_{\mathrm{pi}}^{\alpha}}
+\newcommand*{\ubetapi}{u_{\mathrm{pi}}^{\beta}}
+\newcommand*{\uspr}{\mv{u}_{\mathrm{pr}}^{\sCOSY}}
+\newcommand*{\usprhat}{\widehat{\mv{u}}_{\mathrm{pr}}^{\sCOSY}}
+\newcommand*{\ukpr}{\mv{u}_{\mathrm{pr}}^{\kCOSY}}
+\newcommand*{\ualphapr}{u_{\mathrm{pr}}^{\alpha}}
+\newcommand*{\ubetapr}{u_{\mathrm{pr}}^{\beta}}
+
+% tracking error
+\newcommand*{\ek}{\mv{e}^{\kCOSY}}
+\newcommand*{\ed}{e^{\dAXIS}}
+\newcommand*{\eq}{e^{\qAXIS}}
+\newcommand*{\es}{\mv{e}^{\sCOSY}}
+\newcommand*{\ealpha}{e^{\alpha}}
+\newcommand*{\ebeta}{e^{\beta}}

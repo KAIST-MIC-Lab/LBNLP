@@ -1,0 +1,1496 @@
+% --------------------------------------------------------------------------------------
+% MECHANICAL QUANTITIES - START
+% --------------------------------------------------------------------------------------
+% number of pole pairs
+\newcommand*{\nP}{n_{\mathrm{p}}}
+% angles and velocities
+\newcommand*{\phiE}{\phi_{\EXCITATION}}
+\newcommand*{\omegaE}{\omega_{\EXCITATION}}
+\newcommand*{\phiS}{\phi_{\STATOR}}
+\newcommand*{\dotphiS}{\dot{\phi}_{\STATOR}}
+\newcommand*{\omegaS}{\omega_{\STATOR}}
+\newcommand*{\phiR}{\phi_{\ROTOR}}
+\newcommand*{\omegaR}{\omega_{\ROTOR}}
+\newcommand*{\dotomegaM}{\dot{\omega}_{\MECH}}
+\newcommand*{\omegaM}{\omega_{\MECH}}
+\newcommand*{\omegaMdot}{\dot{\omega}_{\MECH}}
+\newcommand*{\omegaMddot}{\ddot{\omega}_{\MECH}}
+\newcommand*{\omegaMinit}{\omega_{\MECH,0}}
+\newcommand*{\omegaMstar}{\omega_{\MECH}^\star}
+\newcommand*{\OmegaMstar}{\Omega_{\MECH}^\star}
+\newcommand*{\omegaMmin}{\omega_{\MECH,\min}}
+\newcommand*{\omegaMmax}{\omega_{\MECH,\max}}
+\newcommand*{\omegaMnom}{\omega_{\MECH,\NOMINAL}}
+\newcommand*{\omegaMnomidle}{\omega_{\MECH,{0}\NOMINAL}}
+\newcommand*{\omegaMidle}{\omega_{\MECH,0}}
+\newcommand*{\omegaMref}{\omega_{\MECH,\MYREF}}
+\newcommand*{\phiM}{\phi_{\MECH}}
+\newcommand*{\phiMref}{\phi_{\MECH,\MYREF}}
+\newcommand*{\phiMinit}{\phi_{\MECH,0}}
+\newcommand*{\phiPM}{\phi_{\PM}}
+\newcommand*{\nMnom}{n_{\MECH,\NOMINAL}}
+\newcommand*{\nM}{n_{\MECH}}
+\newcommand*{\nMmax}{n_{\MECH,\max}}
+\newcommand*{\phiSdq}{\phi_{\STATOR}^{\dqCOSY}}
+\newcommand*{\phiRdq}{\phi_{\ROTOR}^{\dqCOSY}}
+\newcommand*{\omegaSdq}{\omega_{\STATOR}^{\dqCOSY}}
+\newcommand*{\omegaRdq}{\omega_{\ROTOR}^{\dqCOSY}}
+\newcommand*{\omegaRdqnom}{\omega_{\ROTOR,\NOMINAL}^{\dqCOSY}}
+
+% torques
+\newcommand*{\mL}{\TORQUE_{\LOAD}} % Load torque
+\newcommand*{\mMref}{\TORQUE_{\MACHINE,\MYREF}}
+\newcommand*{\mM}{\TORQUE_{\MACHINE}}
+\newcommand*{\mMhat}{\widehat{\TORQUE}_{\MACHINE}}
+\newcommand*{\mMfeas}{\TORQUE_{\MACHINE,\FEAS}}
+\newcommand*{\mMnom}{\TORQUE_{\MACHINE,\NOMINAL}}
+\newcommand*{\mMmax}{\TORQUE_{\MACHINE,\max}}
+\newcommand*{\mMmin}{\TORQUE_{\MACHINE,\min}}
+\newcommand*{\mMsc}{\TORQUE_{\MACHINE,\SHORTCIRCUIT}}
+\newcommand*{\mMnomsc}{\TORQUE_{\MACHINE,{\NOMINAL}\SHORTCIRCUIT}}
+\newcommand*{\mRT}{\TORQUE_{\RELUCTANCE}} 		% reluctance torque
+\newcommand*{\mELEC}{\TORQUE_{\ELEC}} 			% electro-magnetic torque
+\newcommand*{\mELECmax}{\TORQUE_{\ELEC,\max}}
+\newcommand*{\mELECref}{\TORQUE_{\ELEC,\MYREF}}
+\newcommand*{\mF}{\TORQUE_{\FRICTION}}  % Friction torque
+\newcommand*{\mS}{\TORQUE_{\SHAFT}} % Shaft torque: $\mS = \mM - \mF$
+\newcommand*{\msfe}{\TORQUE_{\STATOR,\IRON}}
+\newcommand*{\mrfe}{\TORQUE_{\STATOR,\IRON}}
+% inertia
+\newcommand*{\ThetaM}{\Theta_{\MECH}}
+% power (machine / mechanical)
+\newcommand*{\pM}{p_{\MACHINE}}
+\newcommand*{\psm}{p_{\STATOR,\MACHINE}}
+\newcommand*{\prm}{p_{\ROTOR,\MACHINE}}
+\newcommand*{\pEm}{p_{\EXCITATION,\MACHINE}}
+\newcommand*{\psfem}{p_{\STATOR,\IRON,\MACHINE}}
+\newcommand*{\prfem}{p_{\ROTOR,\IRON,\MACHINE}}
+\newcommand*{\pS}{p_{\STATOR}}
+\newcommand*{\qS}{q_{\STATOR}}
+\newcommand*{\qSmin}{q_{\STATOR,\min}}
+\newcommand*{\qSmax}{q_{\STATOR,\max}}
+\newcommand*{\qSref}{q_{\STATOR,\MYREF}}
+\newcommand*{\qSrefsat}{q_{\STATOR,\MYREF,\sat}}
+\newcommand*{\pR}{p_{\ROTOR}}
+\newcommand*{\pRs}{p_{\Rs}}
+\newcommand*{\pRr}{p_{R_{\ROTOR}}}
+\newcommand*{\qR}{q_{\ROTOR}}
+\newcommand*{\qRr}{q_{R_{\ROTOR}}}
+\newcommand*{\pE}{p_{\EXCITATION}}
+\newcommand*{\pMECH}{p_{\MECH}}
+\newcommand*{\pELEC}{p_{\ELEC}}
+\newcommand*{\pMloss}{p_{\MACHINE,\LOSS}}
+\newcommand*{\pMnom}{p_{\MACHINE,\NOMINAL}}
+\newcommand*{\psfe}{p_{\STATOR,\IRON}}
+\newcommand*{\psfeloss}{p_{\STATOR,\IRON}}
+\newcommand*{\psfeCU}{p_{\STATOR,\IRON,\COPPER}}
+\newcommand*{\psloss}{p_{\STATOR,\COPPER}}
+\newcommand*{\prfe}{p_{\ROTOR,\IRON}}
+\newcommand*{\prfeloss}{p_{\ROTOR,\IRON}}
+\newcommand*{\prfeCU}{p_{\ROTOR,\IRON,\COPPER}}
+\newcommand*{\pCU}{p_{\COPPER}}
+\newcommand*{\psCU}{p_{\STATOR,\COPPER}}
+\newcommand*{\prCU}{p_{\ROTOR,\COPPER}}
+\newcommand*{\pECU}{p_{\EXCITATION,\COPPER}}
+\newcommand*{\pL}{p_{\LOSS}}
+\newcommand*{\psL}{p_{\STATOR,\LOSS}}
+\newcommand*{\prL}{p_{\ROTOR,\LOSS}}
+\newcommand*{\pEL}{p_{\EXCITATION,\LOSS}}
+\newcommand*{\psfeL}{p_{\STATOR,\IRON,\LOSS}}
+\newcommand*{\prfeL}{p_{\ROTOR,\IRON,\LOSS}}
+\newcommand*{\pfe}{p_{\IRON}}
+% energy
+\newcommand*{\EM}{E_{\MACHINE}}
+\newcommand*{\EL}{E_{\LOSS}}
+\newcommand*{\ECU}{E_{\COPPER}}
+% --------------------------------------------------------------------------------------
+% MECHANICAL QUANTITIES - END
+% --------------------------------------------------------------------------------------
+
+% --------------------------------------------------------------------------------------
+% INDUCTANCES - START
+% --------------------------------------------------------------------------------------
+% stator
+\newcommand*{\Lsabc}{\mm{L}_{\STATOR}^{\abcCOSY}}
+\newcommand*{\Lsa}{L_{\STATOR}^a}
+\newcommand*{\Lsaa}{L_{\STATOR}^{aa}}
+\newcommand*{\Lsab}{L_{\STATOR}^{ab}}
+\newcommand*{\Lsac}{L_{\STATOR}^{ac}}
+\newcommand*{\Lsb}{L_{\STATOR}^b}
+\newcommand*{\Lsbb}{L_{\STATOR}^{bb}}
+\newcommand*{\Lsbc}{L_{\STATOR}^{bc}}
+\newcommand*{\Lsc}{L_{\STATOR}^c}
+\newcommand*{\Lscc}{L_{\STATOR}^{cc}}
+\newcommand*{\Lsca}{L_{\STATOR}^{ca}} 
+\newcommand*{\Lss}{\mm{L}_{\STATOR}^{\sCOSY}}       % [DEPRECATED]
+\newcommand*{\Lsalbega}{\mm{L}_{\STATOR}^{\albegaCOSY}}
+\newcommand*{\Lsalbe}{\mm{L}_{\STATOR}^{\albeCOSY}}
+\newcommand*{\Lsr}{\mm{L}_{\STATOR}^{\rCOSY}}       % [DEPRECATED]
+\newcommand*{\Lsalrbergar}{\mm{L}_{\STATOR}^{\alrbergarCOSY}}
+\newcommand*{\Lsalrber}{\mm{L}_{\STATOR}^{\alrberCOSY}} 
+\newcommand*{\Lsk}{\mm{L}_{\STATOR}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\Lsdqga}{\mm{L}_{\STATOR}^{\dqgaCOSY}}
+\newcommand*{\Lsdq}{\mm{L}_{\STATOR}^{\dqCOSY}} 
+\newcommand*{\Lsqd}{\mm{L}_{\STATOR}^{qd}} 
+\newcommand*{\Lsktilde}{\widetilde{\mm{L}}_{\STATOR}^{\kCOSY}}        % [DEPRECATED]
+\newcommand*{\Lsdqgatilde}{\widetilde{\mm{L}}_{\STATOR}^{\dqgaCOSY}} 
+\newcommand*{\Lsdqtilde}{\widetilde{\mm{L}}_{\STATOR}^{\dqCOSY}} 
+\newcommand*{\Xsk}{\mm{X}_{\STATOR}^{\kCOSY}}        % [DEPRECATED]
+\newcommand*{\Xsdqga}{\mm{X}_{\STATOR}^{\dqgaCOSY}} 
+\newcommand*{\Xsdq}{\mm{X}_{\STATOR}^{\dqCOSY}} 
+\newcommand*{\Lssigmak}{\mm{L}_{\STATOR,\sigma}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\Lssigmadqga}{\mm{L}_{\STATOR,\sigma}^{\dqgaCOSY}}
+\newcommand*{\Lssigmadq}{\mm{L}_{\STATOR,\sigma}^{\dqCOSY}}
+\newcommand*{\Lsd}{L_{\STATOR}^{\dAXIS}} 
+\newcommand*{\Lsq}{L_{\STATOR}^{\qAXIS}} 
+\newcommand*{\Lssigmad}{L_{\STATOR,\sigma}^{\dAXIS}} 
+\newcommand*{\Lssigmaq}{L_{\STATOR,\sigma}^{\qAXIS}} 
+\newcommand*{\Lsm}{L_{\STATOR,\MAGNETIZATION}} 
+\newcommand*{\Lsz}{L_{\STATOR,0}} 
+\newcommand*{\Lsmain}{L_{\STATOR,\MAGNETIZATION}} 
+\newcommand*{\Ls}{L_{\STATOR}}
+\newcommand*{\Lsnom}{L_{\STATOR,\NOMINAL}}
+\newcommand*{\Lszero}{L_{\STATOR,0}}
+\newcommand*{\Lssigma}{L_{\STATOR,\sigma}}
+\newcommand*{\Lm}{L_{\MAGNETIZATION}} 						% coupling inductance
+\newcommand*{\Lmhat}{\widehat{L}_{\MAGNETIZATION}} 			% coupling inductance
+\newcommand*{\Lmabc}{\mm{L}_{\MAGNETIZATION}^{\abcCOSY}} 	% coupling inductance
+\newcommand*{\Lmk}{\mm{L}_{\MAGNETIZATION}^{\kCOSY}} 		% coupling inductance [DEPRECATED]
+\newcommand*{\Lmdqga}{\mm{L}_{\MAGNETIZATION}^{\dqgaCOSY}} 		% coupling inductance
+\newcommand*{\Lmdq}{\mm{L}_{\MAGNETIZATION}^{\dqCOSY}} 		% coupling inductance
+\newcommand*{\Lms}{\mm{L}_{\MAGNETIZATION}^{\sCOSY}} 		% coupling inductance [DEPRECATED]
+\newcommand*{\Lmalbega}{\mm{L}_{\MAGNETIZATION}^{\albegaCOSY}} 		% coupling inductance
+\newcommand*{\Lmalbe}{\mm{L}_{\MAGNETIZATION}^{\albeCOSY}} 		% coupling inductance
+\newcommand*{\LsDD}{L_{\STATOR}^{dd}}
+\newcommand*{\LsDQ}{L_{\STATOR}^{dq}}
+\newcommand*{\LsQD}{L_{\STATOR}^{qd}} 
+\newcommand*{\LsQQ}{L_{\STATOR}^{qq}}
+% rotor
+\newcommand*{\Lrabc}{\mm{L}_{\ROTOR}^{\abcCOSY}} 
+\newcommand*{\Lrs}{\mm{L}_{\ROTOR}^{\sCOSY}}        % [DEPRECATED]
+\newcommand*{\Lralbega}{\mm{L}_{\ROTOR}^{\albegaCOSY}} 
+\newcommand*{\Lralbe}{\mm{L}_{\ROTOR}^{\albeCOSY}} 
+\newcommand*{\Lrr}{\mm{L}_{\ROTOR}^{\rCOSY}}       % [DEPRECATED]
+\newcommand*{\Lralrbergar}{\mm{L}_{\ROTOR}^{\alrbergarCOSY}}
+\newcommand*{\Lralrber}{\mm{L}_{\ROTOR}^{\alrberCOSY}} 
+\newcommand*{\Lrk}{\mm{L}_{\ROTOR}^{\kCOSY}}         % [DEPRECATED]
+\newcommand*{\Lrdqga}{\mm{L}_{\ROTOR}^{\dqgaCOSY}} 
+\newcommand*{\Lrdq}{\mm{L}_{\ROTOR}^{\dqCOSY}} 
+\newcommand*{\Lrsigmak}{\mm{L}_{\ROTOR,\sigma}^{\kCOSY}}        % [DEPRECATED]
+\newcommand*{\Lrsigmadqga}{\mm{L}_{\ROTOR,\sigma}^{\dqgaCOSY}}
+\newcommand*{\Lrsigmadq}{\mm{L}_{\ROTOR,\sigma}^{\dqCOSY}}
+\newcommand*{\Lrd}{L_{\ROTOR}^{\dAXIS}} 
+\newcommand*{\Lrq}{L_{\ROTOR}^{\qAXIS}} 
+\newcommand*{\Lrdprime}{L_{\ROTOR}^{\prime \dAXIS}} 
+\newcommand*{\Lrqprime}{L_{\ROTOR}^{\prime \qAXIS}} 
+\newcommand*{\Lrsigmad}{L_{\ROTOR,\sigma}^{\dAXIS}} 
+\newcommand*{\Lrsigmaq}{L_{\ROTOR,\sigma}^{\qAXIS}} 
+\newcommand*{\Lrm}{L_{\ROTOR,\MAGNETIZATION}} 
+\newcommand*{\Lrmprime}{L_{\ROTOR,\MAGNETIZATION}^{\!\prime}} 
+\newcommand*{\Lr}{L_{\ROTOR}}
+\newcommand*{\Lrprime}{L_{\ROTOR}^{\!\prime}}
+\newcommand*{\Lruvw}{\mm{L}_{\ROTOR}^{\uvwCOSY}}
+\newcommand*{\Lrsigma}{L_{\ROTOR,\sigma}}
+\newcommand*{\Lrsigmaprime}{L_{\ROTOR,\sigma}^{\!\prime}}
+\newcommand*{\LDIFFrdqtilde}{\widetilde{\mm{\LDIFF}}_{\ROTOR}^{\dqCOSY}}
+\newcommand*{\LDIFFrdtilde}{\widetilde{\LDIFF}_{\ROTOR}^{\dAXIS}}
+\newcommand*{\LDIFFrdqScaltilde}{\widetilde{\LDIFF}_{\ROTOR}^{\dAXIS\qAXIS}}
+\newcommand*{\LDIFFrqdtilde}{\widetilde{\LDIFF}_{\ROTOR}^{\qAXIS\dAXIS}}
+\newcommand*{\LDIFFrqtilde}{\widetilde{\LDIFF}_{\ROTOR}^{\qAXIS}}
+% coupling inductances: rotor -> stator
+\newcommand*{\Msrs}{\mm{M}_{\STATOR\ROTOR}^{\sCOSY}}        % [DEPRECATED]
+\newcommand*{\Msralbega}{\mm{M}_{\STATOR\ROTOR}^{\albegaCOSY}} 
+\newcommand*{\Msralbe}{\mm{M}_{\STATOR\ROTOR}^{\albeCOSY}} 
+\newcommand*{\Msrr}{\mm{M}_{\STATOR\ROTOR}^{\rCOSY}}       % [DEPRECATED]
+\newcommand*{\Msralrbergar}{\mm{M}_{\STATOR\ROTOR}^{\alrbergarCOSY}}
+\newcommand*{\Msralrber}{\mm{M}_{\STATOR\ROTOR}^{\alrberCOSY}} 
+\newcommand*{\Msrk}{\mm{M}_{\STATOR\ROTOR}^{\kCOSY}}         % [DEPRECATED]
+\newcommand*{\Msrdqga}{\mm{M}_{\STATOR\ROTOR}^{\dqgaCOSY}} 
+\newcommand*{\Msrdq}{\mm{M}_{\STATOR\ROTOR}^{\dqCOSY}} 
+\newcommand*{\Msrd}{M_{\STATOR\ROTOR}^{\dAXIS}} 
+\newcommand*{\Msrq}{M_{\STATOR\ROTOR}^{\qAXIS}} 
+\newcommand*{\MDIFFsrdqtilde}{\widetilde{\mm{\MDIFF}}_{\STATOR,\ROTOR}^{\dqCOSY}}
+\newcommand*{\MDIFFsrdtilde}{\widetilde{\MDIFF}_{\STATOR,\ROTOR}^{\dAXIS}}
+\newcommand*{\MDIFFsrdqScaltilde}{\widetilde{\MDIFF}_{\STATOR,\ROTOR}^{\dAXIS\qAXIS}}
+\newcommand*{\MDIFFsrqdtilde}{\widetilde{\MDIFF}_{\STATOR,\ROTOR}^{\qAXIS\dAXIS}}
+\newcommand*{\MDIFFsrqtilde}{\widetilde{\MDIFF}_{\STATOR,\ROTOR}^{\qAXIS}}
+% coupling inductances: excitation -> stator  (only a vector)
+\newcommand*{\mses}{\mv{m}_{\STATOR\EXCITATION}^{\sCOSY}}        % [DEPRECATED]
+\newcommand*{\msealbega}{\mv{m}_{\STATOR\EXCITATION}^{\albegaCOSY}} 
+\newcommand*{\msealbe}{\mv{m}_{\STATOR\EXCITATION}^{\albeCOSY}} 
+\newcommand*{\mser}{\mm{m}_{\STATOR\EXCITATION}^{\rCOSY}}       % [DEPRECATED]
+\newcommand*{\msealrbergar}{\mm{m}_{\STATOR\EXCITATION}^{\alrbergarCOSY}}
+\newcommand*{\msealrber}{\mm{m}_{\STATOR\EXCITATION}^{\alrberCOSY}} 
+\newcommand*{\msek}{\mm{m}_{\STATOR\EXCITATION}^{\kCOSY}}         % [DEPRECATED]
+\newcommand*{\msedqga}{\mm{m}_{\STATOR\EXCITATION}^{\dqgaCOSY}} 
+\newcommand*{\msedq}{\mm{m}_{\STATOR\EXCITATION}^{\dqCOSY}} 
+\newcommand*{\Msed}{M_{\STATOR\EXCITATION}^{\dAXIS}} 
+\newcommand*{\Mseq}{M_{\STATOR\EXCITATION}^{\qAXIS}} 
+% coupling inductances: excitation -> rotor (only a vector)
+\newcommand*{\mres}{\mv{m}_{\ROTOR\EXCITATION}^{\sCOSY}}        % [DEPRECATED]
+\newcommand*{\mrealbega}{\mv{m}_{\ROTOR\EXCITATION}^{\albegaCOSY}} 
+\newcommand*{\mrealbe}{\mv{m}_{\ROTOR\EXCITATION}^{\albeCOSY}} 
+\newcommand*{\mrer}{\mm{m}_{\ROTOR\EXCITATION}^{\rCOSY}}       % [DEPRECATED]
+\newcommand*{\mrealrbergar}{\mm{m}_{\ROTOR\EXCITATION}^{\alrbergarCOSY}}
+\newcommand*{\mrealrber}{\mm{m}_{\ROTOR\EXCITATION}^{\alrberCOSY}} 
+\newcommand*{\mrek}{\mm{m}_{\ROTOR\EXCITATION}^{\kCOSY}}         % [DEPRECATED]
+\newcommand*{\mredqga}{\mm{m}_{\ROTOR\EXCITATION}^{\dqgaCOSY}} 
+\newcommand*{\mredq}{\mm{m}_{\ROTOR\EXCITATION}^{\dqCOSY}} 
+\newcommand*{\Mred}{M_{\ROTOR\EXCITATION}^{\dAXIS}} 
+\newcommand*{\Mreq}{M_{\ROTOR\EXCITATION}^{\qAXIS}} 
+% excitation
+\newcommand*{\LE}{L_{\EXCITATION}} 
+\newcommand*{\LEsek}{L_{\EXCITATION,\mathrm{sek}}} 
+\newcommand*{\LEsigma}{L_{\EXCITATION,\sigma}} 
+% --------------------------------------------------------------------------------------
+% INDUCTANCES - END
+% --------------------------------------------------------------------------------------
+
+% --------------------------------------------------------------------------------------
+% TIME CONSTANTS - START
+% --------------------------------------------------------------------------------------
+% stator
+\newcommand*{\Tsd}{T_{\STATOR}^{\dAXIS}} % Inductance PMSM $d$-component
+\newcommand*{\Tsq}{T_{\STATOR}^{\qAXIS}} % Inductance PMSM $q$-component
+\newcommand*{\Tsk}{\mv{T}_{\!{\STATOR}}^{\kCOSY}}        % [DEPRECATED]
+\newcommand*{\Tsdqga}{\mv{T}_{\!{\STATOR}}^{\dqgaCOSY}}
+\newcommand*{\Tsdq}{\mv{T}_{\!{\STATOR}}^{\dqCOSY}}
+% rotor
+\newcommand*{\Tr}{T_{\!{\ROTOR}}}
+\newcommand*{\Trprime}{T_{\!{\ROTOR}}^{\prime}}
+\newcommand*{\Trhat}{\widehat{T}_{\!{\ROTOR}}}
+\newcommand*{\Trhatprime}{\widehat{T}_{\!{\ROTOR}}^{\prime}}
+% --------------------------------------------------------------------------------------
+% TIME CONSTANTS - END
+% --------------------------------------------------------------------------------------
+
+% --------------------------------------------------------------------------------------
+% RESISTANCES - START
+% --------------------------------------------------------------------------------------
+% stator
+\newcommand*{\Rs}{R_{\STATOR}}
+\newcommand*{\Rsa}{R_{\STATOR}^a}
+\newcommand*{\Rsb}{R_{\STATOR}^b}
+\newcommand*{\Rsc}{R_{\STATOR}^c}
+\newcommand*{\Rsabc}{\mm{R}_{\STATOR}^{\abcCOSY}}
+\newcommand*{\Rss}{\mm{R}_{\STATOR}^{\sCOSY}}       % [DEPRECATED]
+\newcommand*{\Rsalbega}{\mm{R}_{\STATOR}^{\albegaCOSY}}
+\newcommand*{\Rsalbe}{\mm{R}_{\STATOR}^{\albeCOSY}}
+\newcommand*{\Rsk}{\mm{R}_{\STATOR}^{\kCOSY}}        % [DEPRECATED]
+\newcommand*{\Rsdqga}{\mm{R}_{\STATOR}^{\dqgaCOSY}}
+\newcommand*{\Rsdq}{\mm{R}_{\STATOR}^{\dqCOSY}}
+\newcommand*{\Rsd}{R_{\STATOR}^{\dAXIS}}
+\newcommand*{\Rsqd}{R_{\STATOR}^{\qAXIS\dAXIS}}
+\newcommand*{\Rsq}{R_{\STATOR}^{\qAXIS}}
+\newcommand*{\Rfe}{R_{\IRON}}
+\newcommand*{\Rcu}{R_{\COPPER}}
+\newcommand*{\Rsfe}{R_{\STATOR,\IRON}}
+\newcommand*{\Rsfek}{\mm{R}_{\STATOR,\IRON}^{\kCOSY}}        % [DEPRECATED]
+\newcommand*{\Rsfedqga}{\mm{R}_{\STATOR,\IRON}^{\dqgaCOSY}}
+\newcommand*{\Rsfedq}{\mm{R}_{\STATOR,\IRON}^{\dqCOSY}}
+\newcommand*{\Rsfekop}{\overline{\mm{R}}_{\STATOR,\IRON}^{\kCOSY}}         % [DEPRECATED]
+\newcommand*{\Rsfedqgaop}{\overline{\mm{R}}_{\STATOR,\IRON}^{\dqgaCOSY}} 
+\newcommand*{\Rsfedqop}{\overline{\mm{R}}_{\STATOR,\IRON}^{\dqCOSY}} 
+\newcommand*{\Rscu}{R_{\STATOR,\COPPER}}
+\newcommand*{\Rscuk}{\mm{R}_{\STATOR,\COPPER}^{\kCOSY}}        % [DEPRECATED]
+\newcommand*{\Rscudqga}{\mm{R}_{\STATOR,\COPPER}^{\dqgaCOSY}}
+\newcommand*{\Rscudq}{\mm{R}_{\STATOR,\COPPER}^{\dqCOSY}}
+\newcommand*{\Rscukop}{\overline{\mm{R}}_{\STATOR,\COPPER}^{\kCOSY}}         % [DEPRECATED]
+\newcommand*{\Rscudqgaop}{\overline{\mm{R}}_{\STATOR,\COPPER}^{\dqgaCOSY}} 
+\newcommand*{\Rscudqop}{\overline{\mm{R}}_{\STATOR,\COPPER}^{\dqCOSY}} 
+\newcommand*{\RSinit}{R_{\STATOR,20}} % Stator resistance at $\qty{20}{\degreeCelsius}$
+\newcommand*{\Rsnom}{R_{\STATOR,\NOMINAL}}
+% rotor
+\newcommand*{\Rr}{R_{\ROTOR}}
+\newcommand*{\Rrhat}{\widehat{R}_{\ROTOR}}
+\newcommand*{\Rrprime}{R_{\ROTOR}^{\prime}}
+\newcommand*{\Rra}{R_{\ROTOR}^a}
+\newcommand*{\Rrb}{R_{\ROTOR}^b}
+\newcommand*{\Rrc}{R_{\ROTOR}^c}
+\newcommand*{\Rrab}{R_{\ROTOR}^{\AtoB}}
+\newcommand*{\Rrbc}{R_{\ROTOR}^{\BtoC}}
+\newcommand*{\Rrca}{R_{\ROTOR}^{\CtoA}}
+\newcommand*{\Rrabc}{\mm{R}_{\ROTOR}^{\abcCOSY}}
+\newcommand*{\Rrs}{\mm{R}_{\ROTOR}^{\sCOSY}}       % [DEPRECATED]
+\newcommand*{\Rralbega}{\mm{R}_{\ROTOR}^{\albegaCOSY}}
+\newcommand*{\Rralbe}{\mm{R}_{\ROTOR}^{\albeCOSY}}
+\newcommand*{\Rrk}{\mm{R}_{\ROTOR}^{\kCOSY}}        % [DEPRECATED]
+\newcommand*{\Rrdqga}{\mm{R}_{\ROTOR}^{\dqgaCOSY}}
+\newcommand*{\Rrdq}{\mm{R}_{\ROTOR}^{\dqCOSY}}
+\newcommand*{\Rrkprime}{\mm{R}_{\ROTOR}^{\prime \kCOSY}}        % [DEPRECATED]
+\newcommand*{\Rrdqgaprime}{\mm{R}_{\ROTOR}^{\prime \dqgaCOSY}}
+\newcommand*{\Rrdqprime}{\mm{R}_{\ROTOR}^{\prime \dqCOSY}}
+\newcommand*{\Rrfe}{R_{\ROTOR,\IRON}}
+\newcommand*{\Rrfek}{\mm{R}_{\ROTOR,\IRON}^{\kCOSY}}        % [DEPRECATED]
+\newcommand*{\Rrfedqga}{\mm{R}_{\ROTOR,\IRON}^{\dqgaCOSY}}
+\newcommand*{\Rrfedq}{\mm{R}_{\ROTOR,\IRON}^{\dqCOSY}}
+\newcommand*{\Rrfed}{R_{\ROTOR,\IRON}^{\dAXIS}}
+\newcommand*{\Rrfeq}{R_{\ROTOR,\IRON}^{\qAXIS}}
+\newcommand*{\Rrcu}{R_{\ROTOR,\COPPER}}
+\newcommand*{\Rrcuk}{\mm{R}_{\ROTOR,\COPPER}^{\kCOSY}}        % [DEPRECATED]
+\newcommand*{\Rrcudqga}{\mm{R}_{\ROTOR,\COPPER}^{\dqgaCOSY}}
+\newcommand*{\Rrcudq}{\mm{R}_{\ROTOR,\COPPER}^{\dqCOSY}}
+\newcommand*{\RRinit}{R_{\ROTOR,20}} % Rotor resistance at $\qty{20}{\degreeCelsius}$
+\newcommand*{\Rrd}{R_{\ROTOR}^{\dAXIS}}
+\newcommand*{\Rrqd}{R_{\ROTOR}^{\qAXIS\dAXIS}}
+\newcommand*{\Rrq}{R_{\ROTOR}^{\qAXIS}}
+\newcommand*{\RDIFFrabc}{\mm{\RDIFF}_{\ROTOR}^{\abcCOSY}} % for DFIM with with nonlinear voltage drop at its brushes
+\newcommand*{\RDIFFrdq}{\mm{\RDIFF}_{\ROTOR}^{\dqCOSY}} % for DFIM with with nonlinear voltage drop at its brushes
+\newcommand*{\RDIFFrd}{\RDIFF_{\ROTOR}^{\dAXIS}}
+\newcommand*{\RDIFFrq}{\RDIFF_{\ROTOR}^{\qAXIS}}
+\newcommand*{\RDIFFrdqScal}{\RDIFF_{\ROTOR}^{\dAXIS\qAXIS}}
+\newcommand*{\RDIFFrqd}{\RDIFF_{\ROTOR}^{\qAXIS\dAXIS}}
+\newcommand*{\Rrnom}{R_{\ROTOR,\NOMINAL}}
+% --------------------------------------------------------------------------------------
+% RESISTANCES - END
+% --------------------------------------------------------------------------------------
+
+% --------------------------------------------------------------------------------------
+% CAPACITANCES - START
+% --------------------------------------------------------------------------------------
+% filter
+
+% --------------------------------------------------------------------------------------
+% CAPACITANCES - END
+% --------------------------------------------------------------------------------------
+
+% --------------------------------------------------------------------------------------
+% DIFFERENTIAL BACK-EMF - START
+% --------------------------------------------------------------------------------------
+% stator
+\newcommand{\Gammass}{\mm{\Gamma}_{\!\STATOR}^{\sCOSY}} % Inductance PMSM in stator $(\alpha,\beta,\gamma)$-frame [DEPRECATED]
+\newcommand{\Gammasalbega}{\mm{\Gamma}_{\!\STATOR}^{\albegaCOSY}} % Inductance PMSM in stator $(\alpha,\beta,\gamma)$-frame
+\newcommand{\Gammasalbe}{\mm{\Gamma}_{\!\STATOR}^{\albeCOSY}} % Inductance PMSM in stator $(\alpha,\beta)$-frame
+\newcommand{\Gammasr}{\mm{\Gamma}_{\!\STATOR}^{\rCOSY}} % Inductance PMSM in rotor $(\alpharAXIS,\betarAXIS,\gammaAXIS)$-frame [DEPRECATED]
+\newcommand{\Gammasalrbergar}{\mm{\Gamma}_{\!\STATOR}^{\alrbergarCOSY}} % Inductance PMSM in rotor $(\alpharAXIS,\betarAXIS,\gammaAXIS)$-frame
+\newcommand{\Gammasalrber}{\mm{\Gamma}_{\!\STATOR}^{\alrberCOSY}} % Inductance PMSM in rotor $(\alpharAXIS,\betarAXIS)$-frame
+\newcommand{\Gammask}{\mm{\Gamma}_{\!\STATOR}^{\kCOSY}} % Inductance PMSM in flux $(d,q)$-frame [DEPRECATED]
+\newcommand{\Gammasdqga}{\mm{\Gamma}_{\!\STATOR}^{\dqgaCOSY}} % Inductance PMSM in flux $(d,q,\gamma)$-frame
+\newcommand{\Gammasdq}{\mm{\Gamma}_{\!\STATOR}^{\dqCOSY}} % Inductance PMSM in flux $(d,q)$-frame
+\newcommand{\GammaskphiM}{\mm{\Gamma}_{\!\STATOR,\phiM}^{\kCOSY}} % Inductance PMSM in flux $(d,q)$-frame [DEPRECATED]
+\newcommand{\GammasdqgaphiM}{\mm{\Gamma}_{\!\STATOR,\phiM}^{\dqgaCOSY}} % Inductance PMSM in flux $(d,q,\gamma)$-frame
+\newcommand{\GammasdqphiM}{\mm{\Gamma}_{\!\STATOR,\phiM}^{\dqCOSY}} % Inductance PMSM in flux $(d,q)$-frame
+\newcommand{\GammaskphiP}{\mm{\Gamma}_{\!\STATOR,\phiP}^{\kCOSY}} % Inductance PMSM in flux $(d,q)$-frame [DEPRECATED]
+\newcommand{\GammasdqgaphiP}{\mm{\Gamma}_{\!\STATOR,\phiP}^{\dqgaCOSY}} % Inductance PMSM in flux $(d,q)$-frame
+\newcommand{\GammasdqphiP}{\mm{\Gamma}_{\!\STATOR,\phiP}^{\dqCOSY}} % Inductance PMSM in flux $(d,q)$-frame
+\newcommand{\Gammasd}{\Gamma_{\!\STATOR}^{\dAXIS}} % Inductance PMSM $d$-component	
+\newcommand{\Gammasq}{\Gamma_{\!\STATOR}^{\qAXIS}} % Inductance PMSM $q$-component
+\newcommand{\Gammasz}{\Gamma_{\!\STATOR}^{\zeroAXIS}} % Inductance PMSM $0$-component
+\newcommand{\Gammasgamma}{\Gamma_{\!\STATOR}^{\gammaAXIS}} % Inductance PMSM $\gamma$-component
+\newcommand{\Gammasabc}{\mm{\Gamma}_{\!\STATOR}^{\abcCOSY}}
+\newcommand{\Gammasa}{\Gamma_{\!\STATOR}^a}
+\newcommand{\Gammasb}{\Gamma_{\!\STATOR}^b}
+\newcommand{\Gammasc}{\Gamma_{\!\STATOR}^c}
+\newcommand{\Gammasalpha}{\Gamma_{\!\STATOR}^{\alphaAXIS}}
+\newcommand{\Gammasbeta}{\Gamma_{\!\STATOR}^{\betaAXIS}}
+% --------------------------------------------------------------------------------------
+% DIFFERENTIAL BACK-EMF - END
+% --------------------------------------------------------------------------------------
+
+% --------------------------------------------------------------------------------------
+% CURRENTS - START
+% --------------------------------------------------------------------------------------
+% stator 
+\newcommand*{\iss}{\mv{\CURRENT}_{\STATOR}^{\sCOSY}}       % [DEPRECATED]
+\newcommand*{\isalbega}{\mv{\CURRENT}_{\STATOR}^{\albegaCOSY}}
+\newcommand*{\isalbe}{\mv{\CURRENT}_{\STATOR}^{\albeCOSY}}
+\newcommand*{\isalpha}{\CURRENT_{\STATOR}^{\alphaAXIS}}
+\newcommand*{\isbeta}{\CURRENT_{\STATOR}^{\betaAXIS}}
+\newcommand*{\iszero}{\CURRENT_{\STATOR}^{\zeroAXIS}}
+\newcommand*{\issinit}{\mv{\CURRENT}_{\STATOR,0}^{\sCOSY}}       % [DEPRECATED]
+\newcommand*{\isalbegainit}{\mv{\CURRENT}_{\STATOR,0}^{\albegaCOSY}}
+\newcommand*{\isalbeinit}{\mv{\CURRENT}_{\STATOR,0}^{\albeCOSY}}
+\newcommand*{\isabc}{\mv{\CURRENT}_{\STATOR}^{\abcCOSY}}
+\newcommand*{\isabcinit}{\mv{\CURRENT}_{\STATOR,0}^{\abcCOSY}}
+\newcommand*{\isa}{\CURRENT_{\STATOR}^a}
+\newcommand*{\isb}{\CURRENT_{\STATOR}^b}
+\newcommand*{\isc}{\CURRENT_{\STATOR}^c}
+\newcommand*{\isr}{\mv{\CURRENT}_{\STATOR}^{\rCOSY}}       % [DEPRECATED]
+\newcommand*{\isalrbergar}{\mv{\CURRENT}_{\STATOR}^{\alrbergarCOSY}}
+\newcommand*{\isalrber}{\mv{\CURRENT}_{\STATOR}^{\alrberCOSY}}
+\newcommand*{\isk}{\mv{\CURRENT}_{\STATOR}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\isdqga}{\mv{\CURRENT}_{\STATOR}^{\dqgaCOSY}}
+\newcommand*{\isdq}{\mv{\CURRENT}_{\STATOR}^{\dqCOSY}}
+\newcommand*{\iskinit}{\mv{\CURRENT}_{\STATOR,0}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\isdqgainit}{\mv{\CURRENT}_{\STATOR,0}^{\dqgaCOSY}}
+\newcommand*{\isdqinit}{\mv{\CURRENT}_{\STATOR,0}^{\dqCOSY}}
+\newcommand*{\isd}{\CURRENT_{\STATOR}^{\dAXIS}}
+\newcommand*{\isq}{\CURRENT_{\STATOR}^{\qAXIS}}
+\newcommand*{\isknom}{\mv{\CURRENT}_{\STATOR,\NOMINAL}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\isdqganom}{\mv{\CURRENT}_{\STATOR,\NOMINAL}^{\dqgaCOSY}}
+\newcommand*{\isdqnom}{\mv{\CURRENT}_{\STATOR,\NOMINAL}^{\dqCOSY}}
+\newcommand*{\isdnom}{\CURRENT_{\STATOR,\NOMINAL}^{\dAXIS}}
+\newcommand*{\isqnom}{\CURRENT_{\STATOR,\NOMINAL}^{\qAXIS}}
+\newcommand*{\isnom}{\CURRENT_{\STATOR,\NOMINAL}}
+\newcommand*{\isnenn}{\CURRENT_{\STATOR,\NOMINAL}}
+\newcommand*{\isfek}{\mv{\CURRENT}_{\STATOR,\IRON}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\isfedqga}{\mv{\CURRENT}_{\STATOR,\IRON}^{\dqgaCOSY}}
+\newcommand*{\isfedq}{\mv{\CURRENT}_{\STATOR,\IRON}^{\dqCOSY}}
+\newcommand*{\isfed}{\CURRENT_{\STATOR,\IRON}^{\dAXIS}}
+\newcommand*{\isfeq}{\CURRENT_{\STATOR,\IRON}^{\qAXIS}}
+\newcommand*{\isfega}{\CURRENT_{\STATOR,\IRON}^{\gammaAXIS}}
+\newcommand*{\ismk}{\mv{\CURRENT}_{\STATOR,\MAGNETIZATION}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\ismdqga}{\mv{\CURRENT}_{\STATOR,\MAGNETIZATION}^{\dqgaCOSY}}
+\newcommand*{\ismdq}{\mv{\CURRENT}_{\STATOR,\MAGNETIZATION}^{\dqCOSY}}
+\newcommand*{\ismd}{\CURRENT_{\STATOR,\MAGNETIZATION}^{\dAXIS}}
+\newcommand*{\ismq}{\CURRENT_{\STATOR,\MAGNETIZATION}^{\qAXIS}}
+% rotor 
+\newcommand*{\irs}{\mv{\CURRENT}_{\ROTOR}^{\sCOSY}}       % [DEPRECATED]
+\newcommand*{\iralbega}{\mv{\CURRENT}_{\ROTOR}^{\albegaCOSY}}
+\newcommand*{\iralbe}{\mv{\CURRENT}_{\ROTOR}^{\albeCOSY}}
+\newcommand*{\iralpha}{\CURRENT_{\ROTOR}^{\alphaAXIS}}
+\newcommand*{\irbeta}{\CURRENT_{\ROTOR}^{\betaAXIS}}
+\newcommand*{\irr}{\mv{\CURRENT}_{\ROTOR}^{\rCOSY}}       % [DEPRECATED]
+\newcommand*{\iralrbergar}{\mv{\CURRENT}_{\ROTOR}^{\alrbergarCOSY}}
+\newcommand*{\iralrber}{\mv{\CURRENT}_{\ROTOR}^{\alrberCOSY}}
+\newcommand*{\iralphar}{\CURRENT_{\ROTOR}^{\alpharAXIS}}
+\newcommand*{\irbetar}{\CURRENT_{\ROTOR}^{\betarAXIS}}
+\newcommand*{\irabcr}{\mv{\CURRENT}_{\ROTOR}^{\arbrcrCOSY}}
+\newcommand*{\iruvw}{\mv{\CURRENT}_{\ROTOR}^{uvw}}
+\newcommand*{\irrinit}{\mv{\CURRENT}_{\ROTOR,0}^{\rCOSY}}       % [DEPRECATED]
+\newcommand*{\iralrbergarinit}{\mv{\CURRENT}_{\ROTOR,0}^{\alrbergarCOSY}}
+\newcommand*{\iralrberinit}{\mv{\CURRENT}_{\ROTOR,0}^{\alrberCOSY}}
+\newcommand*{\irabc}{\mv{\CURRENT}_{\ROTOR}^{\abcCOSY}}
+\newcommand*{\ira}{\CURRENT_{\ROTOR}^a}
+\newcommand*{\irb}{\CURRENT_{\ROTOR}^b}
+\newcommand*{\irc}{\CURRENT_{\ROTOR}^c}
+\newcommand*{\irar}{\CURRENT_{\ROTOR}^{\arAXIS}}
+\newcommand*{\irbr}{\CURRENT_{\ROTOR}^{\brAXIS}}
+\newcommand*{\ircr}{\CURRENT_{\ROTOR}^{\crAXIS}}
+\newcommand*{\iru}{\CURRENT_{\ROTOR}^u}
+\newcommand*{\irv}{\CURRENT_{\ROTOR}^v}
+\newcommand*{\irw}{\CURRENT_{\ROTOR}^w}
+\newcommand*{\irfek}{\mv{\CURRENT}_{\ROTOR,\IRON}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\irfedqga}{\mv{\CURRENT}_{\ROTOR,\IRON}^{\dqgaCOSY}}
+\newcommand*{\irfedq}{\mv{\CURRENT}_{\ROTOR,\IRON}^{\dqCOSY}}
+\newcommand*{\irfed}{\CURRENT_{\ROTOR,\IRON}^{\dAXIS}}
+\newcommand*{\irfeq}{\CURRENT_{\ROTOR,\IRON}^{\qAXIS}}
+\newcommand*{\irfega}{\CURRENT_{\ROTOR,\IRON}^{\gammaAXIS}}
+\newcommand*{\irmk}{\mv{\CURRENT}_{\ROTOR,\MAGNETIZATION}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\irmdqga}{\mv{\CURRENT}_{\ROTOR,\MAGNETIZATION}^{\dqgaCOSY}}
+\newcommand*{\irmdq}{\mv{\CURRENT}_{\ROTOR,\MAGNETIZATION}^{\dqCOSY}}
+\newcommand*{\irmd}{\CURRENT_{\ROTOR,\MAGNETIZATION}^{\dAXIS}}
+\newcommand*{\irmq}{\CURRENT_{\ROTOR,\MAGNETIZATION}^{\qAXIS}}
+\newcommand*{\irk}{\mv{\CURRENT}_{\ROTOR}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\irdqga}{\mv{\CURRENT}_{\ROTOR}^{\dqgaCOSY}}
+\newcommand*{\irdq}{\mv{\CURRENT}_{\ROTOR}^{\dqCOSY}}
+\newcommand*{\ird}{\CURRENT_{\ROTOR}^{\dAXIS}}
+\newcommand*{\irq}{\CURRENT_{\ROTOR}^{\qAXIS}}
+\newcommand*{\irqmin}{\CURRENT_{\ROTOR,\min}^{\qAXIS}}
+\newcommand*{\irqmax}{\CURRENT_{\ROTOR,\max}^{\qAXIS}}
+\newcommand*{\irga}{\CURRENT_{\ROTOR}^{\gammaAXIS}}
+\newcommand*{\irkprime}{\mv{\CURRENT}_{\ROTOR}^{\prime \kCOSY}}       % [DEPRECATED]
+\newcommand*{\irdqgaprime}{\mv{\CURRENT}_{\ROTOR}^{\prime \dqgaCOSY}}
+\newcommand*{\irdqprime}{\mv{\CURRENT}_{\ROTOR}^{\prime \dqCOSY}}
+\newcommand*{\irkinit}{\mv{\CURRENT}_{\ROTOR,0}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\irdqgainit}{\mv{\CURRENT}_{\ROTOR,0}^{\dqgaCOSY}}
+\newcommand*{\irdqinit}{\mv{\CURRENT}_{\ROTOR,0}^{\dqCOSY}}
+\newcommand*{\irdqnom}{\mv{\CURRENT}_{\ROTOR,\NOMINAL}^{\dqCOSY}}
+\newcommand*{\irdnom}{\CURRENT_{\ROTOR,\NOMINAL}^{\dAXIS}}
+\newcommand*{\irqnom}{\CURRENT_{\ROTOR,\NOMINAL}^{\qAXIS}}
+% amplitudes and maximal currents 
+\newcommand*{\ishat}{\widehat{\imath}_{\STATOR}}
+\newcommand*{\ishatnom}{\widehat{\imath}_{\STATOR,\NOMINAL}}
+\newcommand*{\ishatmax}{\widehat{\imath}_{\STATOR,\max}}
+\newcommand*{\ismax}{\widehat{i}_{\max}}        % [DEPRECATED]
+\newcommand*{\irhat}{\widehat{\imath}_{\ROTOR}}
+\newcommand*{\irhatnom}{\widehat{\imath}_{\ROTOR,\NOMINAL}}
+\newcommand*{\irhatmax}{\widehat{\imath}_{\ROTOR,\max}}
+\newcommand*{\isfehat}{\widehat{\imath}_{\STATOR,\IRON}}
+\newcommand*{\isSC}{\widehat{\imath}_{\STATOR,\SHORTCIRCUIT}}
+
+% stator reference values
+\newcommand*{\issref}{\mv{\CURRENT}_{\STATOR,\MYREF}^{\sCOSY}}       % [DEPRECATED]
+\newcommand*{\isalbegaref}{\mv{\CURRENT}_{\STATOR,\MYREF}^{\albegaCOSY}}
+\newcommand*{\isalberef}{\mv{\CURRENT}_{\STATOR,\MYREF}^{\albeCOSY}}
+\newcommand*{\isalpharef}{\CURRENT_{\STATOR,\MYREF}^{\alphaAXIS}}
+\newcommand*{\isbetaref}{\CURRENT_{\STATOR,\MYREF}^{\betaAXIS}}
+\newcommand*{\iskref}{\mv{\CURRENT}_{\STATOR,\MYREF}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\isdqgaref}{\mv{\CURRENT}_{\STATOR,\MYREF}^{\dqgaCOSY}}
+\newcommand*{\isdqref}{\mv{\CURRENT}_{\STATOR,\MYREF}^{\dqCOSY}}
+\newcommand*{\isdref}{\CURRENT_{\STATOR,\MYREF}^{\dAXIS}}
+\newcommand*{\isqref}{\CURRENT_{\STATOR,\MYREF}^{\qAXIS}}
+\newcommand*{\isabcref}{\mv{\CURRENT}_{\STATOR,\MYREF}^{\abcCOSY}}
+\newcommand*{\isaref}{\CURRENT_{\STATOR,\MYREF}^a}
+\newcommand*{\isbref}{\CURRENT_{\STATOR,\MYREF}^b}
+\newcommand*{\iscref}{\CURRENT_{\STATOR,\MYREF}^c}
+% rotor reference values
+\newcommand*{\irsref}{\mv{\CURRENT}_{\ROTOR,\MYREF}^{\sCOSY}}       % [DEPRECATED]
+\newcommand*{\iralbegaref}{\mv{\CURRENT}_{\ROTOR,\MYREF}^{\albegaCOSY}}
+\newcommand*{\iralberef}{\mv{\CURRENT}_{\ROTOR,\MYREF}^{\albeCOSY}}
+\newcommand*{\irkref}{\mv{\CURRENT}_{\ROTOR,\MYREF}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\irdqgaref}{\mv{\CURRENT}_{\ROTOR,\MYREF}^{\dqgaCOSY}}
+\newcommand*{\irdqref}{\mv{\CURRENT}_{\ROTOR,\MYREF}^{\dqCOSY}}
+\newcommand*{\irdref}{\CURRENT_{\ROTOR,\MYREF}^{\dAXIS}}
+\newcommand*{\irqref}{\CURRENT_{\ROTOR,\MYREF}^{\qAXIS}}
+\newcommand*{\irdqrefsat}{\mv{\CURRENT}_{\ROTOR,\MYREF,\sat}^{\dqCOSY}}
+\newcommand*{\irdrefsat}{\CURRENT_{\ROTOR,\MYREF,\sat}^{\dAXIS}}
+\newcommand*{\irqrefsat}{\CURRENT_{\ROTOR,\MYREF,\sat}^{\qAXIS}}
+% general
+%\newcommand*{\ivecrmxy}[2]{\mv{\CURRENT}_{\mathrm{#1}}^{#2}}
+% --------------------------------------------------------------------------------------
+% CURRENTS - END
+% --------------------------------------------------------------------------------------
+
+% --------------------------------------------------------------------------------------
+% VOLTAGES - START
+% --------------------------------------------------------------------------------------
+% actuator voltages
+\newcommand*{\uAk}{\mv{\VOLTAGE}_{\ACTUATOR}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\uAdqga}{\mv{\VOLTAGE}_{\ACTUATOR}^{\dqgaCOSY}}
+\newcommand*{\uAdq}{\mv{\VOLTAGE}_{\ACTUATOR}^{\dqCOSY}}
+\newcommand*{\uAd}{\VOLTAGE_{\ACTUATOR}^{\dAXIS}}
+\newcommand*{\uAq}{\VOLTAGE_{\ACTUATOR}^{\qAXIS}}
+% stator voltages
+\newcommand*{\usabc}{\mv{\VOLTAGE}_{\STATOR}^{\abcCOSY}}
+\newcommand*{\usabcbar}{\overline{\mv{\VOLTAGE}}_{\STATOR}^{\abcCOSY}}
+\newcommand*{\usa}{\VOLTAGE_{\STATOR}^a}
+\newcommand*{\usb}{\VOLTAGE_{\STATOR}^b}
+\newcommand*{\usc}{\VOLTAGE_{\STATOR}^c}
+\newcommand*{\usabcltl}{\mv{\VOLTAGE}_{\STATOR}^{\LTL}}
+\newcommand*{\usltl}{\mv{\VOLTAGE}_{\STATOR}^{\LTL}}
+\newcommand*{\usab}{\VOLTAGE_{\STATOR}^{\AtoB}}
+\newcommand*{\usbc}{\VOLTAGE_{\STATOR}^{\BtoC}}
+\newcommand*{\usca}{\VOLTAGE_{\STATOR}^{\CtoA}}
+\newcommand*{\uss}{\mv{\VOLTAGE}_{\STATOR}^{\sCOSY}}       % [DEPRECATED]
+\newcommand*{\usalbega}{\mv{\VOLTAGE}_{\STATOR}^{\albegaCOSY}}
+\newcommand*{\usalbe}{\mv{\VOLTAGE}_{\STATOR}^{\albeCOSY}}
+\newcommand*{\usalberef}{\mv{\VOLTAGE}_{\STATOR,\MYREF}^{\alpha\beta}}
+\newcommand*{\usalpha}{\VOLTAGE_{\STATOR}^{\alphaAXIS}}
+\newcommand*{\usbeta}{\VOLTAGE_{\STATOR}^{\betaAXIS}}
+\newcommand*{\uszero}{\VOLTAGE_{\STATOR}^{\zeroAXIS}}
+\newcommand*{\usr}{\mv{\VOLTAGE}_{\STATOR}^{\rCOSY}}       % [DEPRECATED]
+\newcommand*{\usalrbergar}{\mv{\VOLTAGE}_{\STATOR}^{\alrbergarCOSY}}
+\newcommand*{\usalrber}{\mv{\VOLTAGE}_{\STATOR}^{\alrberCOSY}}
+\newcommand*{\usk}{\mv{\VOLTAGE}_{\STATOR}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\usdqga}{\mv{\VOLTAGE}_{\STATOR}^{\dqgaCOSY}}
+\newcommand*{\usdq}{\mv{\VOLTAGE}_{\STATOR}^{\dqCOSY}}
+\newcommand*{\uskbar}{\overline{\mv{\VOLTAGE}}_{\STATOR}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\usdqgabar}{\overline{\mv{\VOLTAGE}}_{\STATOR}^{\dqgaCOSY}}
+\newcommand*{\usdqbar}{\overline{\mv{\VOLTAGE}}_{\STATOR}^{\dqCOSY}}
+\newcommand*{\usd}{\VOLTAGE_{\STATOR}^{\dAXIS}}
+\newcommand*{\usq}{\VOLTAGE_{\STATOR}^{\qAXIS}}
+\newcommand*{\usga}{\VOLTAGE_{\STATOR}^{\gammaAXIS}}
+\newcommand*{\usfek}{\mv{\VOLTAGE}_{\STATOR,\IRON}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\usfedqga}{\mv{\VOLTAGE}_{\STATOR,\IRON}^{\dqgaCOSY}}
+\newcommand*{\usfedq}{\mv{\VOLTAGE}_{\STATOR,\IRON}^{\dqCOSY}}
+\newcommand*{\usfed}{\VOLTAGE_{\STATOR,\IRON}^{\dAXIS}}
+\newcommand*{\usfeq}{\VOLTAGE_{\STATOR,\IRON}^{\qAXIS}}
+\newcommand*{\usdqinit}{\mv{\VOLTAGE}_{\STATOR,0}^{\dqCOSY}}
+\newcommand*{\uRsdq}{\mv{\VOLTAGE}_{R_{\STATOR}}^{\dqCOSY}}  % stator resistance voltage drop
+\newcommand*{\uRshat}{\widehat{\VOLTAGE}_{R_{\STATOR}}}
+% rotor
+\newcommand*{\urabc}{\mv{\VOLTAGE}_{\ROTOR}^{\abcCOSY}}
+\newcommand*{\urabcltl}{\mv{\VOLTAGE}_{\ROTOR}^{\LTL}}
+\newcommand*{\uruvw}{\mv{\VOLTAGE}_{\ROTOR}^{\uvwCOSY}}
+\newcommand*{\ura}{\VOLTAGE_{\ROTOR}^a}
+\newcommand*{\urb}{\VOLTAGE_{\ROTOR}^b}
+\newcommand*{\urc}{\VOLTAGE_{\ROTOR}^c}
+\newcommand*{\urab}{\VOLTAGE_{\ROTOR}^{\AtoB}}
+\newcommand*{\urbc}{\VOLTAGE_{\ROTOR}^{\BtoC}}
+\newcommand*{\urca}{\VOLTAGE_{\ROTOR}^{\CtoA}}
+\newcommand*{\uru}{\VOLTAGE_{\ROTOR}^u}
+\newcommand*{\urv}{\VOLTAGE_{\ROTOR}^v}
+\newcommand*{\urw}{\VOLTAGE_{\ROTOR}^w}
+\newcommand*{\urar}{\VOLTAGE_{\ROTOR}^{a_{\ROTOR}}}
+\newcommand*{\urbr}{\VOLTAGE_{\ROTOR}^{b_{\ROTOR}}}
+\newcommand*{\urcr}{\VOLTAGE_{\ROTOR}^{c_{\ROTOR}}}
+\newcommand*{\uRrabc}{\mv{\VOLTAGE}_{R_{\ROTOR}}^{\abcCOSY}}  % for DFIM with with nonlinear voltage drop at its brushes
+\newcommand*{\uRra}{\VOLTAGE_{R_{\ROTOR}}^{a}}
+\newcommand*{\uRrb}{\VOLTAGE_{R_{\ROTOR}}^{b}}
+\newcommand*{\uRrc}{\VOLTAGE_{R_{\ROTOR}}^{c}}
+\newcommand*{\urs}{\mv{\VOLTAGE}_{\ROTOR}^{\sCOSY}}       % [DEPRECATED]
+\newcommand*{\uralbega}{\mv{\VOLTAGE}_{\ROTOR}^{\albegaCOSY}}
+\newcommand*{\uralbe}{\mv{\VOLTAGE}_{\ROTOR}^{\albeCOSY}}
+\newcommand*{\uRralbe}{\mv{\VOLTAGE}_{R_{\ROTOR}}^{\albeCOSY}}
+\newcommand*{\uralpha}{\VOLTAGE_{\ROTOR}^{\alphaAXIS}}
+\newcommand*{\urbeta}{\VOLTAGE_{\ROTOR}^{\betaAXIS}}
+\newcommand*{\urr}{\mv{\VOLTAGE}_{\ROTOR}^{\rCOSY}}       % [DEPRECATED]
+\newcommand*{\uralrbergar}{\mv{\VOLTAGE}_{\ROTOR}^{\alrbergarCOSY}}
+\newcommand*{\uralrber}{\mv{\VOLTAGE}_{\ROTOR}^{\alrberCOSY}}
+\newcommand*{\uralrberref}{\mv{\VOLTAGE}_{\ROTOR,\MYREF}^{\alrberCOSY}}
+\newcommand*{\uralphar}{\VOLTAGE_{\ROTOR}^{\alpharAXIS}}
+\newcommand*{\urbetar}{\VOLTAGE_{\ROTOR}^{\betarAXIS}}
+\newcommand*{\urk}{\mv{\VOLTAGE}_{\ROTOR}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\urdqga}{\mv{\VOLTAGE}_{\ROTOR}^{\dqgaCOSY}}
+\newcommand*{\urdq}{\mv{\VOLTAGE}_{\ROTOR}^{\dqCOSY}}
+\newcommand*{\urkprime}{\mv{\VOLTAGE}_{\ROTOR}^{\!\prime \kCOSY}}       % [DEPRECATED]
+\newcommand*{\urdqgaprime}{\mv{\VOLTAGE}_{\ROTOR}^{\!\prime \dqgaCOSY}}
+\newcommand*{\urdqprime}{\mv{\VOLTAGE}_{\ROTOR}^{\!\prime \dqCOSY}}
+\newcommand*{\urd}{\VOLTAGE_{\ROTOR}^{\dAXIS}}
+\newcommand*{\urq}{\VOLTAGE_{\ROTOR}^{\qAXIS}}
+\newcommand*{\urga}{\VOLTAGE_{\ROTOR}^{\gammaAXIS}}
+\newcommand*{\urdprime}{\VOLTAGE_{\ROTOR}^{\!\prime d}}
+\newcommand*{\urqprime}{\VOLTAGE_{\ROTOR}^{\!\prime q}}
+\newcommand*{\urfek}{\mv{\VOLTAGE}_{\ROTOR,\IRON}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\urfedqga}{\mv{\VOLTAGE}_{\ROTOR,\IRON}^{\dqgaCOSY}}
+\newcommand*{\urfedq}{\mv{\VOLTAGE}_{\ROTOR,\IRON}^{\dqCOSY}}
+\newcommand*{\urfed}{\VOLTAGE_{\ROTOR,\IRON}^{\dAXIS}}
+\newcommand*{\urfeq}{\VOLTAGE_{\ROTOR,\IRON}^{\qAXIS}}
+\newcommand*{\uRrdq}{\mv{\VOLTAGE}_{R_{\ROTOR}}^{\dqCOSY}}  % for DFIM with with nonlinear voltage drop at its brushes
+\newcommand*{\uRrhat}{\widehat{\VOLTAGE}_{R_{\ROTOR}}}
+\newcommand*{\uRrd}{\VOLTAGE_{R_{\ROTOR}}^{\dAXIS}}
+\newcommand*{\uRrq}{\VOLTAGE_{R_{\ROTOR}}^{\qAXIS}}
+% emf voltages
+\newcommand*{\esabc}{\mv{e}_{\STATOR}^{\abcCOSY}}
+\newcommand*{\esa}{e_{\STATOR}^a}
+\newcommand*{\esb}{e_{\STATOR}^b}
+\newcommand*{\esc}{e_{\STATOR}^c}
+\newcommand*{\usabcemf}{\mv{\VOLTAGE}_{\STATOR,\EMF}^{\abcCOSY}}
+\newcommand*{\usaemf}{\VOLTAGE_{\STATOR,\EMF}^a}
+\newcommand*{\usbemf}{\VOLTAGE_{\STATOR,\EMF}^b}
+\newcommand*{\uscemf}{\VOLTAGE_{\STATOR,\EMF}^c}
+% induced voltage in EESG with damper windings (Polradspannung)
+\newcommand*{\upk}{\mv{\VOLTAGE}_{\mathrm{p}}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\updqga}{\mv{\VOLTAGE}_{\mathrm{p}}^{\dqgaCOSY}}
+\newcommand*{\updq}{\mv{\VOLTAGE}_{\mathrm{p}}^{\dqCOSY}}
+\newcommand*{\upd}{\VOLTAGE_{\mathrm{p}}^{\dAXIS}}
+\newcommand*{\upq}{\VOLTAGE_{\mathrm{p}}^{\qAXIS}}
+\newcommand*{\upkhat}{\hat{u}_{\mathrm{p}}}
+% disturbance and compensation terms
+\newcommand*{\uskdist}{\mv{\VOLTAGE}_{\STATOR,\DISTURBANCE}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\usdqgadist}{\mv{\VOLTAGE}_{\STATOR,\DISTURBANCE}^{\dqgaCOSY}}
+\newcommand*{\usdqdist}{\mv{\VOLTAGE}_{\STATOR,\DISTURBANCE}^{\dqCOSY}}
+\newcommand*{\usddist}{\VOLTAGE_{\STATOR,\DISTURBANCE}^{\dAXIS}}
+\newcommand*{\usqdist}{\VOLTAGE_{\STATOR,\DISTURBANCE}^{\qAXIS}}
+\newcommand*{\uskcomp}{\mv{\VOLTAGE}_{\STATOR,\COMPENSATION}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\usdqgacomp}{\mv{\VOLTAGE}_{\STATOR,\COMPENSATION}^{\dqgaCOSY}}
+\newcommand*{\usdqcomp}{\mv{\VOLTAGE}_{\STATOR,\COMPENSATION}^{\dqCOSY}}
+\newcommand*{\usdcomp}{\VOLTAGE_{\STATOR,\COMPENSATION}^{\dAXIS}}
+\newcommand*{\usqcomp}{\VOLTAGE_{\STATOR,\COMPENSATION}^{\qAXIS}}
+\newcommand*{\usdqdi}{\mv{\VOLTAGE}_{\STATOR,\mathrm{di}}^{\dqCOSY}}
+\newcommand*{\usdqco}{\mv{\VOLTAGE}_{\STATOR,\mathrm{co}}^{\dqCOSY}}
+\newcommand*{\usdqcotilde}{\widetilde{\mv{\VOLTAGE}}_{\STATOR,\mathrm{co}}^{\dqCOSY}}
+\newcommand*{\usdcotilde}{\widetilde{\mv{\VOLTAGE}}_{\STATOR,\mathrm{co}}^{\dAXIS}}
+\newcommand*{\usqcotilde}{\widetilde{\mv{\VOLTAGE}}_{\STATOR,\mathrm{co}}^{\qAXIS}}
+\newcommand*{\usdco}{\VOLTAGE_{\STATOR,\mathrm{co}}^{\dAXIS}}
+\newcommand*{\usqco}{\VOLTAGE_{\STATOR,\mathrm{co}}^{\qAXIS}}
+\newcommand*{\urdqdi}{\mv{\VOLTAGE}_{\ROTOR,\mathrm{di}}^{\dqCOSY}}
+\newcommand*{\urdqco}{\mv{\VOLTAGE}_{\ROTOR,\mathrm{co}}^{\dqCOSY}}
+\newcommand*{\urdqcotilde}{\widetilde{\mv{\VOLTAGE}}_{\ROTOR,\mathrm{co}}^{\dqCOSY}}
+\newcommand*{\urdcotilde}{\widetilde{\mv{\VOLTAGE}}_{\ROTOR,\mathrm{co}}^{\dAXIS}}
+\newcommand*{\urqcotilde}{\widetilde{\mv{\VOLTAGE}}_{\ROTOR,\mathrm{co}}^{\qAXIS}}
+\newcommand*{\urdco}{\VOLTAGE_{\ROTOR,\mathrm{co}}^{\dAXIS}}
+\newcommand*{\urqco}{\VOLTAGE_{\ROTOR,\mathrm{co}}^{\qAXIS}}
+% PI controller and error
+\newcommand*{\uskpi}{\mv{\VOLTAGE}_{\STATOR,\PICON}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\usdqgapi}{\mv{\VOLTAGE}_{\STATOR,\PICON}^{\dqgaCOSY}}
+\newcommand*{\usdqpi}{\mv{\VOLTAGE}_{\STATOR,\PICON}^{\dqCOSY}}
+\newcommand*{\uskpifc}{\mv{\VOLTAGE}_{\STATOR,\PICON\text{-}\FCCON}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\usdqgapifc}{\mv{\VOLTAGE}_{\STATOR,\PICON\text{-}\FCCON}^{\dqgaCOSY}}
+\newcommand*{\usdqpifc}{\mv{\VOLTAGE}_{\STATOR,\PICON\text{-}\FCCON}^{\dqCOSY}}
+\newcommand*{\uskfc}{\mv{\VOLTAGE}_{\STATOR,\FCCON}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\usdqgafc}{\mv{\VOLTAGE}_{\STATOR,\FCCON}^{\dqgaCOSY}}
+\newcommand*{\usdqfc}{\mv{\VOLTAGE}_{\STATOR,\FCCON}^{\dqCOSY}}
+\newcommand*{\usdpi}{\VOLTAGE_{\STATOR,\PICON}^{\dAXIS}}
+\newcommand*{\usqpi}{\VOLTAGE_{\STATOR,\PICON}^{\qAXIS}}
+\newcommand*{\esk}{\mv{e}_{\STATOR}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\esdqga}{\mv{e}_{\STATOR}^{\dqgaCOSY}}
+\newcommand*{\esdq}{\mv{e}_{\STATOR}^{\dqCOSY}}
+\newcommand*{\esd}{e_{\STATOR}^{\dAXIS}}
+\newcommand*{\esq}{e_{\STATOR}^{\qAXIS}}
+\newcommand*{\usdqpibar}{\overline{\mv{\VOLTAGE}}_{\STATOR,\PICON}^{\dqCOSY}}
+\newcommand*{\usdpibar}{\overline{\VOLTAGE}_{\STATOR,\PICON}^{\dAXIS}}
+\newcommand*{\usqpibar}{\overline{\VOLTAGE}_{\STATOR,\PICON}^{\qAXIS}}
+\newcommand*{\urdqpi}{\mv{\VOLTAGE}_{\ROTOR,\PICON}^{\dqCOSY}}
+\newcommand*{\urdpi}{\VOLTAGE_{\ROTOR,\PICON}^{\dAXIS}}
+\newcommand*{\urqpi}{\VOLTAGE_{\ROTOR,\PICON}^{\qAXIS}}
+\newcommand*{\urdqpibar}{\overline{\mv{\VOLTAGE}}_{\ROTOR,\PICON}^{\dqCOSY}}
+\newcommand*{\urdpibar}{\overline{\VOLTAGE}_{\ROTOR,\PICON}^{\dAXIS}}
+\newcommand*{\urqpibar}{\overline{\VOLTAGE}_{\ROTOR,\PICON}^{\qAXIS}}
+% anti-windup
+\newcommand*{\faw}{f_{\ANTIWINDUP}}
+% amplitudes and maximal voltages
+\newcommand*{\ushat}{\widehat{u}_{\STATOR}}
+\newcommand*{\ushatnom}{\widehat{u}_{\STATOR,\NOMINAL}}
+\newcommand*{\ushatmax}{\widehat{u}_{\STATOR,\max}}
+\newcommand*{\usmax}{\widehat{u}_{\max}}        % [DEPRECATED]
+\newcommand*{\urhat}{\widehat{u}_{\ROTOR}}
+\newcommand*{\urhatref}{\widehat{u}_{\ROTOR,\MYREF}}
+\newcommand*{\urhatrefast}{\widehat{u}_{\ROTOR,\MYREF}^\ast}
+\newcommand*{\urhatnom}{\widehat{u}_{\ROTOR,\NOMINAL}}
+\newcommand*{\urhatmax}{\widehat{u}_{\ROTOR,\max}}
+%	stator reference values
+\newcommand*{\usabcref}{\mv{\VOLTAGE}_{\STATOR,\MYREF}^{\abcCOSY}}
+\newcommand*{\usaref}{\VOLTAGE_{\STATOR,\MYREF}^a}
+\newcommand*{\usbref}{\VOLTAGE_{\STATOR,\MYREF}^b}
+\newcommand*{\uscref}{\VOLTAGE_{\STATOR,\MYREF}^c}
+\newcommand*{\usalpharef}{\VOLTAGE_{\STATOR,\MYREF}^{\alphaAXIS}}
+\newcommand*{\usbetaref}{\VOLTAGE_{\STATOR,\MYREF}^{\betaAXIS}}
+\newcommand*{\uskref}{\mv{\VOLTAGE}_{\STATOR,\MYREF}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\usdqgaref}{\mv{\VOLTAGE}_{\STATOR,\MYREF}^{\dqgaCOSY}}
+\newcommand*{\usdqref}{\mv{\VOLTAGE}_{\STATOR,\MYREF}^{\dqCOSY}}
+\newcommand*{\uskreftilde}{\widetilde{\mv{\VOLTAGE}}_{\STATOR,\MYREF}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\usdqgareftilde}{\widetilde{\mv{\VOLTAGE}}_{\STATOR,\MYREF}^{\dqgaCOSY}}
+\newcommand*{\usdqreftilde}{\widetilde{\mv{\VOLTAGE}}_{\STATOR,\MYREF}^{\dqCOSY}}
+\newcommand*{\usdref}{\VOLTAGE_{\STATOR,\MYREF}^{\dAXIS}}
+\newcommand*{\usqref}{\VOLTAGE_{\STATOR,\MYREF}^{\qAXIS}}
+\newcommand*{\ussref}{\mv{\VOLTAGE}_{\STATOR,\MYREF}^{\sCOSY}}       % [DEPRECATED]
+\newcommand*{\usalbegaref}{\mv{\VOLTAGE}_{\STATOR,\MYREF}^{\albegaCOSY}}
+% rotor reference values
+\newcommand*{\urabcref}{\mv{\VOLTAGE}_{\ROTOR,\MYREF}^{\abcCOSY}}
+\newcommand*{\urkref}{\mv{\VOLTAGE}_{\ROTOR,\MYREF}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\urdqgaref}{\mv{\VOLTAGE}_{\ROTOR,\MYREF}^{\dqgaCOSY}}
+\newcommand*{\urdqref}{\mv{\VOLTAGE}_{\ROTOR,\MYREF}^{\dqCOSY}}
+\newcommand*{\urdqrefast}{\mv{\VOLTAGE}_{\ROTOR,\MYREF}^{{\dqCOSY}^\ast}}
+\newcommand*{\urdqrefsat}{\mv{\VOLTAGE}_{\ROTOR,\MYREF,\sat}^{\dqCOSY}}
+\newcommand*{\urdqrefsatast}{\mv{\VOLTAGE}_{\ROTOR,\MYREF,\sat}^{{\dqCOSY}^\ast}}
+\newcommand*{\ursref}{\mv{\VOLTAGE}_{\ROTOR,\MYREF}^{\sCOSY}}       % [DEPRECATED]
+\newcommand*{\uralbegaref}{\mv{\VOLTAGE}_{\ROTOR,\MYREF}^{\albegaCOSY}}
+\newcommand*{\uralberef}{\mv{\VOLTAGE}_{\ROTOR,\MYREF}^{\albeCOSY}}
+\newcommand*{\urdref}{\VOLTAGE_{\ROTOR,\MYREF}^{\dAXIS}}
+\newcommand*{\urqref}{\VOLTAGE_{\ROTOR,\MYREF}^{\qAXIS}}
+% feedforward terms
+\newcommand*{\uskff}{\mv{\VOLTAGE}_{\STATOR,\FEEDFORWARD}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\usdqgaff}{\mv{\VOLTAGE}_{\STATOR,\FEEDFORWARD}^{\dqgaCOSY}}
+\newcommand*{\usdqff}{\mv{\VOLTAGE}_{\STATOR,\FEEDFORWARD}^{\dqCOSY}}
+\newcommand*{\ussff}{\mv{\VOLTAGE}_{\STATOR,\FEEDFORWARD}^{\sCOSY}}       % [DEPRECATED]
+\newcommand*{\usalbegaff}{\mv{\VOLTAGE}_{\STATOR,\FEEDFORWARD}^{\albegaCOSY}}
+\newcommand*{\usalbeff}{\mv{\VOLTAGE}_{\STATOR,\FEEDFORWARD}^{\albeCOSY}}
+\newcommand*{\usdff}{\VOLTAGE_{\STATOR,\FEEDFORWARD}^{\dAXIS}}
+\newcommand*{\usqff}{\VOLTAGE_{\STATOR,\FEEDFORWARD}^{\qAXIS}}
+% --------------------------------------------------------------------------------------
+% VOLTAGES - END
+% --------------------------------------------------------------------------------------
+
+% --------------------------------------------------------------------------------------
+% FLUX LINKAGES - START
+% --------------------------------------------------------------------------------------
+% combined, e.g. stator and rotor
+\newcommand*{\psidq}{\mv{\FLUX}^{\dqCOSY}}
+\newcommand*{\psidqga}{\mv{\FLUX}^{\dqgaCOSY}}
+% stator
+\newcommand*{\psisabc}{\mv{\FLUX}_{\STATOR}^{\abcCOSY}}
+\newcommand*{\psisabcinit}{\mv{\FLUX}_{\STATOR,0}^{\abcCOSY}}
+\newcommand*{\psisa}{\FLUX_{\STATOR}^a}
+\newcommand*{\psisb}{\FLUX_{\STATOR}^b}
+\newcommand*{\psisc}{\FLUX_{\STATOR}^c}
+\newcommand*{\psiss}{\mv{\FLUX}_{\STATOR}^{\sCOSY}}       % [DEPRECATED]
+\newcommand*{\psisalbega}{\mv{\FLUX}_{\STATOR}^{\albegaCOSY}}
+\newcommand*{\psisalbe}{\mv{\FLUX}_{\STATOR}^{\albeCOSY}}
+\newcommand*{\psissinit}{\mv{\FLUX}_{\STATOR,0}^{\sCOSY}}       % [DEPRECATED]
+\newcommand*{\psisalbegainit}{\mv{\FLUX}_{\STATOR,0}^{\albegaCOSY}}
+\newcommand*{\psisalbeinit}{\mv{\FLUX}_{\STATOR,0}^{\albeCOSY}}
+\newcommand*{\psiskinit}{\mv{\FLUX}_{\STATOR,0}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\psisdqgainit}{\mv{\FLUX}_{\STATOR,0}^{\dqgaCOSY}}
+\newcommand*{\psisdqinit}{\mv{\FLUX}_{\STATOR,0}^{\dqCOSY}}
+\newcommand*{\psisr}{\mv{\FLUX}_{\STATOR}^{\rCOSY}}       % [DEPRECATED]
+\newcommand*{\psisalrbergar}{\mv{\FLUX}_{\STATOR}^{\alrbergarCOSY}}
+\newcommand*{\psisalrber}{\mv{\FLUX}_{\STATOR}^{\alrberCOSY}}
+\newcommand*{\psisk}{\mv{\FLUX}_{\STATOR}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\psisdqga}{\mv{\FLUX}_{\STATOR}^{\dqgaCOSY}}
+\newcommand*{\psisdq}{\mv{\FLUX}_{\STATOR}^{\dqCOSY}}
+\newcommand*{\psisd}{\FLUX_{\STATOR}^{\dAXIS}}
+\newcommand*{\psisq}{\FLUX_{\STATOR}^{\qAXIS}}
+\newcommand*{\psisga}{\FLUX_{\STATOR}^{\gammaAXIS}}
+\newcommand*{\psisalpha}{\FLUX_{\STATOR}^{\alphaAXIS}}
+\newcommand*{\psisbeta}{\FLUX_{\STATOR}^{\betaAXIS}}
+\newcommand*{\psiszero}{\FLUX_{\STATOR}^{\zeroAXIS}}
+\newcommand*{\psismk}{\mv{\FLUX}_{\STATOR,\MAGNETIZATION}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\psismdqga}{\mv{\FLUX}_{\STATOR,\MAGNETIZATION}^{\dqgaCOSY}}
+\newcommand*{\psismdq}{\mv{\FLUX}_{\STATOR,\MAGNETIZATION}^{\dqCOSY}}
+\newcommand*{\psismd}{\FLUX_{\STATOR,\MAGNETIZATION}^{\dAXIS}}
+\newcommand*{\psismq}{\FLUX_{\STATOR,\MAGNETIZATION}^{\qAXIS}}
+\newcommand*{\psisdqtilde}{\widetilde{\mv{\FLUX}}_{\STATOR}^{\dqCOSY}}
+% stator leakage flux linkage
+\newcommand*{\psislk}{\mv{\FLUX}_{\STATOR,\sigma}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\psisldqga}{\mv{\FLUX}_{\STATOR,\sigma}^{\dqgaCOSY}}
+\newcommand*{\psisldq}{\mv{\FLUX}_{\STATOR,\sigma}^{\dqCOSY}}
+\newcommand*{\psisld}{\FLUX_{\STATOR,\sigma}^{\dAXIS}}
+\newcommand*{\psislq}{\FLUX_{\STATOR,\sigma}^{\qAXIS}}
+% stator iron flux linkage
+\newcommand*{\psisfek}{\mv{\FLUX}_{\STATOR,\IRON}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\psisfedqga}{\mv{\FLUX}_{\STATOR,\IRON}^{\dqgaCOSY}}
+\newcommand*{\psisfedq}{\mv{\FLUX}_{\STATOR,\IRON}^{\dqCOSY}}
+\newcommand*{\psisfed}{\FLUX_{\STATOR,\IRON}^{\dAXIS}}
+\newcommand*{\psisfeq}{\FLUX_{\STATOR,\IRON}^{\qAXIS}}
+% permanent magnet
+\newcommand*{\psiPMabc}{\mv{\FLUX}_{\!\PM}^{\abcCOSY}}
+\newcommand*{\psiPMa}{\FLUX_{\!\PM}^a}
+\newcommand*{\psiPMb}{\FLUX_{\!\PM}^b}
+\newcommand*{\psiPMc}{\FLUX_{\!\PM}^c}
+\newcommand*{\psiPMs}{\mv{\FLUX}_{\!\PM}^{\sCOSY}}       % [DEPRECATED]
+\newcommand*{\psiPMalbega}{\mv{\FLUX}_{\!\PM}^{\albegaCOSY}}
+\newcommand*{\psiPMalbe}{\mv{\FLUX}_{\!\PM}^{\albeCOSY}}
+\newcommand*{\psiPMr}{\mv{\FLUX}_{\!\PM}^{\rCOSY}}       % [DEPRECATED]
+\newcommand*{\psiPMalrbergar}{\mv{\FLUX}_{\!\PM}^{\alrbergarCOSY}}
+\newcommand*{\psiPMalrber}{\mv{\FLUX}_{\!\PM}^{\alrberCOSY}}
+\newcommand*{\psiPMk}{\mv{\FLUX}_{\!\PM}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\psiPMdqga}{\mv{\FLUX}_{\!\PM}^{\dqgaCOSY}}
+\newcommand*{\psiPMdq}{\mv{\FLUX}_{\!\PM}^{\dqCOSY}}
+\newcommand*{\psiPMd}{\FLUX_{\!\PM}^{\dAXIS}}
+\newcommand*{\psiPMq}{\FLUX_{\!\PM}^{\qAXIS}}
+\newcommand*{\psiPM}{\FLUX_{\PM}}
+\newcommand*{\psiPMhat}{\hat{\psi}_{\PM}}
+% rotor
+\newcommand*{\psirabc}{\mv{\FLUX}_{\ROTOR}^{\abcCOSY}}
+\newcommand*{\psirabcinit}{\mv{\FLUX}_{\ROTOR,0}^{\abcCOSY}}
+\newcommand*{\psira}{\FLUX_{\ROTOR}^a}
+\newcommand*{\psirb}{\FLUX_{\ROTOR}^b}
+\newcommand*{\psirc}{\FLUX_{\ROTOR}^c}
+\newcommand*{\psiruvw}{\mv{\FLUX}_{\ROTOR}^{\uvwCOSY}}       % [DEPRECATED]
+\newcommand*{\psiruvwinit}{\mv{\FLUX}_{\ROTOR,0}^{\uvwCOSY}}       % [DEPRECATED]
+\newcommand*{\psiru}{\FLUX_{\ROTOR}^u}       % [DEPRECATED]
+\newcommand*{\psirv}{\FLUX_{\ROTOR}^v}       % [DEPRECATED]
+\newcommand*{\psirw}{\FLUX_{\ROTOR}^w}       % [DEPRECATED]
+\newcommand*{\psirs}{\mv{\FLUX}_{\ROTOR}^{\sCOSY}}       % [DEPRECATED]
+\newcommand*{\psiralbega}{\mv{\FLUX}_{\ROTOR}^{\albegaCOSY}}
+\newcommand*{\psiralbe}{\mv{\FLUX}_{\ROTOR}^{\albeCOSY}}
+\newcommand*{\psirsinit}{\mv{\FLUX}_{\ROTOR,0}^{\sCOSY}}       % [DEPRECATED]
+\newcommand*{\psiralbegainit}{\mv{\FLUX}_{\ROTOR,0}^{\albegaCOSY}}
+\newcommand*{\psiralbeinit}{\mv{\FLUX}_{\ROTOR,0}^{\albeCOSY}}
+\newcommand*{\psiralpha}{\FLUX_{\ROTOR}^{\alphaAXIS}}
+\newcommand*{\psirbeta}{\FLUX_{\ROTOR}^{\betaAXIS}}
+\newcommand*{\psirr}{\mv{\FLUX}_{\ROTOR}^{\rCOSY}}       % [DEPRECATED]
+\newcommand*{\psiralrbergar}{\mv{\FLUX}_{\ROTOR}^{\alrbergarCOSY}}
+\newcommand*{\psiralrber}{\mv{\FLUX}_{\ROTOR}^{\alrberCOSY}}
+\newcommand*{\psiralphar}{\FLUX_{\ROTOR}^{\alpharAXIS}}
+\newcommand*{\psirbetar}{\FLUX_{\ROTOR}^{\betarAXIS}}
+\newcommand*{\psirrinit}{\mv{\FLUX}_{\ROTOR,0}^{\rCOSY}}       % [DEPRECATED]
+\newcommand*{\psiralrbergarinit}{\mv{\FLUX}_{\ROTOR,0}^{\alrbergarCOSY}}
+\newcommand*{\psiralrberinit}{\mv{\FLUX}_{\ROTOR,0}^{\alrberCOSY}}
+\newcommand*{\psirk}{\mv{\FLUX}_{\ROTOR}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\psirdqga}{\mv{\FLUX}_{\ROTOR}^{\dqgaCOSY}}
+\newcommand*{\psirdq}{\mv{\FLUX}_{\ROTOR}^{\dqCOSY}}
+\newcommand*{\psird}{\FLUX_{\ROTOR}^{\dAXIS}}
+\newcommand*{\psirdhat}{\widehat{\psi}_{\ROTOR}^{\dAXIS}}
+\newcommand*{\psirdprime}{\FLUX_{\ROTOR}^{\prime d}}
+\newcommand*{\psirdhatprime}{\widehat{\psi}_{\ROTOR}^{\prime d}}
+\newcommand*{\psirq}{\FLUX_{\ROTOR}^{\qAXIS}}
+\newcommand*{\psirga}{\FLUX_{\ROTOR}^{\gammaAXIS}}
+\newcommand*{\psirqprime}{\FLUX_{\ROTOR}^{\prime q}}
+\newcommand*{\psirkprime}{\mv{\FLUX}_{\ROTOR}^{\prime \kCOSY}}       % [DEPRECATED]
+\newcommand*{\psirdqgaprime}{\mv{\FLUX}_{\ROTOR}^{\prime \dqgaCOSY}}
+\newcommand*{\psirdqprime}{\mv{\FLUX}_{\ROTOR}^{\prime \dqCOSY}}
+\newcommand*{\psirkinit}{\mv{\FLUX}_{\ROTOR,0}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\psirdqgainit}{\mv{\FLUX}_{\ROTOR,0}^{\dqgaCOSY}}
+\newcommand*{\psirdqinit}{\mv{\FLUX}_{\ROTOR,0}^{\dqCOSY}}
+\newcommand*{\psirkinitprime}{\mv{\FLUX}_{\ROTOR,0}^{\prime \kCOSY}}       % [DEPRECATED]
+\newcommand*{\psirdqgainitprime}{\mv{\FLUX}_{\ROTOR,0}^{\prime \dqgaCOSY}}
+\newcommand*{\psirdqinitprime}{\mv{\FLUX}_{\ROTOR,0}^{\prime \dqCOSY}}
+\newcommand*{\psirdqtilde}{\widetilde{\mv{\FLUX}}_{\ROTOR}^{\dqCOSY}}
+\newcommand*{\psirdtilde}{\widetilde{\psi}_{\ROTOR}^{\dAXIS}}
+\newcommand*{\psirqtilde}{\widetilde{\psi}_{\ROTOR}^{\qAXIS}}
+% rotor main (magnetization) flux linkage
+\newcommand*{\psirmk}{\mv{\FLUX}_{\ROTOR,\MAGNETIZATION}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\psirmdqga}{\mv{\FLUX}_{\ROTOR,\MAGNETIZATION}^{\dqgaCOSY}}
+\newcommand*{\psirmdq}{\mv{\FLUX}_{\ROTOR,\MAGNETIZATION}^{\dqCOSY}}
+\newcommand*{\psirmd}{\FLUX_{\ROTOR,\MAGNETIZATION}^{\dAXIS}}
+\newcommand*{\psirmq}{\FLUX_{\ROTOR,\MAGNETIZATION}^{\qAXIS}}
+% rotor leakage flux linkage
+\newcommand*{\psirlk}{\mv{\FLUX}_{\ROTOR,\sigma}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\psirldqga}{\mv{\FLUX}_{\ROTOR,\sigma}^{\dqgaCOSY}}
+\newcommand*{\psirldq}{\mv{\FLUX}_{\ROTOR,\sigma}^{\dqCOSY}}
+\newcommand*{\psirld}{\FLUX_{\ROTOR,\sigma}^{\dAXIS}}
+\newcommand*{\psirlq}{\FLUX_{\ROTOR,\sigma}^{\qAXIS}}
+% rotor iron flux linkage
+\newcommand*{\psirfek}{\mv{\FLUX}_{\ROTOR,\IRON}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\psirfedqga}{\mv{\FLUX}_{\ROTOR,\IRON}^{\dqgaCOSY}}
+\newcommand*{\psirfedq}{\mv{\FLUX}_{\ROTOR,\IRON}^{\dqCOSY}}
+\newcommand*{\psirfed}{\FLUX_{\ROTOR,\IRON}^{\dAXIS}}
+\newcommand*{\psirfeq}{\FLUX_{\ROTOR,\IRON}^{\qAXIS}}
+% excitation (also for DC machine)
+\newcommand*{\psiEE}{\FLUX_{\EE}}
+\newcommand*{\psiEEs}{\mv{\FLUX}_{\!\EE}^{\sCOSY}}       % [DEPRECATED]
+\newcommand*{\psiEEalbega}{\mv{\FLUX}_{\!\EE}^{\albegaCOSY}}
+\newcommand*{\psiEEalbe}{\mv{\FLUX}_{\!\EE}^{\albeCOSY}}
+\newcommand*{\psiEEr}{\mv{\FLUX}_{\!\EE}^{\rCOSY}}       % [DEPRECATED]
+\newcommand*{\psiEEalrbergar}{\mv{\FLUX}_{\!\EE}^{\alrbergarCOSY}}
+\newcommand*{\psiEEalrber}{\mv{\FLUX}_{\!\EE}^{\alrberCOSY}}
+\newcommand*{\psiEEk}{\mv{\FLUX}_{\!\EE}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\psiEEdqga}{\mv{\FLUX}_{\!\EE}^{\dqgaCOSY}}
+\newcommand*{\psiEEdq}{\mv{\FLUX}_{\!\EE}^{\dqCOSY}}
+\newcommand*{\psiE}{\FLUX_{\EXCITATION}}
+\newcommand*{\psiEhat}{\widehat{\psi}_{\EXCITATION}}
+\newcommand*{\psiEref}{\FLUX_{\EXCITATION,\MYREF}}
+\newcommand*{\psiSEd}{\FLUX_{\SE}^{\dAXIS}}
+\newcommand*{\psiEd}{\FLUX_{\EXCITATION}^{\dAXIS}}
+\newcommand*{\psiEq}{\FLUX_{\EXCITATION}^{\qAXIS}}
+\newcommand*{\psiEN}{\FLUX_{\EXCITATION,\NOMINAL}}
+\newcommand*{\psiEinit}{\FLUX_{\EXCITATION,0}}
+\newcommand*{\psiEnom}{\FLUX_{\EXCITATION,\NOMINAL}}
+\newcommand*{\psiEmax}{\FLUX_{\EXCITATION,\max}}
+\newcommand*{\psiEmin}{\FLUX_{\EXCITATION,\min}}
+%  main (magnetization) flux linkage
+\newcommand*{\psimk}{\mv{\FLUX}_{\MAGNETIZATION}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\psimdqga}{\mv{\FLUX}_{\MAGNETIZATION}^{\dqgaCOSY}}
+\newcommand*{\psimdq}{\mv{\FLUX}_{\MAGNETIZATION}^{\dqCOSY}}
+\newcommand*{\psims}{\mv{\FLUX}_{\MAGNETIZATION}^{\sCOSY}}       % [DEPRECATED]
+\newcommand*{\psimalbega}{\mv{\FLUX}_{\MAGNETIZATION}^{\albegaCOSY}}
+\newcommand*{\psimalbe}{\mv{\FLUX}_{\MAGNETIZATION}^{\albeCOSY}}
+% rotor references values
+\newcommand*{\psirdref}{\FLUX_{\ROTOR,\MYREF}^{\dAXIS}}
+\newcommand*{\psirdrefprime}{\FLUX_{\ROTOR,\MYREF}^{\prime d}}
+\newcommand*{\psirqref}{\FLUX_{\ROTOR,\MYREF}^{\qAXIS}}
+\newcommand*{\psirqrefprime}{\FLUX_{\ROTOR,\MYREF}^{\prime q}}
+\newcommand*{\psirqrefhatprime}{\widehat{\FLUX}_{\ROTOR,\MYREF}^{\prime q}}
+% general
+\newcommand*{\psivecrmxy}[2]{\mv{\FLUX}_{\mathrm{#1}}^{#2}}
+\newcommand*{\psirmxy}[2]{\FLUX_{\mathrm{#1}}^{#2}}
+% --------------------------------------------------------------------------------------
+% FLUX LINKAGES - END
+% --------------------------------------------------------------------------------------
+
+% --------------------------------------------------------------------------------------
+% TEMPERATURES - START
+% --------------------------------------------------------------------------------------
+% machine
+\newcommand*{\varthetaM}{{\vartheta}_{\MACHINE}}
+\newcommand*{\varthetaMop}{\overline{\vartheta}_{\MACHINE}}
+\newcommand*{\varthetaop}{\overline{\vartheta}}
+% stator
+\newcommand*{\varthetaS}{{\TEMPERATURE}_{\STATOR}}
+\newcommand*{\varthetaSref}{{\TEMPERATURE}_{\STATOR,\MYREF}}
+\newcommand*{\varthetaSop}{\overline{\TEMPERATURE}_{\STATOR}}
+\newcommand*{\alphaS}{{\alpha}_{\STATOR}} % Temperature coefficient of stator e.g $\alpha_\COPPER$.
+% rotor
+\newcommand*{\varthetaR}{{\TEMPERATURE}_{\ROTOR}}
+\newcommand*{\varthetaRop}{\overline{\TEMPERATURE}_{\ROTOR}}
+\newcommand*{\alphaR}{{\alpha}_{\ROTOR}} % Temperature coefficient of rotor e.g $\alpha_\COPPER$.
+% core
+\newcommand*{\varthetaSFe}{{\TEMPERATURE}_{\STATOR,\IRON}}
+\newcommand*{\alphaSFe}{{\alpha}_{\STATOR,\IRON}} % Temperature coefficient of rotor e.g $\alpha_\COPPER$.
+
+% --------------------------------------------------------------------------------------
+% TEMPERATURES - END
+% --------------------------------------------------------------------------------------
+
+% --------------------------------------------------------------------------------------
+% MTPX / OPTIMAL OPERATION - START
+% --------------------------------------------------------------------------------------
+% operation management parameters
+\newcommand*{\mmfeasFW}{\TORQUE_{\MECH,\FEAS}^{\mathrm{FW}}}
+\newcommand*{\mMfeasFW}{\TORQUE_{\MECH,\FEAS}^{\mathrm{FW}}}
+\newcommand*{\iskfeasFW}{\mv{\CURRENT}_{\STATOR,\FEAS}^{\kCOSY,\mathrm{FW}}}       % [DEPRECATED]
+\newcommand*{\isdqgafeasFW}{\mv{\CURRENT}_{\STATOR,\FEAS}^{\dqgaCOSY,\mathrm{FW}}}
+\newcommand*{\isdqfeasFW}{\mv{\CURRENT}_{\STATOR,\FEAS}^{\dqCOSY,\mathrm{FW}}}
+\newcommand*{\mmfeasMTPC}{\TORQUE_{\MECH,\FEAS}^{\mathrm{MTPC}}}
+\newcommand*{\mMfeasMTPC}{\TORQUE_{\MECH,\FEAS}^{\mathrm{MTPC}}}
+\newcommand*{\wkfeasMTPC}{\omega_{\PARK,\FEAS}^{\mathrm{MTPC}}}
+\newcommand*{\wkcutinMTPV}{\omega_{\PARK,\CUTIN}^{\mathrm{MTPV}}}
+\newcommand*{\mmcutinMTPV}{\TORQUE_{\MECH,\CUTIN}^{\mathrm{MTPV}}}
+\newcommand*{\mMcutinMTPV}{\TORQUE_{\MECH,\CUTIN}^{\mathrm{MTPV}}}
+\newcommand*{\iskcutinMTPV}{\mv{\CURRENT}_{\STATOR,\CUTIN}^{\kCOSY,\mathrm{MTPV}}}       % [DEPRECATED]
+\newcommand*{\isdqgacutinMTPV}{\mv{\CURRENT}_{\STATOR,\CUTIN}^{\dqgaCOSY,\mathrm{MTPV}}}
+\newcommand*{\isdqcutinMTPV}{\mv{\CURRENT}_{\STATOR,\CUTIN}^{\dqCOSY,\mathrm{MTPV}}}
+\newcommand*{\iskfeasMTPC}{\mv{\CURRENT}_{\STATOR,\FEAS}^{\kCOSY,\mathrm{MTPC}}}       % [DEPRECATED]
+\newcommand*{\isdqgafeasMTPC}{\mv{\CURRENT}_{\STATOR,\FEAS}^{\dqgaCOSY,\mathrm{MTPC}}}
+\newcommand*{\isdqfeasMTPC}{\mv{\CURRENT}_{\STATOR,\FEAS}^{\dqCOSY,\mathrm{MTPC}}}
+\newcommand*{\wknomMC}{\omega_{\PARK,\NOMINAL}^{\mathrm{MC}}}
+\newcommand*{\mmnomMC}{\TORQUE_{\MECH,\NOMINAL}^{\mathrm{MC}}}
+\newcommand*{\mMnomMC}{\TORQUE_{\MECH,\NOMINAL}^{\mathrm{MC}}}
+\newcommand*{\isknomMC}{\mv{\CURRENT}_{\STATOR,\NOMINAL}^{\kCOSY,\mathrm{MC}}}       % [DEPRECATED]
+\newcommand*{\isdqganomMC}{\mv{\CURRENT}_{\STATOR,\NOMINAL}^{\dqgaCOSY,\mathrm{MC}}}
+\newcommand*{\isdqnomMC}{\mv{\CURRENT}_{\STATOR,\NOMINAL}^{\dqCOSY,\mathrm{MC}}}
+\newcommand*{\mmrefsat}{\overline{\TORQUE}_{\MECH,\MYREF}}
+\newcommand*{\mMrefsat}{\overline{\TORQUE}_{\MECH,\MYREF}}
+\newcommand*{\mMmaxop}{\overline{\TORQUE}_{\MACHINE,\max}}
+\newcommand*{\mMminop}{\overline{\TORQUE}_{\MACHINE,\min}}
+% 	MTPA / MPTC
+\newcommand*{\MTPC}{\mathbb{MTPC}}
+\newcommand*{\MMTPC}{\mm{M}_{\mathrm{C}}}
+\newcommand*{\MMTPCoo}{a_{11}}
+\newcommand*{\MMTPCot}{a_{12}}
+\newcommand*{\MMTPCto}{A_{21}}
+\newcommand*{\MMTPCtt}{A_{22}}
+\newcommand*{\vMTPC}{\mv{m}_{\mathrm{C}}}
+\newcommand*{\vMTPCo}{a_{1}}
+\newcommand*{\cMTPC}{\mu_{\mathrm{C}}}
+% 	MTPCr
+\newcommand*{\MTPCr}{\mathrm{MTPC}_{\ROTOR}}
+\newcommand*{\MTPCrset}{\mathbb{MTPC}_{\ROTOR}}
+% 	MTPL
+\newcommand*{\MTPL}{\mathbb{MTPL}}
+\newcommand*{\MMTPL}{\mm{M}_{\mathrm{L}}}
+\newcommand*{\MMTPLoo}{m^{11}_{\mathrm{L}}}
+\newcommand*{\MMTPLot}{m^{12}_{\mathrm{L}}}
+\newcommand*{\MMTPLto}{m^{21}_{\mathrm{L}}}
+\newcommand*{\MMTPLtt}{m^{22}_{\mathrm{L}}}
+\newcommand*{\vMTPL}{\mv{m}_{\mathrm{L}}}
+\newcommand*{\vMTPLo}{m^{1}_{\mathrm{L}}}
+\newcommand*{\vMTPLt}{m^{2}_{\mathrm{L}}}
+\newcommand*{\cMTPL}{\mu_{\mathrm{L}}}
+% 	MTPLCU
+\newcommand*{\MTPLCU}{\mathrm{MTPL}_{\COPPER}}
+\newcommand*{\MTPLCUset}{\mathbb{MTPL}_{\COPPER}}
+% 	FW
+\newcommand*{\FW}{\mathbb{FW}} 				% field weakening, i.e.~intersection of (feasible) reference hyperbola and voltage ellipse 
+\newcommand*{\FWop}{\overline{\mathbb{FW}}}
+% 	MC
+\newcommand*{\MC}{\mathbb{MC}} 				% Maximum current, i.e.~intersection of current circle and voltage ellipse
+\newcommand*{\MCop}{\overline{\mathbb{MC}}} 
+\newcommand*{\MCrext}{\mathrm{MC}_{\ROTOR,\mathrm{ext}}}
+%	MTPV 
+\newcommand*{\MTPVxi}{\mathbb{MTPV}^{\xi}}
+\newcommand*{\MTPVwoRs}{\mathbb{MTPV}_{0}}
+\newcommand*{\MTPV}{\mathbb{MTPV}}
+\newcommand*{\MMTPV}{\mm{M}_{\mathrm{V}}}
+\newcommand*{\MMTPVoo}{m^{11}_{\mathrm{V}}}
+\newcommand*{\MMTPVot}{m^{12}_{\mathrm{V}}}
+\newcommand*{\MMTPVto}{m^{21}_{\mathrm{V}}}
+\newcommand*{\MMTPVtt}{m^{22}_{\mathrm{V}}}
+\newcommand*{\vMTPV}{\mv{m}_{\mathrm{V}}}
+\newcommand*{\vMTPVo}{m^{1}_{\mathrm{V}}}
+\newcommand*{\vMTPVt}{m^{2}_{\mathrm{V}}}
+\newcommand*{\cMTPV}{\mu_{\mathrm{V}}}
+\newcommand*{\MMTPVwoRs}{\mm{A}_{0}}
+\newcommand*{\vMTPVwoRs}{\mv{a}_{0}}
+\newcommand*{\cMTPVwoRs}{\alpha_{0}}
+\newcommand*{\MMTPVxi}{\MMTPV^{\xi}}
+\newcommand*{\vMTPVxi}{\vMTPV^{\xi}}
+% 	voltage constraint (ellipse)
+\newcommand*{\Evolt}{\mathbb{V}}
+\newcommand*{\Evoltxi}{\mathbb{V}^{\xi}}
+\newcommand*{\Mvolt}{\mm{V}}
+\newcommand*{\Mvoltoo}{v_{11}}
+\newcommand*{\Mvoltot}{v_{12}}
+\newcommand*{\Mvoltto}{v_{21}}
+\newcommand*{\Mvolttt}{v_{22}}
+\newcommand*{\vvolt}{\mv{v}}
+\newcommand*{\vvolto}{v_1}
+\newcommand*{\vvoltt}{v_2}
+\newcommand*{\cvolt}{\nu}
+\newcommand*{\ovolt}{\mv{o}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\odqga}{\mv{o}^{\dqgaCOSY}}
+\newcommand*{\odq}{\mv{o}^{\dqCOSY}}
+% in principle axis system
+\newcommand*{\Mvoltxi}{\Mvolt^{\xi}}
+\newcommand*{\vvoltxi}{\vvolt^{\xi}}
+\newcommand*{\cvoltxi}{\cvolt^{\xi}}
+\newcommand*{\ovoltxi}{\mv{o}^{\xi}}
+% flux (?)
+\newcommand*{\Mflux}{\mm{F}}
+\newcommand*{\vflux}{\mv{f}}
+\newcommand*{\cflux}{\phi}
+\newcommand*{\MTPF}{\mathbb{MTPF}}
+\newcommand*{\MMTPF}{\mm{M}_{\mathrm{F}}}
+\newcommand*{\MMTPFoo}{m^{11}_{\mathrm{F}}}
+\newcommand*{\MMTPFot}{m^{12}_{\mathrm{F}}}
+\newcommand*{\MMTPFto}{m^{21}_{\mathrm{F}}}
+\newcommand*{\MMTPFtt}{m^{22}_{\mathrm{F}}}
+\newcommand*{\vMTPF}{\mv{m}_{\mathrm{F}}}
+\newcommand*{\vMTPFo}{m^{1}_{\mathrm{F}}}
+\newcommand*{\vMTPFt}{m^{2}_{\mathrm{F}}}
+\newcommand*{\cMTPF}{\mu_{\mathrm{F}}}
+% power
+\newcommand*{\Mpower}{\mm{P}}
+\newcommand*{\vpower}{\mv{p}}
+\newcommand*{\cpower}{\rho}
+\newcommand*{\MTPP}{\mathbb{MTPP}}
+\newcommand*{\MMTPP}{\mm{M}_{\mathrm{P}}}
+\newcommand*{\MMTPPoo}{m^{11}_{\mathrm{P}}}
+\newcommand*{\MMTPPot}{m^{12}_{\mathrm{P}}}
+\newcommand*{\MMTPPto}{m^{21}_{\mathrm{P}}}
+\newcommand*{\MMTPPtt}{m^{22}_{\mathrm{P}}}
+\newcommand*{\vMTPP}{\mv{m}_{\mathrm{P}}}
+\newcommand*{\vMTPPo}{m^{1}_{\mathrm{P}}}
+\newcommand*{\vMTPPt}{m^{2}_{\mathrm{P}}}
+\newcommand*{\cMTPP}{\mu_{\mathrm{P}}}
+% current constraint (circle)
+\newcommand*{\Ccurrent}{\mathbb{I}}
+\newcommand*{\Mcurrent}{\mm{C}}
+\newcommand*{\vcurrent}{\mv{c}}
+\newcommand*{\ccurrent}{\chi}
+% stator current constraint
+\newcommand*{\Cs}{\mathbb{I}_{\STATOR}}
+\newcommand*{\MCs}{\mm{C}_{\!\STATOR}}
+\newcommand*{\vCs}{\mv{c}_{\STATOR}}
+\newcommand*{\cCs}{\iota_{\STATOR}}
+% rotor current constraint
+\newcommand*{\Cr}{\mathbb{I}_{\ROTOR}}
+\newcommand*{\MCr}{\mm{C}_{\!\ROTOR}}
+\newcommand*{\vCr}{\mv{c}_{\ROTOR}}
+\newcommand*{\cCr}{\iota_{\ROTOR}}
+% losses
+\newcommand*{\LRCU}{\mathbb{L}_{\ROTOR,\COPPER}}
+\newcommand*{\LSCU}{\mathbb{L}_{\STATOR,\COPPER}}
+\newcommand*{\LCU}{\mathbb{L}_{\COPPER}}
+\newcommand*{\Eloss}{\mathbb{L}}
+\newcommand*{\Mloss}{\mm{L}}
+\newcommand*{\vloss}{\mv{l}}
+\newcommand*{\closs}{\rho}
+% torque hyperbola
+\newcommand*{\Htorque}{\mathbb{T}}
+\newcommand*{\Mtorque}{\mm{T}}
+\newcommand*{\Mtorqueoo}{T_{11}}
+\newcommand*{\Mtorqueot}{T_{12}}
+\newcommand*{\Mtorqueto}{T_{21}}
+\newcommand*{\Mtorquett}{T_{22}}
+\newcommand*{\vtorque}{\mv{t}}
+\newcommand*{\vtorqueo}{t_1}
+\newcommand*{\vtorquet}{t_2}
+\newcommand*{\ctorque}{\tau}
+% in principle axis system
+\newcommand*{\Htorquexi}{\mathbb{T}^{\xi}}
+\newcommand*{\Mtorquexi}{\Mtorque^{\xi}}
+\newcommand*{\Mtorquexioo}{T^{\xi}_{11}}
+\newcommand*{\Mtorquexiot}{T^{\xi}_{12}}
+\newcommand*{\Mtorquexitt}{T^{\xi}_{22}}
+\newcommand*{\vtorquexi}{\vtorque^{\xi}}
+\newcommand*{\vtorquexio}{t^{\xi}_{1}}
+\newcommand*{\vtorquexit}{t^{\xi}_{2}}
+\newcommand*{\ctorquexi}{\ctorque^{\xi}}
+% feasible current regions
+\newcommand*{\Imtpc}{\mathbb{F}}
+\newcommand*{\Imtpv}{\mathbb{F}}
+\newcommand*{\Imtpf}{\mathbb{F}}
+\newcommand*{\Isol}{\mathbb{F}}
+\newcommand*{\Isolop}{\overline{\mathbb{F}}} %  approximated in operating point
+% characteristic operation points
+\newcommand*{\iskrefX}{\mv{\CURRENT}_{\STATOR,\MYREF}^{\kCOSY,\mathrm{X}}}       % [DEPRECATED]
+\newcommand*{\isdqgarefX}{\mv{\CURRENT}_{\STATOR,\MYREF}^{\dqgaCOSY,\mathrm{X}}}
+\newcommand*{\isdqrefX}{\mv{\CURRENT}_{\STATOR,\MYREF}^{\dqCOSY,\mathrm{X}}}
+\newcommand*{\iskrefMTPC}{\mv{\CURRENT}_{\STATOR,\MYREF}^{\kCOSY,\mathrm{MTPC}}}       % [DEPRECATED]
+\newcommand*{\isdqgarefMTPC}{\mv{\CURRENT}_{\STATOR,\MYREF}^{\dqgaCOSY,\mathrm{MTPC}}}
+\newcommand*{\isdqrefMTPC}{\mv{\CURRENT}_{\STATOR,\MYREF}^{\dqCOSY,\mathrm{MTPC}}}
+\newcommand*{\iskrefMTPF}{\mv{\CURRENT}_{\STATOR,\MYREF}^{\kCOSY,\mathrm{MTPF}}}       % [DEPRECATED]
+\newcommand*{\isdqgarefMTPF}{\mv{\CURRENT}_{\STATOR,\MYREF}^{\dqgaCOSY,\mathrm{MTPF}}}
+\newcommand*{\isdqrefMTPF}{\mv{\CURRENT}_{\STATOR,\MYREF}^{\dqCOSY,\mathrm{MTPF}}}
+\newcommand*{\iskrefMTPV}{\mv{\CURRENT}_{\STATOR,\MYREF}^{\kCOSY,\mathrm{MTPV}}}       % [DEPRECATED]
+\newcommand*{\isdqgarefMTPV}{\mv{\CURRENT}_{\STATOR,\MYREF}^{\dqgaCOSY,\mathrm{MTPV}}}
+\newcommand*{\isdqrefMTPV}{\mv{\CURRENT}_{\STATOR,\MYREF}^{\dqCOSY,\mathrm{MTPV}}}
+\newcommand*{\iskrefMC}{\mv{\CURRENT}_{\STATOR,\MYREF}^{\kCOSY,\mathrm{MC}}}       % [DEPRECATED]
+\newcommand*{\isdqgarefMC}{\mv{\CURRENT}_{\STATOR,\MYREF}^{\dqgaCOSY,\mathrm{MC}}}
+\newcommand*{\isdqrefMC}{\mv{\CURRENT}_{\STATOR,\MYREF}^{\dqCOSY,\mathrm{MC}}}
+\newcommand*{\iskrefFW}{\mv{\CURRENT}_{\STATOR,\MYREF}^{\kCOSY,\mathrm{FW}}}       % [DEPRECATED]
+\newcommand*{\isdqgarefFW}{\mv{\CURRENT}_{\STATOR,\MYREF}^{\dqgaCOSY,\mathrm{FW}}}
+\newcommand*{\isdqrefFW}{\mv{\CURRENT}_{\STATOR,\MYREF}^{\dqCOSY,\mathrm{FW}}}
+\newcommand*{\iskrefstar}{\mv{\CURRENT}_{\STATOR,\MYREF}^{\kCOSY,\star}}
+\newcommand*{\isdqgarefstar}{\mv{\CURRENT}_{\STATOR,\MYREF}^{\dqgaCOSY,\star}}
+\newcommand*{\isdqrefstar}{\mv{\CURRENT}_{\STATOR,\MYREF}^{\dqCOSY,\star}}
+\newcommand*{\iskMTPC}{\mv{i}_{\STATOR,\mathrm{MTPC}}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\isdqgaMTPC}{\mv{i}_{\STATOR,\mathrm{MTPC}}^{\dqgaCOSY}}
+\newcommand*{\isdqMTPC}{\mv{i}_{\STATOR,\mathrm{MTPC}}^{\dqCOSY}}
+\newcommand*{\iskMTPCmax}{\mv{i}_{\STATOR,\mathrm{MTPC},\max}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\isdqgaMTPCmax}{\mv{i}_{\STATOR,\mathrm{MTPC},\max}^{\dqgaCOSY}}
+\newcommand*{\isdqMTPCmax}{\mv{i}_{\STATOR,\mathrm{MTPC},\max}^{\dqCOSY}}
+\newcommand*{\isdMTPC}{i_{\STATOR,\mathrm{MTPC}}^{\dAXIS}}
+\newcommand*{\isqMTPC}{i_{\STATOR,\mathrm{MTPC}}^{\qAXIS}}
+\newcommand*{\isdrefMTPC}{i_{\STATOR,\MYREF,\mathrm{MTPC}}^{\dAXIS}}
+\newcommand*{\isqrefMTPC}{i_{\STATOR,\MYREF,\mathrm{MTPC}}^{\qAXIS}}
+\newcommand*{\iskMTPL}{\mv{i}_{\STATOR,\mathrm{MTPL}}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\isdqgaMTPL}{\mv{i}_{\STATOR,\mathrm{MTPL}}^{\dqgaCOSY}}
+\newcommand*{\isdqMTPL}{\mv{i}_{\STATOR,\mathrm{MTPL}}^{\dqCOSY}}
+\newcommand*{\iskMTPLmax}{\mv{i}_{\STATOR,\mathrm{MTPL},\max}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\isdqgaMTPLmax}{\mv{i}_{\STATOR,\mathrm{MTPL},\max}^{\dqgaCOSY}}
+\newcommand*{\isdqMTPLmax}{\mv{i}_{\STATOR,\mathrm{MTPL},\max}^{\dqCOSY}}
+\newcommand*{\isdMTPL}{i_{\STATOR,\mathrm{MTPL}}^{\dAXIS}}
+\newcommand*{\isqMTPL}{i_{\STATOR,\mathrm{MTPL}}^{\qAXIS}}
+\newcommand*{\isdrefMTPL}{i_{\STATOR,\MYREF,\mathrm{MTPL}}^{\dAXIS}}
+\newcommand*{\isqrefMTPL}{i_{\STATOR,\MYREF,\mathrm{MTPL}}^{\qAXIS}}
+\newcommand*{\iskFW}{\mv{i}_{\STATOR,\mathrm{FW}}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\isdqgaFW}{\mv{i}_{\STATOR,\mathrm{FW}}^{\dqgaCOSY}}
+\newcommand*{\isdqFW}{\mv{i}_{\STATOR,\mathrm{FW}}^{\dqCOSY}}
+\newcommand*{\isdFW}{i_{\STATOR,\mathrm{FW}}^{\dAXIS}}
+\newcommand*{\isqFW}{i_{\STATOR,\mathrm{FW}}^{\qAXIS}}
+\newcommand*{\iskMC}{\mv{i}_{\STATOR,\mathrm{MC}}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\isdqgaMC}{\mv{i}_{\STATOR,\mathrm{MC}}^{\dqgaCOSY}}
+\newcommand*{\isdqMC}{\mv{i}_{\STATOR,\mathrm{MC}}^{\dqCOSY}}
+\newcommand*{\iskMCext}{\mv{i}_{\STATOR,\mathrm{MC}_{\mathrm{ext}}}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\isdqgaMCext}{\mv{i}_{\STATOR,\mathrm{MC}_{\mathrm{ext}}}^{\dqgaCOSY}}
+\newcommand*{\isdqMCext}{\mv{i}_{\STATOR,\mathrm{MC}_{\mathrm{ext}}}^{\dqCOSY}}
+\newcommand*{\isdMCext}{i_{\STATOR,\mathrm{MC}_{\mathrm{ext}}}^{\dAXIS}}
+\newcommand*{\isqMCext}{i_{\STATOR,\mathrm{MC}_{\mathrm{ext}}}^{\qAXIS}}
+\newcommand*{\iskMTPV}{\mv{i}_{\STATOR,\mathrm{MTPV}}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\isdqgaMTPV}{\mv{i}_{\STATOR,\mathrm{MTPV}}^{\dqgaCOSY}}
+\newcommand*{\isdqMTPV}{\mv{i}_{\STATOR,\mathrm{MTPV}}^{\dqCOSY}}
+\newcommand*{\iskX}[1]{\mv{i}_{\STATOR,\mathrm{#1}}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\isdqgaX}[1]{\mv{i}_{\STATOR,\mathrm{#1}}^{\dqgaCOSY}}
+\newcommand*{\isdqX}[1]{\mv{i}_{\STATOR,\mathrm{#1}}^{\dqCOSY}}
+\newcommand*{\isdqCF}{\mv{i}_{\STATOR,\mathrm{CF}}^{\dqCOSY}}
+\newcommand*{\isdCF}{i_{\STATOR,\mathrm{CF}}^{\dAXIS}}
+\newcommand*{\isqCF}{i_{\STATOR,\mathrm{CF}}^{\qAXIS}}
+\newcommand*{\isdrefCF}{i_{\STATOR,\MYREF,\mathrm{CF}}^{\dAXIS}}
+\newcommand*{\isqrefCF}{i_{\STATOR,\MYREF,\mathrm{CF}}^{\qAXIS}}
+\newcommand*{\isdqVHZ}{\mv{i}_{\STATOR,\mathrm{VHZ}}^{\dqCOSY}}
+\newcommand*{\isdVHZ}{i_{\STATOR,\mathrm{VHZ}}^{\dAXIS}}
+\newcommand*{\isqVHZ}{i_{\STATOR,\mathrm{VHZ}}^{\qAXIS}}
+\newcommand*{\isdrefVHZ}{i_{\STATOR,\MYREF,\mathrm{VHZ}}^{\dAXIS}}
+\newcommand*{\isqrefVHZ}{i_{\STATOR,\MYREF,\mathrm{VHZ}}^{\qAXIS}}
+
+% linearization
+\newcommand*{\isdqop}{\mv{\overline{\CURRENT}}_\STATOR^{\dqCOSY}}
+\newcommand*{\irdqop}{\mv{\overline{\CURRENT}}_\ROTOR^{\dqCOSY}}
+\newcommand*{\idqop}{\mv{\overline{\CURRENT}}^{\dqCOSY}}
+\newcommand*{\uskop}{\overline{\mv{u}}_{\STATOR}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\usdqgaop}{\overline{\mv{u}}_{\STATOR}^{\dqgaCOSY}}
+\newcommand*{\usdqop}{\overline{\mv{u}}_{\STATOR}^{\dqCOSY}}
+\newcommand*{\iskop}{\overline{\mv{i}}_{\STATOR}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\isdqgaop}{\overline{\mv{i}}_{\STATOR}^{\dqgaCOSY}} 
+\newcommand*{\isdop}{\overline{i}_{\STATOR}^{\dAXIS}} 
+\newcommand*{\isqop}{\overline{i}_{\STATOR}^{\qAXIS}} 
+\newcommand*{\Lskop}{\overline{\mm{L}}_{\STATOR}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\Lsdqgaop}{\overline{\mm{L}}_{\STATOR}^{\dqgaCOSY}}
+\newcommand*{\Lsdqop}{\overline{\mm{L}}_{\STATOR}^{\dqCOSY}} 
+\newcommand*{\Lsdop}{\overline{L}_{\STATOR}^{\dAXIS}} 
+\newcommand*{\Lsqop}{\overline{L}_{\STATOR}^{\qAXIS}} 
+\newcommand*{\Lsmop}{\overline{L}_{\STATOR,\MAGNETIZATION}} 
+\newcommand*{\mMop}{\overline{m}_{\MECH}} 
+\newcommand*{\iskfeop}{\overline{\mv{i}}_{\STATOR,\IRON}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\isdqgafeop}{\overline{\mv{i}}_{\STATOR,\IRON}^{\dqgaCOSY}}
+\newcommand*{\isdqfeop}{\overline{\mv{i}}_{\STATOR,\IRON}^{\dqCOSY}}
+\newcommand*{\isdfeop}{\overline{i}_{\STATOR,\IRON}^{\dAXIS}}
+\newcommand*{\isqfeop}{\overline{i}_{\STATOR,\IRON}^{\qAXIS}}
+\newcommand*{\iskmop}{\overline{\mv{i}}_{\STATOR,\MAGNETIZATION}^{\kCOSY}}       % [DEPRECATED]
+\newcommand*{\isdqgamop}{\overline{\mv{i}}_{\STATOR,\MAGNETIZATION}^{\dqgaCOSY}}
+\newcommand*{\isdqmop}{\overline{\mv{i}}_{\STATOR,\MAGNETIZATION}^{\dqCOSY}}
+\newcommand*{\isdmop}{\overline{i}_{\STATOR,\MAGNETIZATION}^{\dAXIS}}
+\newcommand*{\isqmop}{\overline{i}_{\STATOR,\MAGNETIZATION}^{\qAXIS}}
+\newcommand*{\phiPop}{\overline{\phi}_{\PARK}}
+\newcommand*{\omegaPop}{\overline{\omega}_{\PARK}}
+\newcommand*{\Rskcuop}{\overline{\mm{R}}_{\STATOR,\COPPER}^{\kCOSY}}        % [DEPRECATED]
+\newcommand*{\Rsdqgacuop}{\overline{\mm{R}}_{\STATOR,\COPPER}^{\dqgaCOSY}} 
+\newcommand*{\Rsdqcuop}{\overline{\mm{R}}_{\STATOR,\COPPER}^{\dqCOSY}} 
+\newcommand*{\Rskfeop}{\overline{\mm{R}}_{\STATOR,\IRON}^{\kCOSY}}        % [DEPRECATED]
+\newcommand*{\Rsdqgafeop}{\overline{\mm{R}}_{\STATOR,\IRON}^{\dqgaCOSY}} 
+\newcommand*{\Rsdqfeop}{\overline{\mm{R}}_{\STATOR,\IRON}^{\dqCOSY}} 
+\newcommand*{\Gop}{\overline{\mm{G}}} 
+\newcommand*{\Mop}{\overline{\mm{M}}} 
+\newcommand*{\mop}{\overline{\mv{m}}}
+\newcommand*{\invRsfeJpsisdq}{\mm{z}_{}^{\dqCOSY}}
+\newcommand*{\invRsfeJpsisdqinit}{\mm{z}_{0}^{\dqCOSY}}
+\newcommand*{\invRsfeJpsisdqdiff}{\mm{Z}_{\rm i}^{\dqCOSY}}
+\newcommand*{\invRsfeJpsisdqdiffomega}{\mm{z}_{\rm \omega}^{\dqCOSY}}
+\newcommand*{\invRsfeJpsisdqop}{\mm{\overline{z}}_{}^{\dqCOSY}}
+\newcommand*{\invRsfeJpsisdqdiffop}{\mm{\overline{Z}}_{\rm }^{\dqCOSY}}
+\newcommand*{\invRsfeJpsisdqinitop}{\mm{\overline{z}}_{0}^{\dqCOSY}}
+\newcommand*{\invRsfeJpsisdqdiffomegaop}{\mm{\overline{z}}_{\rm \omega}^{\dqCOSY}}
+\newcommand*{\psfelossop}{\overline{p}_{\STATOR,\IRON}}
+\newcommand*{\Elossop}{{\overline{\Eloss}}}
+\newcommand*{\Mlossop}{\mm{\overline{\Mloss}}}
+\newcommand*{\vlossop}{\mv{\overline{\vloss}}}
+\newcommand*{\clossop}{\overline{\closs}}
+\newcommand*{\Htorqueop}{{\overline{\Htorque}}}
+\newcommand*{\Mtorqueop}{\mm{\overline{\Mtorque}}}
+\newcommand*{\vtorqueop}{\mv{\overline{\vtorque}}}
+\newcommand*{\ctorqueop}{\overline{\ctorque}}
+\newcommand*{\Evoltop}{{\overline{\Evolt}}}
+\newcommand*{\Mvoltop}{\mm{\overline{\Mvolt}}}
+\newcommand*{\vvoltop}{\mv{\overline{\vvolt}}}
+\newcommand*{\cvoltop}{\overline{\cvolt}}
+\newcommand*{\MTPLop}{\overline{\mathbb{MTPL}}}
+\newcommand*{\MMTPLop}{\mm{\overline{M}}_{\mathrm{L}}}
+\newcommand*{\vMTPLop}{\mv{\overline{m}}_{\mathrm{L}}}
+\newcommand*{\cMTPLop}{\overline{\mu}_{\mathrm{L}}}
+\newcommand*{\MTPCop}{\overline{\mathbb{MTPC}}}
+\newcommand*{\MMTPCop}{\mm{\overline{M}}_{\mathrm{C}}}
+\newcommand*{\vMTPCop}{\mv{\overline{m}}_{\mathrm{C}}}
+\newcommand*{\cMTPCop}{\overline{\mu}_{\mathrm{C}}}
+\newcommand*{\MMTPCrop}{\mm{\overline{M}}_{\mathrm{C}_{\ROTOR}}}
+\newcommand*{\vMTPCrop}{\mv{\overline{m}}_{\mathrm{C}_{\ROTOR}}}
+\newcommand*{\cMTPCrop}{\overline{\mu}_{\mathrm{C}_{\ROTOR}}}
+\newcommand*{\MTPVop}{\overline{\mathbb{MTPV}}}
+\newcommand*{\MMTPVop}{\mm{\overline{M}}_{\mathrm{V}}}
+\newcommand*{\vMTPVop}{\mv{\overline{m}}_{\mathrm{V}}}
+\newcommand*{\cMTPVop}{\overline{\mu}_{\mathrm{V}}}
+\newcommand*{\MTPCrop}{\overline{\mathbb{MTPC}}_{\ROTOR}}
+\newcommand*{\MTPLCUop}{\overline{\mathbb{MTPL}}_{\COPPER}}
+\newcommand*{\Csop}{\overline{\mathbb{I}}_{\STATOR}}
+\newcommand*{\LRCUop}{\overline{\mathbb{L}}_{\ROTOR,\COPPER}}
+\newcommand*{\LSCUop}{\overline{\mathbb{L}}_{\STATOR,\COPPER}}
+\newcommand*{\LCUop}{\overline{\mathbb{L}}_{\COPPER}}
+% linearization - magnetic flux
+\newcommand*{\psiskop}{\overline{\mv{\FLUX}}_{\STATOR}^{\kCOSY}}        % [DEPRECATED]
+\newcommand*{\psisdqgaop}{\overline{\mv{\FLUX}}_{\STATOR}^{\dqgaCOSY}} 
+\newcommand*{\psisdqop}{\overline{\mv{\FLUX}}_{\STATOR}^{\dqCOSY}}
+\newcommand*{\psisdqopinit}{\overline{\mv{\FLUX}}_{\STATOR,0}^{\dqCOSY}}
+\newcommand*{\psirdqop}{\overline{\mv{\FLUX}}_{\ROTOR}^{\dqCOSY}}
+\newcommand*{\psirdop}{\overline{\FLUX}_{\ROTOR}^{\dAXIS}}
+\newcommand*{\psirqop}{\overline{\FLUX}_{\ROTOR}^{\qAXIS}}
+\newcommand*{\psisdop}{\overline{\FLUX}_{\STATOR}^{\dAXIS}}
+\newcommand*{\psisqop}{\overline{\FLUX}_{\STATOR}^{\qAXIS}}
+\newcommand*{\psisdqtildeop}{\underline{\widetilde{\mv{\psi}}}_{\STATOR}^{\dqCOSY}}
+\newcommand*{\psirdqtildeop}{\underline{\widetilde{\mv{\psi}}}_{\ROTOR}^{\dqCOSY}}
+\newcommand*{\psidqtildeop}{\underline{\widetilde{\mv{\psi}}}^{\dqCOSY}}
+\newcommand*{\psisdqtildeinit}{\widetilde{\mv{\psi}}_{\STATOR,0}^{\dqCOSY}}
+\newcommand*{\psirdqtildeinit}{\widetilde{\mv{\psi}}_{\ROTOR,0}^{\dqCOSY}}
+\newcommand*{\psidqtildeinit}{\widetilde{\mv{\psi}}_{0}^{\dqCOSY}}
+% linearization - inductances
+\newcommand*{\LDIFFdqop}{\overline{\mm{\LDIFF}}^{\dqCOSY}}
+\newcommand*{\LDIFFsdqop}{\overline{\mm{\LDIFF}}_{\STATOR}^{\dqCOSY}}
+\newcommand*{\LDIFFsdop}{\overline{\LDIFF}_{\STATOR}^{\dAXIS}}
+\newcommand*{\MDIFFsrdqop}{\overline{\mm{\MDIFF}}_{\STATOR,\ROTOR}^{\dqCOSY}}
+\newcommand*{\MDIFFrsdqop}{\overline{\mm{\MDIFF}}_{\ROTOR,\STATOR}^{\dqCOSY}}
+\newcommand*{\MDIFFsrdop}{\overline{\MDIFF}_{\STATOR,\ROTOR}^{\dAXIS}}
+\newcommand*{\MDIFFsrdqScalop}{\overline{\MDIFF}_{\STATOR,\ROTOR}^{\dAXIS\qAXIS}}
+\newcommand*{\MDIFFsrqdop}{\overline{\MDIFF}_{\STATOR,\ROTOR}^{\qAXIS\dAXIS}}
+\newcommand*{\MDIFFsrqop}{\overline{\MDIFF}_{\STATOR,\ROTOR}^{\qAXIS}}
+\newcommand*{\LDIFFrdqop}{\overline{\mm{\LDIFF}}_{\ROTOR}^{\dqCOSY}}
+\newcommand*{\MDIFFsrdqtildeop}{\underline{\widetilde{\mm{\MDIFF}}}_{\STATOR,\ROTOR}^{\dqCOSY}}
+\newcommand*{\LDIFFrdqtildeop}{\underline{\widetilde{\mm{\LDIFF}}}_{\ROTOR}^{\dqCOSY}}
+\newcommand*{\LDIFFdqtildeop}{\underline{\widetilde{\mm{\LDIFF}}}^{\dqCOSY}}
+% linearization - quadric Matrices (M) / Vectors (v) / constants (c)
+\newcommand*{\MLSCUop}{\overline{\mm{L}}_{\STATOR,\COPPER}}
+\newcommand*{\vLSCUop}{\overline{\mv{l}}_{\STATOR,\COPPER}}
+\newcommand*{\cLSCUop}{\overline{\rho}_{\STATOR,\COPPER}}
+\newcommand*{\MLRCUop}{\overline{\mm{L}}_{\ROTOR,\COPPER}}
+\newcommand*{\vLRCUop}{\overline{\mv{l}}_{\ROTOR,\COPPER}}
+\newcommand*{\cLRCUop}{\rho_{\ROTOR,\COPPER}}
+\newcommand*{\MLCUop}{\overline{\mm{L}}_{\COPPER}}
+\newcommand*{\vLCUop}{\overline{\mv{l}}_{\COPPER}}
+\newcommand*{\cLCUop}{\overline{\rho}_{\COPPER}}
+\newcommand*{\MMTPLCUop}{\mm{\overline{M}}_{\mathrm{L}_{\COPPER}}}
+\newcommand*{\vMTPLCUop}{\mv{\overline{m}}_{\mathrm{L}_{\COPPER}}}
+\newcommand*{\cMTPLCUop}{\overline{\mu}_{\mathrm{L}_{\COPPER}}}
+\newcommand*{\MCsop}{\overline{\mm{C}}_{\!\STATOR}}
+\newcommand*{\vCsop}{\overline{\mv{c}}_{\STATOR}}
+\newcommand*{\cCsop}{\overline{\iota}_{\STATOR}}
+\newcommand*{\MLlclop}{\overline{\mm{L}}_{\lcl}}
+\newcommand*{\vLlclop}{\overline{\mv{l}}_{\lcl}}
+\newcommand*{\cLlclop}{\overline{\rho}_{\lcl}}
+% linearization - resistances
+\newcommand*{\Rsdqop}{\overline{\mm{R}}_{\STATOR}^{\dqCOSY}}
+\newcommand*{\Rrdqop}{\overline{\mm{R}}_{\ROTOR}^{\dqCOSY}}
+\newcommand*{\Rdqop}{\overline{\mm{R}}^{\dqCOSY}}
+% linearization - angular velocities
+\newcommand*{\omegaSdqop}{\overline{\omega}_{\STATOR}^{\dqCOSY}}
+\newcommand*{\omegaRdqop}{\overline{\omega}_{\ROTOR}^{\dqCOSY}}
+% linearization - admittance
+\newcommand*{\Yop}{\overline{\mm{Y}}}
+% linearization - power
+\newcommand*{\pSCUop}{\overline{p}_{\STATOR,\COPPER}}
+\newcommand*{\plclop}{\overline{p}_{\lcl}}
+% linearization - current
+\newcommand*{\ishatop}{\underline{\widehat{\imath}}_{\STATOR}}
+% linearization - voltage
+\newcommand*{\urhatop}{\underline{\widehat{u}}_{\ROTOR}}
+
+% normalization
+\newcommand*{\usknorm}{\normalized{\mv{\VOLTAGE}_{\STATOR}^{\kCOSY}}}        % [DEPRECATED]
+\newcommand*{\usdqganorm}{\normalized{\mv{\VOLTAGE}_{\STATOR}^{\dqgaCOSY}}} 
+\newcommand*{\usdqnorm}{\normalized{\mv{\VOLTAGE}_{\STATOR}^{\dqCOSY}}} 
+\newcommand*{\isknorm}{\normalized{\mv{\CURRENT}_{\STATOR}^{\kCOSY}}}       % [DEPRECATED]
+\newcommand*{\isdqganorm}{\normalized{\mv{\CURRENT}_{\STATOR}^{\dqgaCOSY}}}
+\newcommand*{\isdqnorm}{\normalized{\mv{\CURRENT}_{\STATOR}^{\dqCOSY}}}
+\newcommand*{\psisknorm}{\normalized{\mv{\FLUX}_{\STATOR}^{\kCOSY}}}        % [DEPRECATED]
+\newcommand*{\psisdqganorm}{\normalized{\mv{\FLUX}_{\STATOR}^{\dqgaCOSY}}} 
+\newcommand*{\psisdqnorm}{\normalized{\mv{\FLUX}_{\STATOR}^{\dqCOSY}}} 
+\newcommand*{\psiPMknorm}{\normalized{\mv{\FLUX}_{\PM}^{\kCOSY}}}       % [DEPRECATED]
+\newcommand*{\psiPMdqganorm}{\normalized{\mv{\FLUX}_{\PM}^{\dqgaCOSY}}}
+\newcommand*{\psiPMdqnorm}{\normalized{\mv{\FLUX}_{\PM}^{\dqCOSY}}}
+\newcommand*{\Lsknorm}{\normalized{\mm{L}_{\STATOR}^{\kCOSY}}}        % [DEPRECATED]
+\newcommand*{\Lsdqganorm}{\normalized{\mm{L}_{\STATOR}^{\dqgaCOSY}}} 
+\newcommand*{\Lsdqnorm}{\normalized{\mm{L}_{\STATOR}^{\dqCOSY}}} 
+\newcommand*{\Rsnorm}{\normalized{R_{\STATOR}}} 
+\newcommand*{\wknorm}{\normalized{\omega_{\PARK}}} 
+\newcommand*{\omegaknorm}{\normalized{\omega_{\PARK}}}
+\newcommand*{\wknom}{\omega_{\PARK,\NOMINAL}}
+\newcommand*{\omegaknom}{\normalized{\omega_{\PARK,\NOMINAL}}} 
+\newcommand*{\mMnorm}{\normalized{\TORQUE_{\MECH}}}
+\newcommand*{\mMrefnorm}{\normalized{\TORQUE_{\MECH,\MYREF}}} 
+% some more new commands (used in MTPX paper)
+\newcommand*{\iskbar}{\overline{\mv{\CURRENT}}_{\STATOR}^{\kCOSY}} % optimal or intersection point [DEPRECATED]
+\newcommand*{\isdqgabar}{\overline{\mv{\CURRENT}}_{\STATOR}^{\dqgaCOSY}} % optimal or intersection point 
+\newcommand*{\isdqbar}{\overline{\mv{\CURRENT}}_{\STATOR}^{\dqCOSY}} % optimal or intersection point 
+\newcommand*{\xvec}{\mv{x}} % optimal or intersection point 
+\newcommand*{\yvec}{\mv{y}} % optimal or intersection point 
+\newcommand*{\xvecstar}{\mv{x}^\star} % optimal or intersection point 
+\newcommand*{\yvecstar}{\mv{y}^\star} % optimal or intersection point 
+\newcommand*{\xshifted}{\mv{x}_{\STATOR}} % translation/shifting offset
+\newcommand*{\Ashifted}{\mv{A}_{\STATOR}} % translation/shifting offset
+\newcommand*{\ashifted}{\mv{a}_{\STATOR}} % translation/shifting offset
+\newcommand*{\alphashifted}{\alpha_{\STATOR}} % translation/shifting offset
+\newcommand*{\Bshifted}{\mv{B}_{\STATOR}} % translation/shifting offset
+\newcommand*{\bshifted}{\mv{b}_{\STATOR}} % translation/shifting offset
+\newcommand*{\betashifted}{\beta_{\STATOR}} % translation/shifting offset
+% unsorted
+\newcommand*{\atildelambda}{\widetilde{\mv{a}}_{\lambda}}
+\newcommand*{\alambda}{\mv{a}_{\lambda}}
+\newcommand*{\atrans}{\mv{\gamma}_{\xi}}
+\newcommand*{\isktrans}{\mv{\CURRENT}_{ \STATOR}^{\xi}}
+\newcommand*{\isdtrans}{\CURRENT_{ \STATOR}^{\rho}}
+\newcommand*{\isqtrans}{\CURRENT_{ \STATOR}^{\sigma}}
+\newcommand*{\ctrans}{c_{\xi}}
+\newcommand*{\isktransstar}{\mv{\CURRENT}_{\STATOR }^{\xi,\star}}
+\newcommand*{\iskstar}{\mv{\CURRENT}_{\STATOR}^{\kCOSY,\star}}       % [DEPRECATED]
+\newcommand*{\isdqgastar}{\mv{\CURRENT}_{\STATOR}^{\dqgaCOSY,\star}}
+\newcommand*{\isdqstar}{\mv{\CURRENT}_{\STATOR}^{\dqCOSY,\star}}
+% --------------------------------------------------------------------------------------
+% MTPX / OPTIMAL OPERATION - END
+% --------------------------------------------------------------------------------------
+
+% --------------------------------------------------------------------------------------
+% DC MACHINES - START
+% --------------------------------------------------------------------------------------
+% anchor
+\newcommand*{\TA}{T_{\ANKER}}
+\newcommand*{\LA}{L_{\ANKER}}
+\newcommand*{\RA}{R_{\ANKER}} 
+\newcommand*{\iA}{\CURRENT_{\ANKER}}
+\newcommand*{\iAsc}{\CURRENT_{\ANKER,\SHORTCIRCUIT}}
+\newcommand*{\iAhat}{\widehat{i}_{\ANKER}}
+\newcommand*{\iEnom}{\CURRENT_{\EXCITATION,\NOMINAL}}
+\newcommand*{\iEmax}{\CURRENT_{\mathrm{e},\max}}
+\newcommand*{\iEmin}{\CURRENT_{\mathrm{e},\min}}
+\newcommand*{\iEinit}{\CURRENT_{\EXCITATION,0}}
+\newcommand*{\iEhat}{\widehat{i}_{\EXCITATION}}
+\newcommand*{\iEref}{\CURRENT_{\EXCITATION,\MYREF}}
+\newcommand*{\iAnom}{\CURRENT_{\ANKER,\NOMINAL}}
+\newcommand*{\iAmax}{\CURRENT_{\ANKER,\max}}
+\newcommand*{\iAmin}{\CURRENT_{\ANKER,\min}}
+\newcommand*{\iAref}{\CURRENT_{\ANKER,\MYREF}}
+\newcommand*{\iAbar}{\overline{i}_{\ANKER}}
+\newcommand*{\uAbar}{\overline{u}_{\ANKER}}
+\newcommand*{\uAref}{\VOLTAGE_{\ANKER,\MYREF}}
+\newcommand*{\uAmax}{\VOLTAGE_{\ANKER,\max}}
+\newcommand*{\uEref}{\VOLTAGE_{\EXCITATION,\MYREF}}
+\newcommand*{\uAnom}{\VOLTAGE_{\ANKER,\NOMINAL}}
+\newcommand*{\uEmax}{\VOLTAGE_{\EXCITATION,\max}}
+\newcommand*{\uEnom}{\VOLTAGE_{\EXCITATION,\NOMINAL}}
+\newcommand*{\uAbarref}{\overline{u}_{\ANKER,\MYREF}}
+\newcommand*{\eA}{e_{\ANKER}}
+\newcommand*{\eAnom}{e_{\ANKER,\NOMINAL}}
+\newcommand*{\eAhat}{\hat{e}_{\ANKER}}
+\newcommand*{\cM}{c_{\MECH}}
+% exciter
+\newcommand*{\iE}{\CURRENT_{\EXCITATION}}
+\newcommand*{\uE}{\VOLTAGE_{\EXCITATION}}
+\newcommand*{\RE}{R_{\EXCITATION}}
+\newcommand*{\TE}{T_{\EXCITATION}}
+% --------------------------------------------------------------------------------------
+% DC MACHINES - END
+% --------------------------------------------------------------------------------------
+
+% --------------------------------------------------------------------------------------
+% EESM - START
+% --------------------------------------------------------------------------------------
+\newcommand*{\psiEdq}{\mv{\FLUX}_{\EXCITATION}^{\dqCOSY}}
+\newcommand*{\iEdq}{\mv{\CURRENT}_{\EXCITATION}^{\dqCOSY}}
+\newcommand*{\REdq}{\mm{R}_{\EXCITATION}^{\dqCOSY}}
+\newcommand*{\psiEl}{\FLUX_{\EXCITATION,\sigma}}
+\newcommand*{\psiEldq}{\mv{\FLUX}_{\EXCITATION,\sigma}^{\dqCOSY}}
+\newcommand*{\uEdq}{\mv{\VOLTAGE}_{\EXCITATION}^{\dqCOSY}}
+% --------------------------------------------------------------------------------------
+% EESM - END
+% --------------------------------------------------------------------------------------
+
+% --------------------------------------------------------------------------------------
+% LC-filter - START
+% --------------------------------------------------------------------------------------
+% L currents
+\newcommand*{\ilabc}{\mv{\CURRENT}_{l}^{\abcCOSY}}
+\newcommand*{\ilalrbergar}{\mv{\CURRENT}_{l}^{\alrbergarCOSY}}
+\newcommand*{\ildqga}{\mv{\CURRENT}_{l}^{\dqgaCOSY}}
+\newcommand*{\ildq}{\mv{\CURRENT}_{l}^{\dqCOSY}}
+\newcommand*{\ildqref}{\mv{\CURRENT}_{l,\MYREF}^{\dqCOSY}}
+\newcommand*{\ilga}{\CURRENT_{l}^{\gammaAXIS}}
+% L voltages
+\newcommand*{\ulabc}{\mv{\VOLTAGE}_{l}^{\abcCOSY}}
+\newcommand*{\ula}{\VOLTAGE_{l}^{a}}
+\newcommand*{\ulb}{\VOLTAGE_{l}^{b}}
+\newcommand*{\ulc}{\VOLTAGE_{l}^{c}}
+\newcommand*{\ulalrbergar}{\mv{\VOLTAGE}_{l}^{\alrbergarCOSY}}
+\newcommand*{\uldqga}{\mv{\VOLTAGE}_{l}^{\dqgaCOSY}}
+\newcommand*{\uldq}{\mv{\VOLTAGE}_{l}^{\dqCOSY}}
+\newcommand*{\ulga}{\VOLTAGE_{l}^{\gammaAXIS}}
+\newcommand*{\ulgainit}{\VOLTAGE_{l,0}^{\gammaAXIS}}
+% L inductance and resistance
+\newcommand*{\Ll}{L_{l}}
+\newcommand*{\Rl}{R_{l}}
+% Machine with LC-filter vector
+\newcommand*{\xlcm}{\mv{x}_{\mathrm{lcm}}}
+\newcommand*{\ulcm}{\mv{u}_{\mathrm{lcm}}}
+\newcommand*{\dlcm}{\mv{d}_{\mathrm{lcm}}}
+% --------------------------------------------------------------------------------------
+% LC-filter - END
+% --------------------------------------------------------------------------------------

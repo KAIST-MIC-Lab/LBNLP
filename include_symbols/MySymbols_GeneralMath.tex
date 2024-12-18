@@ -1,0 +1,183 @@
+%	Define new math operators
+\DeclareMathOperator*{\imag}{im}
+\DeclareMathOperator*{\kernel}{kern} 
+\DeclareMathOperator*{\image}{imag} 
+\DeclareMathOperator*{\essinf}{ess-inf}
+\DeclareMathOperator*{\esssup}{ess-sup}
+\DeclareMathOperator*{\dist}{dist}
+\DeclareMathOperator*{\diag}{diag}
+\DeclareMathOperator*{\blockdiag}{blockdiag}
+\DeclareMathOperator*{\graph}{graph}
+\DeclareMathOperator*{\sign}{sign}
+\DeclareMathOperator*{\rank}{rank}
+\DeclareMathOperator*{\sat}{sat}
+\DeclareMathOperator*{\satvec}{\textbf{sat}}
+\DeclareMathOperator*{\spec}{spec}
+\DeclareMathOperator*{\loc}{loc}
+\DeclareMathOperator*{\grad}{grad}
+\DeclareMathOperator*{\fin}{fin}
+\ifx \chosenClassCompatibility\classieeeojiesCompatiblity
+    % \vol command already defined in file ieeeojies.cls --> ignore math operator \vol
+\else % default
+    \DeclareMathOperator*{\vol}{vol}
+\fi
+\DeclareMathOperator*{\col}{col}
+\DeclareMathOperator*{\row}{row}
+\DeclareMathOperator*{\lin}{lin}
+\DeclareMathOperator*{\step}{step}
+\DeclareMathOperator*{\arctanTWO}{arctan2}
+\DeclareMathOperator*{\atanTWO}{arctan2}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\floor}{floor}
+\DeclareMathOperator*{\ceil}{ceil}
+\DeclareMathOperator*{\movmean}{movmean}
+\DeclareMathOperator*{\mean}{mean}
+
+% pulse minus with paranthesis
+\def\plusMINUS{\substack{(+)\\[-0.25ex]-}}
+\def\PLUSminus{\substack{+\\[-0.25ex](-)}}
+
+
+%	Abbreviate sets, compact sets  (of numbers, ...)
+\newcommand*{\N}{\mathbb{N}}
+\newcommand*{\B}{\mathbb{B}}
+\newcommand*{\Z}{\mathbb{Z}}
+\newcommand*{\Q}{\mathbb{Q}}
+\newcommand*{\R}{\mathbb{R}}
+\newcommand*{\Rzp}{\mathbb{R}_{\geq 0}}
+\newcommand*{\Rp}{\mathbb{R}_{> 0}}
+\newcommand*{\Rn}{\mathbb{R}_{< 0}}
+\newcommand*{\C}{\mathbb{C}}
+\newcommand*{\Cn}{\mathbb{C}_{< 0}}
+\newcommand*{\Cp}{\mathbb{C}_{< 0}}
+\newcommand*{\Czp}{\mathbb{C}_{\geq 0}}
+%	compact set
+\newcommand*{\cset}[1]{\mathfrak{#1}}
+%	open set
+\newcommand*{\oset}[1]{\mathcal{#1}}
+%	function set
+\newcommand*{\fset}[1]{\mathcal{#1}}
+%	operator class 
+\newcommand*{\oclass}[1]{\mathcal{#1}}
+%	boundary set
+\newcommand*{\bset}[1]{\mathcal{#1}}
+
+% set definition
+\newcommand*{\setdef}[2]{\left\{\ #1\ \left|\vphantom{#1}\ #2\ \right.\right\}}
+% interval where system is in steady-state
+\newcommand*{\Iss}{\mathbb{I}_{\mathrm{ss}}}
+
+%	function spaces
+\newcommand*{\Lp}[1]{\fset{L}^{#1}}
+\newcommand*{\Lk}[1]{\fset{L}^{#1}}
+\newcommand*{\Lploc}[1]{\fset{L}^{#1}_{\loc}}
+\newcommand*{\Lkloc}[1]{\fset{L}^{#1}_{\loc}}
+\newcommand*{\Lone}{\fset{L}^{1}}
+\newcommand*{\Loneloc}{\fset{L}^{1}_{\loc}}
+\newcommand*{\Ltwo}{\fset{L}^{2}}
+\newcommand*{\Linf}{\fset{L}^{\infty}}
+\newcommand*{\Linfloc}{\fset{L}^{\infty}_{\loc}}
+\newcommand*{\Ck}[1]{\fset{C}^{#1}}
+\newcommand*{\Czero}{\fset{C}}
+\newcommand*{\Cuni}{\fset{C}^{\rm uni}}
+\newcommand*{\Cabs}{\fset{C}^{\rm abs}}
+\newcommand*{\Cabsloc}{\fset{C}^{\rm abs}_{\loc}}
+\newcommand*{\Cpw}{\fset{C}^{\rm pw}}
+\newcommand*{\CLip}{\fset{C}^{\rm L}}
+\newcommand*{\CLiploc}{\fset{C}^{\rm L}_{\loc}}
+\newcommand*{\Cone}{\fset{C}^{1}}
+\newcommand*{\Ctwo}{\fset{C}^{2}}
+\newcommand*{\Cinf}{\fset{C}^{\infty}}
+\newcommand*{\Wkinf}[1]{\fset{W}^{#1,\infty}}
+\newcommand*{\Woneinf}{\fset{W}^{1,\infty}}
+\newcommand*{\Wtwoinf}{\fset{W}^{2,\infty}}
+
+%	norm ||.||
+\newcommand*{\norm}[1]{\lVert #1 \rVert}
+\newcommand*{\normscaled}[1]{\left\lVert #1 \right\rVert}
+% ||.||_infty
+\newcommand*{\esnorm}[1]{\lVert #1 \rVert_{\infty}}
+\newcommand*{\Wnorm}[3]{\lVert #3 \rVert_{#1,#2}}
+\newcommand*{\Lnorm}[2]{\lVert #2 \rVert_{\fset{L}^{#1}}}
+\newcommand*{\Lpnorm}[2]{\lVert #2 \rVert_{\fset{L}^{#1}}}
+\newcommand*{\Lpnormscaled}[2]{\left\| #2 \right\|_{\fset{L}^{#1}}}
+
+%	limits
+\newcommand*{\limtoinfty}[1]{\lim_{#1 \to \infty}}
+\newcommand*{\limtozero}[1]{\lim_{#1 \to 0}}
+\newcommand*{\limto}[2]{\lim_{#1 \to #2}}
+
+% 	Lapace
+\newcommand*{\laplaceT}[1]{\mathscr{L}\left\{#1\right\}}
+\newcommand*{\laplaceIT}[1]{\mathscr{L}^{-1}\left\{#1\right\}}
+
+%	myVector = \mv
+\newcommand*{\mv}[1]{\boldsymbol{#1}}
+%	myMatrix = \mm
+\newcommand*{\mm}[1]{\boldsymbol{#1}}
+%	myOperator = \mo
+\newcommand*{\mo}[1]{\boldsymbol{\mathfrak{#1}}}
+%	inner product <.,.>
+\newcommand*{\iproduct}[2]{\langle #1,\, #2 \rangle}
+
+%	Units
+\newcommand*{\Ohm}{\Omega}
+
+%	Differentiation
+%	[<1> = number/order of derivative], <2> = with respect to what, 
+\newcommand*{\fdiff}[2]{\frac{\mathrm{d}^{#1}}{\mathrm{d}{#2}^{#1}}\,}
+\newcommand*{\fdiffsmall}[2]{\tfrac{\mathrm{d}^{#1}}{\mathrm{d}{#2}^{#1}}\,}
+\newcommand*{\fdiffs}[3]{\dfrac{\mathrm{d}^{#1}{#3}}{\mathrm{d} {#2}^{#1}}}
+\newcommand*{\fdiffssmall}[3]{\tfrac{\mathrm{d}^{#1}{#3}}{\mathrm{d} {#2}^{#1}}}
+\newcommand*{\fpartial}[2]{\frac{\partial^{#1}}{\partial #2^{#1}}\,}
+\newcommand*{\fpartialsmall}[2]{\frac{\partial^{#1}}{\partial #2^{#1}}\,}
+\newcommand*{\fpartials}[3]{\dfrac{\partial^{#1}{#3}}{\partial {#2}^{#1}}}
+\newcommand*{\fpartialssmall}[3]{\tfrac{\partial^{#1}{#3}}{\partial {#2}^{#1}}}
+%	<1> = function to be differentiated, <2> = with respect to what, [<3> = number/order of derivative]
+\newcommand*{\fdiffcom}[2]{\tfrac{\mathrm{d} #1}{\mathrm{d}{#2}}}
+\newcommand*{\fdiffhocom}[3]{\dfrac{\mathrm{d}^{#3}#1}{\mathrm{d}{#2}^{#3}}}
+\newcommand*{\fpartialcom}[2]{\tfrac{\partial #1}{\partial #2}}
+\newcommand*{\fpartialhocom}[3]{\tfrac{\partial^{#3}#1}{\partial #2^{#3}}}
+% %	[<1> = number/order of derivative], <2> = with respect to what, 
+\newcommand*{\dfdx}[2]{\frac{\mathrm{d}#1}{\mathrm{d}#2}}
+\newcommand*{\dfdxsmall}[2]{\tfrac{\mathrm{d}#1}{\mathrm{d}#2}}
+\newcommand*{\dfndxn}[3]{\tfrac{\mathrm{d}^{#3}{#1}}{\mathrm{d}#2^{#3}}}
+% %	<1> = function to be differentiated, <2> = with respect to what, [<3> = number/order of derivative]
+\newcommand*{\fdiffhosmall}[3]{\tfrac{\mathrm{d}^{#3} #1}{\mathrm{d}{#2}^{#3}}}
+\newcommand*{\pfpx}[2]{\tfrac{\partial#1}{\partial#2}}
+\newcommand*{\pfpxpy}[3]{\tfrac{\partial^2#1}{\partial#2\,\partial#3}}
+\newcommand*{\pfnpxn}[3]{\tfrac{\partial^{#3}{#1}}{\partial#2^{#3}}}
+% derivatives with respect to t
+\newcommand*{\dt}{\mathrm{d}t}
+\newcommand*{\ddt}{\tfrac{\mathrm{d}}{\mathrm{d}t}}
+\newcommand*{\ppt}{\tfrac{\partial}{\partial t}}
+\newcommand*{\ddtsmall}{\tfrac{\mathrm{d}}{\mathrm{d}t}}
+\newcommand*{\dddt}{\tfrac{\mathrm{d}^2}{\mathrm{d}t^2}}
+\newcommand*{\pppt}{\tfrac{\partial^2}{\partial t^2}}
+\newcommand*{\dddtsmall}{\tfrac{\mathrm{d}^2}{\mathrm{d}t^2}}
+\newcommand*{\dtau}{\dx{\tau}}
+\newcommand*{\dx}[1]{\mathrm{\, d} #1 \,}
+\newcommand*{\musteq}{\stackrel{!}{=}}
+
+% derivatives with respect to x
+\newcommand*{\ddx}{\tfrac{\mathrm{d}}{\mathrm{d}x}}
+\newcommand*{\ppx}{\tfrac{\partial}{\partial x}}
+\newcommand*{\ddxsmall}{\tfrac{\mathrm{d}}{\mathrm{d}x}}
+\newcommand*{\pppx}{\tfrac{\partial^2}{\partial x^2}}
+\newcommand*{\dddx}{\tfrac{\mathrm{d}^2}{\mathrm{d}x^2}}
+\newcommand*{\dddxsmall}{\tfrac{\mathrm{d}^2}{\mathrm{d}x^2}}
+
+% misc
+\DeclareMathOperator*{\eqforce}{\stackrel{!}{=}}
+\newcommand*{\abs}[1]{|#1|}
+\newcommand*{\absscaled}[1]{\left| #1 \right|}
+\newcommand*{\trans}[1]{#1^{\top}}
+\newcommand*{\inv}[1]{#1^{-1}}
+\newcommand*{\I}{\oset{I}}
+\newcommand*{\D}{\oset{D}}
+\newcommand*{\conj}[1]{#1^*}
+\newcommand*{\hermconj}[1]{#1^{\mathsf{H}}}
+
+% normalization
+\newcommand*{\normalized}[1]{\big[#1\big]_{\!\mathrm{p.u.}}}
