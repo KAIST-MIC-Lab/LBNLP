@@ -15,7 +15,8 @@ Ns = t_end*fs;
 % Control variables
 w = 1e-0; %1e-4, 1e-2 ,1e-0
 
-ctrl = ctrl_SQP(Ts, w);
+% ctrl = ctrl_SQP(Ts, w);
+ctrl = ctrl_LBNLP(Ts);
 
 %% SYSTEM LOAD
 env = env_SM(Ts);
