@@ -106,6 +106,27 @@ end
 MTPV = [MTPV_pos [-LAMpm/Ld ; 0] fliplr(MTPV_neg)];
 
 %% FIGURE PLOTS
+fig_height = 210; fig_width = 450;
+font_size = 18; line_width = 1.5;
+
+figure(1); clf
+hF = gcf; 
+hF.Position(3:4) = [fig_width, fig_height];
+plot(time, id, 'color', color_blue, 'LineWidth', line_width); hold on
+xlabel('Time [s]', 'FontSize', font_size, 'Interpreter', 'latex'); 
+ylabel('$i_d$ [A]', 'FontSize', font_size, 'Interpreter', 'latex');
+
+figure(2); clf
+hF = gcf;
+hF.Position(3:4) = [fig_width, fig_height];
+plot(time, iq, 'color', color_blue, 'LineWidth', line_width); hold on
+xlabel('Time [s]', 'FontSize', font_size, 'Interpreter', 'latex');
+ylabel('$i_q$ [A]', 'FontSize', font_size, 'Interpreter', 'latex');
+
+figure(3); clf
+hF = gcf;
+
+
 
 % figure(1)
 % plot(time,id,'b')
