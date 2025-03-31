@@ -34,15 +34,15 @@
 %\definecolor{lightgray}{gray}{0.9}
 \definecolor{lightgray}{rgb}{0.97,0.97,0.97}
 
-
+\newcommand*{\templateLMRES}{template_LMRES}
 % some macros for symbols from Christoph
-\input{include_symbols/MySymbols_GeneralMath}
-\input{include_symbols/MySymbols_GeneralDefinitions}
-\input{include_symbols/MySymbols_Controlsystems}
-\input{include_symbols/MySymbols_MPC}
-\input{include_symbols/MySymbols_ThreePhaseSystems}
-\input{include_symbols/MySymbols_PowerElectronics}
-\input{include_symbols/MySymbols_ElectricalDrives}
+\input{\templateLMRES/include_symbols/MySymbols_GeneralMath}
+\input{\templateLMRES/include_symbols/MySymbols_GeneralDefinitions}
+\input{\templateLMRES/include_symbols/MySymbols_Controlsystems}
+\input{\templateLMRES/include_symbols/MySymbols_MPC}
+\input{\templateLMRES/include_symbols/MySymbols_ThreePhaseSystems}
+\input{\templateLMRES/include_symbols/MySymbols_PowerElectronics}
+\input{\templateLMRES/include_symbols/MySymbols_ElectricalDrives}
 
 \newcommand{\CHHA}[1]{{\color{red} [CH: #1]}} % Christoph's comment
 \newcommand{\KYCH}[1]{{\color{blue} [KC: #1]}} % Kyunghwan's comment
@@ -1012,8 +1012,11 @@ The following issues need to be handled in a future study:
 
 
 % References
-\bibliographystyle{Bibliography/IEEEtranTIE}
-\bibliography{Bibliography/IEEEabrv,Bibliography/BIB_xx-TIE-xxxx,Bibliography/LMRES_Bibliography}\ %IEEEabrv instead of IEEEfull
+\bibliographystyle{\templateLMRES/Bibliography/IEEEtranTIE}
+\bibliography{
+    \templateLMRES/Bibliography/IEEEabrv,Bibliography/BIB_xx-TIE-xxxx,
+    \templateLMRES/Bibliography/LMRES_Bibliography
+    }\ %IEEEabrv instead of IEEEfull
 
 	
 %\vspace{-1cm}

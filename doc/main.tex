@@ -1,0 +1,100 @@
+\documentclass{article}
+
+\def\pub{false} % true for publication, false for draft
+\newcommand*{\template}{../template}
+\input{\template/preamble/preamble_article.tex}
+
+% Insert GIST logo
+\makeatletter         
+\def\@maketitle{
+    \raggedright
+    % \includegraphics[height = 8mm]{figs/logo_GIST.png}
+    \includegraphics[height = 8mm]{figs/logo_KAIST.png}
+    \hspace{70mm}
+    \includegraphics[height = 8mm]{figs/logo_KMU.png}
+    \\[5ex]
+    \begin{center}
+        {\Huge \bfseries \@title }\\[4ex] 
+        {\Large  \@author}\\[4ex] 
+        \@date\\[8ex]
+    \end{center}
+}
+\makeatother
+
+% ========================================
+\newcommand*{\bdx}{\mv{x}} % bold x
+\newcommand*{\bdy}{\mv{u}} % bold u
+\newcommand*{\bdz}{\mv{z}} % bold z
+\newcommand*{\bdq}{\mv{q}} % bold q
+\newcommand*{\bdu}{\mv{u}} % bold u
+\newcommand*{\bdd}{\mv{d}} % bold d
+
+\newcommand*{\bdf}{\mv{f}} % bold f
+
+\newcommand*{\tpfpx}{\pptfrac{\bdf}{\bdx}} % partial f / partial x
+\newcommand*{\pfpx}{\ppfrac{\bdf}{\bdx}} % partial f / partial x
+% ========================================
+
+% \bibliography{\template/refs.bib}
+
+\title{
+    Lyapunov-based Nonlinear Programming (LBNLP)
+}
+
+\author{
+    Myeongseok Ryu
+    \thanks{
+        Myeongseok Ryu and Kyunghwan Choi are with the Department of Mechanical and Robotics Engineering, Gwangju Institute of Science and Technology, 61005 Gwangju, Republic of Korea {\tt\small dding\_98@gm.gist.ac.kr, khchoi@gist.ac.kr}}%
+    , 
+    Sesun You
+    \thanks{Sesun You is with 000, Keimyung University, 000, 000, Republic of Korea {\tt\small example@mail.com}}%
+    ,
+    Kyunghwan Choi
+    \footnotemark[1]
+}
+
+\date{
+    % 20\textsuperscript{th} March 2025
+    \today
+    \\
+    Version 0.0
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+    This research aims to 
+\end{abstract}
+
+\tableofcontents
+
+% ========================================
+%         INTRODUCTION
+% ========================================
+\input{chapters/introduction.tex}
+
+% ========================================
+%         NOTATIONS AND PRELIMINARIES
+% ========================================
+\input{chapters/preliminaries.tex}
+
+% ========================================
+%         Conclusion
+% ========================================
+\input{chapters/conclusion.tex}
+
+% ========================================
+%         Appendix
+% ========================================
+\begin{appendices}
+% \section{Notable Lemmas}
+\end{appendices}
+
+\bibliographystyle{ieeetr}
+\bibliography{\template/refs}
+
+% \printbibliography
+
+\end{document}
