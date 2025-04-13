@@ -4,14 +4,14 @@
 \newcommand*{\template}{../template}
 \input{\template/preamble/preamble_article.tex}
 
-% Insert GIST logo
+% Insert logo
 \makeatletter         
 \def\@maketitle{
     \raggedright
     % \includegraphics[height = 8mm]{figs/logo_GIST.png}
     \includegraphics[height = 8mm]{figs/logo_KAIST.png}
-    \hspace{70mm}
-    \includegraphics[height = 8mm]{figs/logo_KMU.png}
+    \hspace{80mm}
+    \includegraphics[height = 8mm]{figs/logo_HM.png}
     \\[5ex]
     \begin{center}
         {\Huge \bfseries \@title }\\[4ex] 
@@ -35,8 +35,6 @@
 \newcommand*{\pfpx}{\ppfrac{\bdf}{\bdx}} % partial f / partial x
 % ========================================
 
-% \bibliography{\template/refs.bib}
-
 \title{
     Lyapunov-based Nonlinear Programming (LBNLP)
 }
@@ -45,12 +43,12 @@
     Myeongseok Ryu
     \thanks{
         Myeongseok Ryu and Kyunghwan Choi are with the Department of Mechanical and Robotics Engineering, Gwangju Institute of Science and Technology, 61005 Gwangju, Republic of Korea {\tt\small dding\_98@gm.gist.ac.kr, khchoi@gist.ac.kr}}%
-    , 
-    Sesun You
-    \thanks{Sesun You is with 000, Keimyung University, 000, 000, Republic of Korea {\tt\small example@mail.com}}%
     ,
     Kyunghwan Choi
     \footnotemark[1]
+    , 
+    Christoph Hackl
+    \thanks{Christoph Hackl is , 000, 000, Germany {\tt\small example@mail.com}}%
 }
 
 \date{
@@ -71,22 +69,22 @@
 \tableofcontents
 
 % ========================================
-%         INTRODUCTION
+% INTRODUCTION
 % ========================================
 \input{chapters/introduction.tex}
 
 % ========================================
-%         NOTATIONS AND PRELIMINARIES
+% NOTATIONS AND PRELIMINARIES
 % ========================================
 \input{chapters/preliminaries.tex}
 
 % ========================================
-%         Conclusion
+% Conclusion
 % ========================================
 \input{chapters/conclusion.tex}
 
 % ========================================
-%         Appendix
+% Appendix
 % ========================================
 \begin{appendices}
 % \section{Notable Lemmas}
@@ -94,7 +92,5 @@
 
 \bibliographystyle{ieeetr}
 \bibliography{\template/refs}
-
-% \printbibliography
 
 \end{document}
